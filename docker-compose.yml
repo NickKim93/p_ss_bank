@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+
+  # Environment
+  bank-db:
+    image: postgres
+    hostname: bank-db
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secretpassword
+
+  test-bank-db:
+    image: postgres
+    hostname: test-bank-db
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secretpassword
+

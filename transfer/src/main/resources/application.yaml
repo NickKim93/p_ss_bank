@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: transfer-app
+  profiles:
+    active: local

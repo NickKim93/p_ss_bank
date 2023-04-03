@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: public-info-app
+  profiles:
+    active: local
