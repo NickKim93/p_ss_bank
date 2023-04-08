@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Контроллер, позволяющий выполнять CRUD операции с сущностью audit
+ * @author Makariy Petrov
+ */
 @RestController
 @RequestMapping("audit")
 public class AuditController {
@@ -17,11 +21,21 @@ public class AuditController {
         this.auditService = auditService;
     }
 
+    /**
+     * Возвращает все сущности, которые есть в базе
+     * @return возвращает все сушности
+     */
     @GetMapping("all")
     public ResponseEntity<List<AuditEntity>> getAll() {
         return ResponseEntity.ok(auditService.findAll());
     }
 
+    /**
+     * Ищет сущность по id, либо выбрасывает исключение EntityNotFoundException,
+     * которое обрабатывается в DefaultHandler
+     * @param id числовое значение id сущности
+     * @return сущность с заданным id
+     */
     @GetMapping("{id}")
     public ResponseEntity<AuditEntity> getById(@PathVariable Long id) {
         return ResponseEntity.ok(auditService.findById(id));

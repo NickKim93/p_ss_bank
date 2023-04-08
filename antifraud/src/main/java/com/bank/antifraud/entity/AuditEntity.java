@@ -7,12 +7,19 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/**
+ * Класс, описывающий сущность Audit
+ * @author Makariy Petrov
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "audit")
 public class AuditEntity {
+    /**
+     * Уникальный id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;

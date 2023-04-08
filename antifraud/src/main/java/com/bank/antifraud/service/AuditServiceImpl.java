@@ -11,6 +11,10 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Бизнес логика для сущности Audit
+ * @author Makariy Petrov
+ */
 @Service
 public class AuditServiceImpl implements AuditService{
     private final AuditRepository auditRepository;
