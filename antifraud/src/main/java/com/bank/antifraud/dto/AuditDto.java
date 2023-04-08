@@ -1,6 +1,6 @@
 package com.bank.antifraud.dto;
 
-import javax.persistence.Column;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 /**
@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  * @author Makariy Petrov
  */
 public record AuditDto
-        (Long id,
+        (BigInteger id,
          String entityType,
          String operationType,
          String createdBy,

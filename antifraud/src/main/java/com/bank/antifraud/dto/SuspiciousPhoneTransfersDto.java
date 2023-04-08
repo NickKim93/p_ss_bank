@@ -1,7 +1,9 @@
 package com.bank.antifraud.dto;
 
+import java.math.BigInteger;
+
 public record SuspiciousPhoneTransfersDto
-        (Long id,
+        (BigInteger id,
          Long phoneTransferId,
          Boolean isBlocked,
          Boolean isSuspicious,

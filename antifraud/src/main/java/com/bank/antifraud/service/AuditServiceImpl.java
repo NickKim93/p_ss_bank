@@ -4,10 +4,10 @@ import com.bank.antifraud.dto.AuditDto;
 import com.bank.antifraud.entity.AuditEntity;
 import com.bank.antifraud.mapper.AuditMapper;
 import com.bank.antifraud.repository.AuditRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +35,7 @@ public class AuditServiceImpl implements AuditService{
     }
 
     @Override
-    public AuditEntity findById(Long id) {
+    public AuditEntity findById(BigInteger id) {
         Optional<AuditEntity> auditEntity = auditRepository.findById(id);
         if (auditEntity.isPresent()) {
             return auditEntity.get();
@@ -45,7 +45,7 @@ public class AuditServiceImpl implements AuditService{
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(BigInteger id) {
         AuditEntity auditEntity = auditRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id.toString()));
         auditRepository.delete(auditEntity);

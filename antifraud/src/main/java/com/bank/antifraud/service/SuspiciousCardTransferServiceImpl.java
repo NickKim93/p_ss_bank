@@ -7,6 +7,7 @@ import com.bank.antifraud.repository.SuspiciousCardTransferRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     }
 
     @Override
-    public SuspiciousCardTransferEntity findById(Long id) {
+    public SuspiciousCardTransferEntity findById(BigInteger id) {
         Optional<SuspiciousCardTransferEntity> suspiciousCardTransferEntity = suspiciousCardTransferRepository.findById(id);
         if (suspiciousCardTransferEntity.isPresent()) {
             return suspiciousCardTransferEntity.get();
@@ -41,7 +42,7 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(BigInteger id) {
         SuspiciousCardTransferEntity suspiciousCardTransferEntity = suspiciousCardTransferRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("сущность SuspiciousCardTransfer с id: " + id + " не найдена."));
         suspiciousCardTransferRepository.delete(suspiciousCardTransferEntity);
