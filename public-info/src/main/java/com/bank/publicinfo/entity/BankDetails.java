@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "bank_details")
@@ -37,10 +38,10 @@ public class BankDetails {
     @Version
     private Long version;
 
-    @OneToOne(mappedBy = "bankDetails", cascade = CascadeType.ALL)
-    private Certificate certificate;
+    @OneToMany(mappedBy = "bankDetails", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Certificate> certificates;
 
-    @OneToOne(mappedBy = "bankDetails", cascade = CascadeType.ALL)
-    private License license;
+    @OneToMany(mappedBy = "bankDetails", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<License> licenses;
 
 }

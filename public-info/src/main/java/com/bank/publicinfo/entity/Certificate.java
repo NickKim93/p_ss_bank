@@ -19,7 +19,7 @@ public class Certificate {
     @Column(name = "photo", nullable = false)
     private byte[] photo;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bank_details_id", referencedColumnName = "id", nullable = false)
     private BankDetails bankDetails;
 
