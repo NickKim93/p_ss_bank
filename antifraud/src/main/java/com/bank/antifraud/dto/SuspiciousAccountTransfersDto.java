@@ -1,9 +1,9 @@
 package com.bank.antifraud.dto;
 
-import javax.persistence.Column;
+import java.math.BigInteger;
 
 public record SuspiciousAccountTransfersDto
-        (Long id,
+        (BigInteger id,
          Long accountTransferId,
          Boolean isBlocked,
          Boolean isSuspicious,

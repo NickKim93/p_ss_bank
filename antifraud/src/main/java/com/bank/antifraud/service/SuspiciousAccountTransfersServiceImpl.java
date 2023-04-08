@@ -1,15 +1,13 @@
 package com.bank.antifraud.service;
 
-import com.bank.antifraud.dto.AuditDto;
 import com.bank.antifraud.dto.SuspiciousAccountTransfersDto;
-import com.bank.antifraud.entity.AuditEntity;
 import com.bank.antifraud.entity.SuspiciousAccountTransfersEntity;
-import com.bank.antifraud.mapper.AuditMapper;
 import com.bank.antifraud.mapper.SuspiciousAccountTransfersMapper;
 import com.bank.antifraud.repository.SuspiciousAccountTransfersRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +32,7 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
     }
 
     @Override
-    public SuspiciousAccountTransfersEntity findById(Long id) {
+    public SuspiciousAccountTransfersEntity findById(BigInteger id) {
         Optional<SuspiciousAccountTransfersEntity> suspiciousAccountTransfersEntity = suspiciousAccountTransfersRepository.findById(id);
         if (suspiciousAccountTransfersEntity.isPresent()) {
             return suspiciousAccountTransfersEntity.get();
@@ -44,7 +42,7 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(BigInteger id) {
         SuspiciousAccountTransfersEntity suspiciousAccountTransfersEntity = suspiciousAccountTransfersRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("сущность SuspiciousAccountTransfers с id: " + id + " не найдена."));
         suspiciousAccountTransfersRepository.delete(suspiciousAccountTransfersEntity);

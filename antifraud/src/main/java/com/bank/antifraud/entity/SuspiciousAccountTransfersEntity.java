@@ -4,7 +4,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -14,7 +20,7 @@ import javax.persistence.*;
 public class SuspiciousAccountTransfersEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    BigInteger id;
     @Column(name = "account_transfer_id",
             nullable = false, unique = true)
     Long accountTransferId;

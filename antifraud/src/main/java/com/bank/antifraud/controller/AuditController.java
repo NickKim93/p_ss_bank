@@ -4,8 +4,16 @@ import com.bank.antifraud.dto.AuditDto;
 import com.bank.antifraud.entity.AuditEntity;
 import com.bank.antifraud.service.AuditService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -37,12 +45,12 @@ public class AuditController {
      * @return сущность с заданным id
      */
     @GetMapping("{id}")
-    public ResponseEntity<AuditEntity> getById(@PathVariable Long id) {
+    public ResponseEntity<AuditEntity> getById(@PathVariable BigInteger id) {
         return ResponseEntity.ok(auditService.findById(id));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Long> deleteAudit(@PathVariable Long id) {
+    public ResponseEntity<BigInteger> deleteAudit(@PathVariable BigInteger id) {
         auditService.delete(id);
         return ResponseEntity.ok(id);
     }
