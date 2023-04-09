@@ -7,9 +7,9 @@ import java.math.BigInteger;
 import java.util.List;
 
 public interface AuditService {
-    public AuditEntity save(AuditDto auditDto);
-    public AuditEntity findById(BigInteger id);
-    public List<AuditEntity> findAll();
+    public AuditDto save(AuditDto auditDto);
+    public AuditDto findById(BigInteger id);
+    public List<AuditDto> findAll();
     public void delete(BigInteger id);
-    public AuditEntity update(AuditDto auditDto);
+    public AuditDto update(AuditDto auditDto);
 }

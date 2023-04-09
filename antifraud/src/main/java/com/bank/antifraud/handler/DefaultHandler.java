@@ -1,8 +1,11 @@
 package com.bank.antifraud.handler;
 
 import org.hibernate.PropertyValueException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.Order;
 import org.springframework.core.Ordered;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,7 +27,7 @@ public class DefaultHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException ex) {
         String message = ex.getMessage();
-        return ResponseEntity.badRequest().body(message);
+        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -35,6 +38,12 @@ public class DefaultHandler {
     @ExceptionHandler(PropertyValueException.class)
     public ResponseEntity<String> handlePropertyValueException(PropertyValueException ex) {
         String message = "В запросе отсутствует или равно null обязятальное поле: " + ex.getPropertyName();
+        return ResponseEntity.badRequest().body(message);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException ex) {
+        String message = "Нарушена уникальность значения " + ex.getConstraintName();
         return ResponseEntity.badRequest().body(message);
     }
 }

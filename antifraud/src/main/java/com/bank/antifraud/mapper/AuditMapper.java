@@ -13,4 +13,5 @@ import org.mapstruct.factory.Mappers;
 public interface AuditMapper {
     AuditMapper INSTANCE = Mappers.getMapper(AuditMapper.class);
     AuditEntity auditDtoToAuditEntity(AuditDto auditDto);
+    AuditDto auditEntityToAuditDto(AuditEntity auditEntity);
 }

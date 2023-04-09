@@ -5,6 +5,7 @@ import com.bank.antifraud.entity.SuspiciousCardTransferEntity;
 import com.bank.antifraud.mapper.SuspiciousCardTransferMapper;
 import com.bank.antifraud.repository.SuspiciousCardTransferRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigInteger;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransferService{
     private final SuspiciousCardTransferRepository suspiciousCardTransferRepository;
 
@@ -20,6 +22,7 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     }
 
     @Override
+    @Transactional(readOnly = false)
     public SuspiciousCardTransferEntity save(SuspiciousCardTransferDto suspiciousCardTransferDto) {
         SuspiciousCardTransferEntity suspiciousCardTransferEntity = SuspiciousCardTransferMapper
                 .INSTANCE.suspiciousCardTransferDtoToSuspiciousCardTransferEntity(suspiciousCardTransferDto);
@@ -42,6 +45,7 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void delete(BigInteger id) {
         SuspiciousCardTransferEntity suspiciousCardTransferEntity = suspiciousCardTransferRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("сущность SuspiciousCardTransfer с id: " + id + " не найдена."));
@@ -49,6 +53,7 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     }
 
     @Override
+    @Transactional(readOnly = false)
     public SuspiciousCardTransferEntity update(SuspiciousCardTransferDto suspiciousCardTransferDto) {
         suspiciousCardTransferRepository.findById(suspiciousCardTransferDto.id())
                 .orElseThrow(() -> new EntityNotFoundException(suspiciousCardTransferDto.id().toString()));
