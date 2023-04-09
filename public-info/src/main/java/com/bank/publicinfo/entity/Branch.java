@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.List;
 
 @Entity
@@ -18,12 +19,12 @@ public class Branch {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private BigInteger id;
     @Column(nullable = false)
     private String address;
 
     @Column(name = "phone_number", nullable = false)
-    private Long phoneNumber;
+    private BigInteger phoneNumber;
     @Column(nullable = false)
     private String city;
     @Column(name = "start_of_work", nullable = false)
