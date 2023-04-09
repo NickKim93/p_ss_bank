@@ -5,6 +5,7 @@ import com.bank.antifraud.entity.SuspiciousPhoneTransfersEntity;
 import com.bank.antifraud.mapper.SuspiciousPhoneTransfersMapper;
 import com.bank.antifraud.repository.SuspiciousPhoneTransfersRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigInteger;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTransfersService{
     private final SuspiciousPhoneTransfersRepository suspiciousPhoneTransfersRepository;
 
@@ -20,6 +22,7 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     }
 
     @Override
+    @Transactional(readOnly = false)
     public SuspiciousPhoneTransfersEntity save(SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
         SuspiciousPhoneTransfersEntity suspiciousPhoneTransfersEntity = SuspiciousPhoneTransfersMapper.INSTANCE.suspiciousPhoneTransfersDtoToSuspiciousPhoneTransfersEntity(suspiciousPhoneTransfersDto);
         return suspiciousPhoneTransfersRepository.save(suspiciousPhoneTransfersEntity);
@@ -41,6 +44,7 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void delete(BigInteger id) {
         SuspiciousPhoneTransfersEntity suspiciousPhoneTransfersEntity = suspiciousPhoneTransfersRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("сущность SuspiciousPhoneTransfers с id: " + id + " не найдена."));
@@ -48,6 +52,7 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     }
 
     @Override
+    @Transactional(readOnly = false)
     public SuspiciousPhoneTransfersEntity update(SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
         suspiciousPhoneTransfersRepository.findById(suspiciousPhoneTransfersDto.id())
                 .orElseThrow(() -> new EntityNotFoundException(suspiciousPhoneTransfersDto.id().toString()));

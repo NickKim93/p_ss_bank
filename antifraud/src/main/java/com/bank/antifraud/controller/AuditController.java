@@ -34,7 +34,7 @@ public class AuditController {
      * @return возвращает все сушности
      */
     @GetMapping("all")
-    public ResponseEntity<List<AuditEntity>> getAll() {
+    public ResponseEntity<List<AuditDto>> getAll() {
         return ResponseEntity.ok(auditService.findAll());
     }
 
@@ -45,7 +45,7 @@ public class AuditController {
      * @return сущность с заданным id
      */
     @GetMapping("{id}")
-    public ResponseEntity<AuditEntity> getById(@PathVariable BigInteger id) {
+    public ResponseEntity<AuditDto> getById(@PathVariable BigInteger id) {
         return ResponseEntity.ok(auditService.findById(id));
     }
 
@@ -56,12 +56,12 @@ public class AuditController {
     }
 
     @PostMapping
-    public ResponseEntity<AuditEntity> save(@RequestBody AuditDto auditDto) {
+    public ResponseEntity<AuditDto> save(@RequestBody AuditDto auditDto) {
         return ResponseEntity.ok(auditService.save(auditDto));
     }
 
     @PatchMapping
-    public ResponseEntity<AuditEntity> update(@RequestBody AuditDto auditDto) {
+    public ResponseEntity<AuditDto> update(@RequestBody AuditDto auditDto) {
         return ResponseEntity.ok(auditService.update(auditDto));
     }
 }

@@ -5,6 +5,7 @@ import com.bank.antifraud.entity.SuspiciousAccountTransfersEntity;
 import com.bank.antifraud.mapper.SuspiciousAccountTransfersMapper;
 import com.bank.antifraud.repository.SuspiciousAccountTransfersRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigInteger;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountTransfersService{
     private final SuspiciousAccountTransfersRepository suspiciousAccountTransfersRepository;
 
@@ -20,6 +22,7 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
     }
 
     @Override
+    @Transactional(readOnly = false)
     public SuspiciousAccountTransfersEntity save(SuspiciousAccountTransfersDto suspiciousAccountTransfersDto) {
         SuspiciousAccountTransfersEntity suspiciousAccountTransfersEntity = SuspiciousAccountTransfersMapper
                 .INSTANCE.suspiciousAccountTransfersDtoToSuspiciousAccountTransfersEntity(suspiciousAccountTransfersDto);
@@ -42,6 +45,7 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void delete(BigInteger id) {
         SuspiciousAccountTransfersEntity suspiciousAccountTransfersEntity = suspiciousAccountTransfersRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("сущность SuspiciousAccountTransfers с id: " + id + " не найдена."));
@@ -49,6 +53,7 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
     }
 
     @Override
+    @Transactional(readOnly = false)
     public SuspiciousAccountTransfersEntity update(SuspiciousAccountTransfersDto suspiciousAccountTransfersDto) {
         suspiciousAccountTransfersRepository.findById(suspiciousAccountTransfersDto.id())
                 .orElseThrow(() -> new EntityNotFoundException(suspiciousAccountTransfersDto.id().toString()));
