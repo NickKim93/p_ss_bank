@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.List;
 
 @Entity
@@ -15,13 +16,13 @@ public class BankDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private BigInteger id;
 
     @Column(name = "bik", nullable = false)
-    private Long bik;
+    private BigInteger bik;
 
     @Column(name = "kpp", nullable = false)
-    private Long kpp;
+    private BigInteger kpp;
 
     @Column(name = "cor_account", nullable = false)
     private Integer corAccount;
