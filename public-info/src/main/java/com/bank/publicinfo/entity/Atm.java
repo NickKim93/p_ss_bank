@@ -1,16 +1,16 @@
 package com.bank.publicinfo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "atm")
-@Data
-@Builder
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Atm {
@@ -23,15 +23,16 @@ public class Atm {
     private String address;
 
     @Column(name = "start_of_work")
-    private String startOfWork;
+    private LocalDateTime startOfWork;
 
     @Column(name = "end_of_work")
-    private String endOfWork;
+    private LocalDateTime endOfWork;
 
     @Column(name = "all_hours", nullable = false)
     private boolean allHours;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "branch_id", referencedColumnName = "id")
+    @JsonIgnore
     private Branch branch;
 }

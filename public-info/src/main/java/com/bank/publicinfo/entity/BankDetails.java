@@ -1,15 +1,19 @@
 package com.bank.publicinfo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "bank_details")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class BankDetails {
 
@@ -20,6 +24,9 @@ public class BankDetails {
 
     @Column(name = "bik", nullable = false)
     private BigInteger bik;
+
+    @Column(name = "inn", nullable = false)
+    private BigInteger inn;
 
     @Column(name = "kpp", nullable = false)
     private BigInteger kpp;
@@ -36,13 +43,12 @@ public class BankDetails {
     @Column(name = "name", nullable = false, length = 80)
     private String name;
 
-    @Version
-    private Long version;
+    @OneToMany(mappedBy = "bankDetails")
+    @JsonIgnore
+    private Set<Certificate> certificates;
 
-    @OneToMany(mappedBy = "bankDetails", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Certificate> certificates;
-
-    @OneToMany(mappedBy = "bankDetails", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<License> licenses;
+    @OneToMany(mappedBy = "bankDetails")
+    @JsonIgnore
+    private Set<License> licenses;
 
 }

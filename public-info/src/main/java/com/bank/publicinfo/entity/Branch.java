@@ -1,18 +1,16 @@
 package com.bank.publicinfo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "branch")
-@Data
-@Builder
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Branch {
@@ -28,11 +26,11 @@ public class Branch {
     @Column(nullable = false)
     private String city;
     @Column(name = "start_of_work", nullable = false)
-    private String startOfWork;
+    private LocalDateTime startOfWork;
 
     @Column(name = "end_of_work", nullable = false)
-    private String endOfWork;
+    private LocalDateTime endOfWork;
 
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Atm> atmList;
+    private Set<Atm> atmList;
 }
