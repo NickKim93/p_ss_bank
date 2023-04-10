@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
+import java.math.BigInteger;
 import java.util.Set;
 
 @Entity
@@ -19,7 +19,7 @@ import java.util.Set;
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private BigInteger id;
     @Column(name = "phone_number")
     @NotNull
     @NotBlank
@@ -53,5 +53,5 @@ public class Profile {
     @JoinTable(name = "account_details_id",
                 joinColumns = @JoinColumn(name = "profile_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"))
-    private Set<AccountDetails> accountDetailsSet = new HashSet<>();
+    private Set<AccountDetails> accountDetailsSet;
 }

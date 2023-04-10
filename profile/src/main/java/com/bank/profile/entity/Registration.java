@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigInteger;
 
 @Entity
 @Table(name = "registration")
@@ -17,7 +18,7 @@ import javax.validation.constraints.Size;
 public class Registration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private BigInteger id;
     @Column(name = "country")
     @NotNull
     @NotBlank

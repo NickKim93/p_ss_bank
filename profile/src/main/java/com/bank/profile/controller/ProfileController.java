@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @RestController
@@ -25,14 +26,14 @@ public class ProfileController {
     @GetMapping
     public ResponseEntity<List<ProfileDto>> findAll() {
         List<ProfileDto> profileDtoList = profileService.findAll();
-        return (profileDtoList.isEmpty() || profileDtoList == null) ?
+        return profileDtoList == null || profileDtoList.isEmpty() ?
             new ResponseEntity<>(null, HttpStatus.NO_CONTENT)
             :
             new ResponseEntity<>(profileDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProfileDto> findOne(@PathVariable Long id) {
+    public ResponseEntity<ProfileDto> findOne(@PathVariable BigInteger id) {
         ProfileDto profileDto = profileService.findOne(id);
         return profileDto == null ?
             new ResponseEntity<>(null, HttpStatus.NOT_FOUND)
@@ -50,7 +51,7 @@ public class ProfileController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable BigInteger id) {
         return profileService.delete(id) ?
             new ResponseEntity<>(null, HttpStatus.OK)
             :
