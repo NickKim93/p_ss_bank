@@ -1,5 +1,7 @@
 package com.bank.antifraud.dto;
 
+import lombok.Setter;
+
 import java.math.BigInteger;
 import java.sql.Timestamp;
 
@@ -16,4 +18,4 @@ public record AuditDto
          Timestamp createdAt,
          Timestamp modifiedAt,
          String newEntityJson,
-         String entityJson){ }
+         String entityJson) { }
