@@ -18,11 +18,6 @@ public class ProfileController {
         this.profileService = profileService;
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "test";
-    }
-
     @GetMapping
     public ResponseEntity<List<ProfileDto>> findAll() {
         List<ProfileDto> profileDtoList = profileService.findAll();
@@ -33,7 +28,7 @@ public class ProfileController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProfileDto> findOne(@PathVariable BigInteger id) {
+    public ResponseEntity<ProfileDto> findOne(@PathVariable Long id) {
         ProfileDto profileDto = profileService.findOne(id);
         return profileDto == null ?
             new ResponseEntity<>(null, HttpStatus.NOT_FOUND)
@@ -51,7 +46,7 @@ public class ProfileController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable BigInteger id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         return profileService.delete(id) ?
             new ResponseEntity<>(null, HttpStatus.OK)
             :
@@ -75,5 +70,4 @@ public class ProfileController {
                 :
                 new ResponseEntity<>(profileDtoLocal, HttpStatus.OK);
     }
-
 }

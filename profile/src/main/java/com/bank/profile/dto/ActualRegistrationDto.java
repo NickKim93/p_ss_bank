@@ -5,14 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigInteger;
 
 @AllArgsConstructor
 @Setter
 @Getter
 @Builder
 public class ActualRegistrationDto {
-    private BigInteger id;
+    private Long id;
     private String country;
     private String region;
     private String city;

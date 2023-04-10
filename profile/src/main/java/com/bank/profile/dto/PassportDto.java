@@ -1,12 +1,10 @@
 package com.bank.profile.dto;
 
-import com.bank.profile.entity.Registration;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigInteger;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -14,7 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Builder
 public class PassportDto {
-    private BigInteger id;
+    private Long id;
     private Integer series;
     private Long number;
     private String lastName;

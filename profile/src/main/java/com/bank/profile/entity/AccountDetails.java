@@ -1,7 +1,6 @@
 package com.bank.profile.entity;
 
 import lombok.*;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -18,13 +17,11 @@ import java.math.BigInteger;
 public class AccountDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(columnDefinition = "NUMERIC(19,0)")
-//    @Type(type = "org.hibernate.type.BigIntegerType")
-    private BigInteger id;
+    private Long id;
     @Column(name = "passport_id")
     @NotNull
     @NotBlank
-    private BigInteger passportId;
+    private Long passportId;
     @Column(name = "account_number", unique = true)
     @NotNull
     @NotBlank
@@ -32,7 +29,7 @@ public class AccountDetails {
     @Column(name = "bank_details_id", unique = true)
     @NotNull
     @NotBlank
-    private BigInteger bankDetailsId;
+    private Long bankDetailsId;
     @Column(name = "money")
     @NotNull
     @NotBlank
@@ -44,5 +41,5 @@ public class AccountDetails {
     @Column(name = "profile_id")
     @NotNull
     @NotBlank
-    private BigInteger profileId;
+    private Long profileId;
 }

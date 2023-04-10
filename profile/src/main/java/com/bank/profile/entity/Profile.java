@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigInteger;
 import java.util.Set;
 
 @Entity
@@ -19,7 +18,7 @@ import java.util.Set;
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    private Long id;
     @Column(name = "phone_number")
     @NotNull
     @NotBlank

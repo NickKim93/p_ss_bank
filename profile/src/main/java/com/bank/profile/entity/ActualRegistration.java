@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigInteger;
 
 @Entity
 @Table(name = "actual_registration")
@@ -18,7 +17,7 @@ import java.math.BigInteger;
 public class ActualRegistration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    private Long id;
     @Column(name = "country")
     @NotNull
     @NotBlank
@@ -53,6 +52,6 @@ public class ActualRegistration {
     @NotBlank
     @Size(min = 6, max = 6)
     private Long index;
-    @OneToOne(mappedBy = "actualRegistration") // optional = false,
+    @OneToOne(mappedBy = "actualRegistration")
     private Profile profile;
 }

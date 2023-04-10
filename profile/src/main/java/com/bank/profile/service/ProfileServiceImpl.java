@@ -7,7 +7,6 @@ import com.bank.profile.repository.ProfileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -31,7 +30,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     @Transactional(readOnly = true)
-    public ProfileDto findOne(BigInteger id) {
+    public ProfileDto findOne(Long id) {
         Profile profile = profileRepository.findById(id).orElse(null);
         return profile == null ? null : ProfileMapper.INSTANCE.profileToProfileDto(profile);
     }
@@ -57,7 +56,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     @Transactional
-    public boolean delete(BigInteger id) {
+    public boolean delete(Long id) {
         if (!profileRepository.existsById(id)) {
             return false;
         }

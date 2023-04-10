@@ -13,11 +13,11 @@ import java.math.BigInteger;
 @Getter
 @Builder
 public class AccountDetailsDto {
-    private BigInteger id;
-    private BigInteger passportId;
+    private Long id;
+    private Long passportId;
     private BigInteger accountNumber;
-    private BigInteger bankDetailsId;
+    private Long bankDetailsId;
     private BigDecimal money;
     private boolean negativeBalance;
-    private BigInteger profileId;
+    private Long profileId;
 }

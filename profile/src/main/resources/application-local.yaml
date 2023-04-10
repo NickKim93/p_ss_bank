@@ -19,9 +19,9 @@ spring:
     password: root
     hikari:
       schema: profile
-#  jpa:
-#    hibernate:
-#      ddl-auto: validate
+  jpa:
+    hibernate:
+      ddl-auto: validate
   liquibase:
     default-schema: profile
     change-log: db/changelog/db.changelog-master.yaml

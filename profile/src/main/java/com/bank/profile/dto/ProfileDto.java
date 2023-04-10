@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigInteger;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -13,7 +12,7 @@ import java.util.Set;
 @Getter
 @Builder
 public class ProfileDto {
-    private BigInteger id;
+    private Long id;
     private Long phoneNumber;
     private String email;
     private String nameOnCard;
