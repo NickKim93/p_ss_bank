@@ -17,7 +17,7 @@ spring:
     hibernate:
       ddl-auto: none
   datasource:
-    url: jdbc:postgresql://localhost:5434/postgres
+    url: jdbc:postgresql://localhost:5434/postgres?currentSchema=public_bank_information
     username: postgres
     password: secretpassword
   liquibase:
