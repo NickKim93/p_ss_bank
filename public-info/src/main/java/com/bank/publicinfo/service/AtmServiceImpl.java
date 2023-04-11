@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -30,7 +29,7 @@ public class AtmServiceImpl implements AtmService{
 
 
     @Override
-    public AtmDto getAtmById(BigInteger id) {
+    public AtmDto getAtmById(Long id) {
         Atm atm = atmRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ATM not found"));
         return atmMapper.atmToDto(atm);
@@ -45,7 +44,7 @@ public class AtmServiceImpl implements AtmService{
     @Override
     public AtmDto createAtm(AtmDto atmDto) {
         Atm atm = atmMapper.atmToEntity(atmDto);
-        BigInteger branchId = atmDto.branchDto().id();
+        Long branchId = atmDto.branchId();
         Branch branch = branchRepository.findById(branchId)
                 .orElseThrow(() -> new EntityNotFoundException("Branch not found"));
         atm.setBranch(branch);
@@ -54,11 +53,11 @@ public class AtmServiceImpl implements AtmService{
     }
 
     @Override
-    public AtmDto updateAtm(BigInteger id, AtmDto atmDto) {
+    public AtmDto updateAtm(Long id, AtmDto atmDto) {
         Atm atm = atmRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ATM not found"));
         atmMapper.update(atmDto, atm);
-        BigInteger branchId = atmDto.branchDto().id();
+        Long branchId = atmDto.branchId();
         Branch branch = branchRepository.findById(branchId)
                 .orElseThrow(() -> new EntityNotFoundException("Branch not found"));
         atm.setBranch(branch);
@@ -67,7 +66,7 @@ public class AtmServiceImpl implements AtmService{
     }
 
     @Override
-    public void deleteAtmById(BigInteger id) {
+    public void deleteAtmById(Long id) {
         Atm atm = atmRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ATM not found"));
         atmRepository.delete(atm);

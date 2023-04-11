@@ -20,7 +20,7 @@ public class LicenseServiceImpl implements LicenseService {
     }
 
     @Override
-    public Optional<License> getLicenseById(BigInteger id) {
+    public Optional<License> getLicenseById(Long id) {
         return licenseRepository.findById(id);
     }
 
@@ -35,7 +35,7 @@ public class LicenseServiceImpl implements LicenseService {
     }
 
     @Override
-    public Optional<License> updateLicense(BigInteger id, License license) {
+    public Optional<License> updateLicense(Long id, License license) {
         Optional<License> existingLicense = licenseRepository.findById(id);
         if (existingLicense.isPresent()) {
             License updatedLicense = existingLicense.get();
@@ -48,7 +48,7 @@ public class LicenseServiceImpl implements LicenseService {
     }
 
     @Override
-    public boolean deleteLicenseById(BigInteger id) {
+    public boolean deleteLicenseById(Long id) {
         Optional<License> license = licenseRepository.findById(id);
         if (license.isPresent()) {
             licenseRepository.deleteById(id);

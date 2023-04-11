@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface BranchService {
 
-    public BranchDto getBranchById(BigInteger id);
+    BranchDto getBranchById(Long id);
 
-    public List<BranchDto> getAllBranches ();
+    List<BranchDto> getAllBranches ();
 
-    public BranchDto createBranch(BranchDto branchDto);
+    BranchDto createBranch(BranchDto branchDto);
 
-    public BranchDto updateBranch (BigInteger id, BranchDto branchDto);
+    BranchDto updateBranch (Long id, BranchDto branchDto);
 
-    public void deleteBranchById(BigInteger id);
+    void deleteBranchById(Long id);
 }

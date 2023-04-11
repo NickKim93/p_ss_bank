@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface AtmService {
 
-    public AtmDto getAtmById(BigInteger id);
+    AtmDto getAtmById(Long id);
 
-    public List<AtmDto> getAtms ();
+    List<AtmDto> getAtms ();
 
-    public AtmDto createAtm(AtmDto atmDto);
+    AtmDto createAtm(AtmDto atmDto);
 
-    public AtmDto updateAtm (BigInteger id, AtmDto atmDto);
+    AtmDto updateAtm (Long id, AtmDto atmDto);
 
-    public void deleteAtmById(BigInteger id);
+    void deleteAtmById(Long id);
 }
 
 

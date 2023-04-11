@@ -9,13 +9,13 @@ import java.util.Optional;
 
 public interface BankDetailsService {
 
-    public Optional<BankDetails> getBankDetailsById(BigInteger id);
+    Optional<BankDetails> getBankDetailsById(Long id);
 
-    public List<BankDetails> getAllBankDetails ();
+    List<BankDetails> getAllBankDetails ();
 
-    public BankDetails createBankDetails(BankDetails bankDetails);
+    BankDetails createBankDetails(BankDetails bankDetails);
 
-    public Optional<BankDetails> updateBankDetails (BigInteger id, BankDetails bankDetails);
+    Optional<BankDetails> updateBankDetails (Long id, BankDetails bankDetails);
 
-    public boolean deleteBankDetailsById(BigInteger id);
+    boolean deleteBankDetailsById(Long id);
 }

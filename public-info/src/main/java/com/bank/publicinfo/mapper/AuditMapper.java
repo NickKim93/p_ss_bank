@@ -7,10 +7,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {AuditMapper.class})
 public interface AuditMapper {
 
-    AuditMapper INSTANCE = Mappers.getMapper(AuditMapper.class);
     @Mapping(target = "id", ignore = true)
     Audit AuditDtoToEntity(AuditDto auditDto);
 

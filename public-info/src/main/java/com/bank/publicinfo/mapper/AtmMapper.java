@@ -9,15 +9,18 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {AtmMapper.class})
 public interface AtmMapper {
 
-    AtmMapper INSTANCE = Mappers.getMapper(AtmMapper.class);
-
+    @Mapping(target = "branchId", source = "branch.id")
     AtmDto atmToDto(Atm atm);
 
     List<AtmDto> atmListToDtoList(List<Atm> atmList);
+
+    List<Atm> atmListDtoToEntity(List<AtmDto> atmDtoList);
+
     Atm atmToEntity(AtmDto atmDto);
+
     @Mapping(target = "id", ignore = true)
     void update(AtmDto atmDto, @MappingTarget Atm atm);
 }

@@ -5,7 +5,6 @@ import com.bank.publicinfo.dto.AtmDto;
 import com.bank.publicinfo.service.AtmService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.math.BigInteger;
 import java.net.URI;
 import java.util.List;
 
@@ -34,13 +33,13 @@ public class AtmController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AtmDto> update(@PathVariable BigInteger id, @RequestBody AtmDto atmDto) {
+    public ResponseEntity<AtmDto> update(@PathVariable Long id, @RequestBody AtmDto atmDto) {
         AtmDto updatedDto = atmService.updateAtm(id, atmDto);
         return ResponseEntity.ok(updatedDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable BigInteger id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         atmService.deleteAtmById(id);
         return ResponseEntity.noContent().build();
     }

@@ -1,12 +1,9 @@
 package com.bank.publicinfo.controller;
 
-
-import com.bank.publicinfo.dto.AtmDto;
 import com.bank.publicinfo.dto.BranchDto;
 import com.bank.publicinfo.service.BranchService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.math.BigInteger;
 import java.net.URI;
 import java.util.List;
 
@@ -28,7 +25,7 @@ public class BranchController {
     }
 
     @GetMapping("/{id}")
-    public BranchDto getAtms(@PathVariable BigInteger id) {
+    public BranchDto getAtms(@PathVariable Long id) {
         return branchService.getBranchById(id);
     }
 
@@ -41,13 +38,13 @@ public class BranchController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BranchDto> update(@PathVariable BigInteger id, @RequestBody BranchDto branchDto) {
+    public ResponseEntity<BranchDto> update(@PathVariable Long id, @RequestBody BranchDto branchDto) {
         BranchDto updatedDto = branchService.updateBranch(id, branchDto);
         return ResponseEntity.ok(updatedDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable BigInteger id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         branchService.deleteBranchById(id);
         return ResponseEntity.noContent().build();
     }

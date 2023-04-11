@@ -4,8 +4,6 @@ import com.bank.publicinfo.entity.Certificate;
 import com.bank.publicinfo.repository.CertificateRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +18,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public Optional<Certificate> getCertificateById(BigInteger id) {
+    public Optional<Certificate> getCertificateById(Long id) {
         return certificateRepository.findById(id);
     }
 
@@ -35,7 +33,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public Optional<Certificate> updateCertificate(BigInteger id, Certificate certificate) {
+    public Optional<Certificate> updateCertificate(Long id, Certificate certificate) {
         Optional<Certificate> existingCertificate = certificateRepository.findById(id);
         if (existingCertificate.isPresent()) {
             Certificate updatedCertificate = existingCertificate.get();
@@ -48,7 +46,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public boolean deleteCertificateById(BigInteger id) {
+    public boolean deleteCertificateById(Long id) {
         Optional<Certificate> certificate = certificateRepository.findById(id);
         if (certificate.isPresent()) {
             certificateRepository.deleteById(id);

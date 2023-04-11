@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.math.BigInteger;
 
-public interface BankDetailsRepository extends JpaRepository<BankDetails, BigInteger> {
+public interface BankDetailsRepository extends JpaRepository<BankDetails, Long> {
 }

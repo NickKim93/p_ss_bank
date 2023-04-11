@@ -8,13 +8,13 @@ import java.util.Optional;
 
 public interface LicenseService {
 
-    public Optional<License> getLicenseById(BigInteger id);
+    Optional<License> getLicenseById(Long id);
 
-    public List<License> getAllLicenses ();
+    List<License> getAllLicenses ();
 
-    public License createLicense(License license);
+    License createLicense(License license);
 
-    public Optional<License> updateLicense(BigInteger id, License license);
+    Optional<License> updateLicense(Long id, License license);
 
-    public boolean deleteLicenseById(BigInteger id);
+    public boolean deleteLicenseById(Long id);
 }

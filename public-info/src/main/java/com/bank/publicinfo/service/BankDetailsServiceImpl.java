@@ -20,7 +20,7 @@ public class BankDetailsServiceImpl implements BankDetailsService{
     }
 
     @Override
-    public Optional<BankDetails> getBankDetailsById(BigInteger id) {
+    public Optional<BankDetails> getBankDetailsById(Long id) {
         return bankDetailsRepository.findById(id);
     }
 
@@ -35,7 +35,7 @@ public class BankDetailsServiceImpl implements BankDetailsService{
     }
 
     @Override
-    public Optional<BankDetails> updateBankDetails (BigInteger id, BankDetails bankDetails) {
+    public Optional<BankDetails> updateBankDetails (Long id, BankDetails bankDetails) {
         Optional<BankDetails> existingBankDetails = bankDetailsRepository.findById(id);
         if (existingBankDetails.isPresent()) {
             BankDetails updatedBankDetails = existingBankDetails.get();
@@ -54,7 +54,7 @@ public class BankDetailsServiceImpl implements BankDetailsService{
     }
 
     @Override
-    public boolean deleteBankDetailsById(BigInteger id) {
+    public boolean deleteBankDetailsById(Long id) {
         Optional<BankDetails> bankDetails = bankDetailsRepository.findById(id);
         if (bankDetails.isPresent()) {
             bankDetailsRepository.deleteById(id);
