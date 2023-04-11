@@ -3,6 +3,8 @@ package com.bank.antifraud.controller;
 import com.bank.antifraud.dto.AuditDto;
 import com.bank.antifraud.entity.AuditEntity;
 import com.bank.antifraud.service.AuditService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,8 @@ import java.util.List;
 @RestController
 @RequestMapping("audit")
 public class AuditController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuditController.class);
     private final AuditService auditService;
 
     public AuditController(AuditService auditService) {
@@ -35,6 +39,7 @@ public class AuditController {
      */
     @GetMapping("all")
     public ResponseEntity<List<AuditDto>> getAll() {
+        LOGGER.info("Контроллер получил запрос на выдачу всех сущностей audit");
         return ResponseEntity.ok(auditService.findAll());
     }
 
@@ -46,22 +51,26 @@ public class AuditController {
      */
     @GetMapping("{id}")
     public ResponseEntity<AuditDto> getById(@PathVariable BigInteger id) {
+        LOGGER.info("Контроллер получил запрос на audit с id: " + id.toString());
         return ResponseEntity.ok(auditService.findById(id));
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<BigInteger> deleteAudit(@PathVariable BigInteger id) {
+        LOGGER.info("Контроллер получил запрос на удаление сущности audit с id: " + id.toString());
         auditService.delete(id);
         return ResponseEntity.ok(id);
     }
 
     @PostMapping
     public ResponseEntity<AuditDto> save(@RequestBody AuditDto auditDto) {
+        LOGGER.info("Контроллер получил запрос на сохранение audit: " + auditDto.toString());
         return ResponseEntity.ok(auditService.save(auditDto));
     }
 
     @PatchMapping
     public ResponseEntity<AuditDto> update(@RequestBody AuditDto auditDto) {
+        LOGGER.info("Контроллер получил запрос на обновление сущности audit с id: " + auditDto.toString());
         return ResponseEntity.ok(auditService.update(auditDto));
     }
 }

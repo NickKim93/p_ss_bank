@@ -4,6 +4,8 @@ import com.bank.antifraud.dto.SuspiciousPhoneTransfersDto;
 import com.bank.antifraud.entity.SuspiciousPhoneTransfersEntity;
 import com.bank.antifraud.mapper.SuspiciousPhoneTransfersMapper;
 import com.bank.antifraud.repository.SuspiciousPhoneTransfersRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,7 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTransfersService{
+    private static final Logger LOGGER = LoggerFactory.getLogger(SuspiciousPhoneTransfersServiceImpl.class);
     private final SuspiciousPhoneTransfersRepository suspiciousPhoneTransfersRepository;
 
     public SuspiciousPhoneTransfersServiceImpl(SuspiciousPhoneTransfersRepository suspiciousPhoneTransfersRepository) {
@@ -24,38 +27,50 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     @Override
     @Transactional(readOnly = false)
     public SuspiciousPhoneTransfersEntity save(SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
+        LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод save: " + suspiciousPhoneTransfersDto.toString());
         SuspiciousPhoneTransfersEntity suspiciousPhoneTransfersEntity = SuspiciousPhoneTransfersMapper.INSTANCE.suspiciousPhoneTransfersDtoToSuspiciousPhoneTransfersEntity(suspiciousPhoneTransfersDto);
         return suspiciousPhoneTransfersRepository.save(suspiciousPhoneTransfersEntity);
     }
 
     @Override
     public SuspiciousPhoneTransfersEntity findById(BigInteger id) {
+        LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод findById: " + id.toString());
         Optional<SuspiciousPhoneTransfersEntity> suspiciousPhoneTransfersEntity = suspiciousPhoneTransfersRepository.findById(id);
         if (suspiciousPhoneTransfersEntity.isPresent()) {
             return suspiciousPhoneTransfersEntity.get();
         } else {
+            LOGGER.error("Сущность не найдена");
             throw new EntityNotFoundException("сущность suspiciousPhoneTransfers с id: " + id + " не найдена.");
         }
     }
 
     @Override
     public List<SuspiciousPhoneTransfersEntity> findAll() {
+        LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод findAll");
         return suspiciousPhoneTransfersRepository.findAll();
     }
 
     @Override
     @Transactional(readOnly = false)
     public void delete(BigInteger id) {
+        LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод delete: " + id.toString());
         SuspiciousPhoneTransfersEntity suspiciousPhoneTransfersEntity = suspiciousPhoneTransfersRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("сущность SuspiciousPhoneTransfers с id: " + id + " не найдена."));
+                .orElseThrow(() -> {
+                    LOGGER.error("Сущность не найдена");
+                    return new EntityNotFoundException("сущность SuspiciousPhoneTransfers с id: " + id + " не найдена.");
+                });
         suspiciousPhoneTransfersRepository.delete(suspiciousPhoneTransfersEntity);
     }
 
     @Override
     @Transactional(readOnly = false)
     public SuspiciousPhoneTransfersEntity update(SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
+        LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод update: " + suspiciousPhoneTransfersDto.toString());
         suspiciousPhoneTransfersRepository.findById(suspiciousPhoneTransfersDto.id())
-                .orElseThrow(() -> new EntityNotFoundException(suspiciousPhoneTransfersDto.id().toString()));
+                .orElseThrow(() -> {
+                    LOGGER.error("Сущность не найдена");
+                    return new EntityNotFoundException(suspiciousPhoneTransfersDto.id().toString());
+                });
         return suspiciousPhoneTransfersRepository.save(SuspiciousPhoneTransfersMapper
                 .INSTANCE.suspiciousPhoneTransfersDtoToSuspiciousPhoneTransfersEntity(suspiciousPhoneTransfersDto));
     }

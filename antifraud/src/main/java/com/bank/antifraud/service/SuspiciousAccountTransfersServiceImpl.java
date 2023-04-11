@@ -8,6 +8,8 @@ import com.bank.antifraud.mapper.SuspiciousAccountTransfersMapper;
 import com.bank.antifraud.repository.SuspiciousAccountTransfersRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,8 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountTransfersService{
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SuspiciousAccountTransfersServiceImpl.class);
     private final SuspiciousAccountTransfersRepository suspiciousAccountTransfersRepository;
 
     public SuspiciousAccountTransfersServiceImpl(SuspiciousAccountTransfersRepository suspiciousAccountTransfersRepository) {
@@ -30,6 +34,7 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
     @Override
     @Transactional
     public SuspiciousAccountTransfersEntity save(SuspiciousAccountTransfersDto suspiciousAccountTransfersDto) {
+        LOGGER.info("В SuspiciousAccountTransfersServiceImpl вызван метод save: " + suspiciousAccountTransfersDto.toString());
 
         SuspiciousAccountTransfersEntity suspiciousAccountTransfersEntity = SuspiciousAccountTransfersMapper
                 .INSTANCE.suspiciousAccountTransfersDtoToSuspiciousAccountTransfersEntity(suspiciousAccountTransfersDto);
@@ -38,15 +43,18 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
 
     @Override
     public List<SuspiciousAccountTransfersEntity> findAll() {
+        LOGGER.info("В SuspiciousAccountTransfersServiceImpl вызван метод findAll");
         return suspiciousAccountTransfersRepository.findAll();
     }
 
     @Override
     public SuspiciousAccountTransfersEntity findById(BigInteger id) {
+        LOGGER.info("В SuspiciousAccountTransfersServiceImpl вызван метод findById: " + id.toString());
         Optional<SuspiciousAccountTransfersEntity> suspiciousAccountTransfersEntity = suspiciousAccountTransfersRepository.findById(id);
         if (suspiciousAccountTransfersEntity.isPresent()) {
             return suspiciousAccountTransfersEntity.get();
         } else {
+            LOGGER.error("сущность SuspiciousAccountTransfers с id: " + id + " не найдена");
             throw new EntityNotFoundException("сущность SuspiciousAccountTransfers с id: " + id + " не найдена.");
         }
     }
@@ -54,8 +62,12 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
     @Override
     @Transactional
     public void delete(BigInteger id) {
+        LOGGER.info("В SuspiciousAccountTransfersServiceImpl вызван метод delete: " + id.toString());
         SuspiciousAccountTransfersEntity suspiciousAccountTransfersEntity = suspiciousAccountTransfersRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("сущность SuspiciousAccountTransfers с id: " + id + " не найдена."));
+                .orElseThrow(() -> {
+                    LOGGER.error("сущность SuspiciousAccountTransfers с id: " + id + " не найдена.");
+                    return new EntityNotFoundException("сущность SuspiciousAccountTransfers с id: " + id + " не найдена.");
+                });
 
         suspiciousAccountTransfersRepository.delete(suspiciousAccountTransfersEntity);
     }
@@ -63,8 +75,12 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
     @Override
     @Transactional
     public SuspiciousAccountTransfersEntity update(SuspiciousAccountTransfersDto suspiciousAccountTransfersDto) {
+        LOGGER.info("В SuspiciousAccountTransfersServiceImpl вызван метод update: " + suspiciousAccountTransfersDto.toString());
         suspiciousAccountTransfersRepository.findById(suspiciousAccountTransfersDto.id())
-                .orElseThrow(() -> new EntityNotFoundException(suspiciousAccountTransfersDto.id().toString()));
+                .orElseThrow(() -> {
+                    LOGGER.error("Сущность не найдена");
+                    return new EntityNotFoundException(suspiciousAccountTransfersDto.id().toString());
+                });
         return suspiciousAccountTransfersRepository.save(SuspiciousAccountTransfersMapper
                 .INSTANCE.suspiciousAccountTransfersDtoToSuspiciousAccountTransfersEntity(suspiciousAccountTransfersDto));
     }
