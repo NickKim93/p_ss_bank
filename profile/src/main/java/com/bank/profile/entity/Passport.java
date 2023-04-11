@@ -22,13 +22,11 @@ public class Passport {
     private Long id;
     @Column(name = "series")
     @NotNull
-    @NotBlank
     @Min(value = 1000L)
     @Max(value = 9999L)
     private Integer series;
     @Column(name = "number")
     @NotNull
-    @NotBlank
     @Min(value = 100000L)
     @Max(value = 999999L)
     private Long number;
@@ -69,7 +67,6 @@ public class Passport {
     private LocalDate dateOfIssue;
     @Column(name = "division_code")
     @NotNull
-    @NotBlank
     @Min(value = 100000)
     @Max(value = 999999)
     private Integer divisionCode;
@@ -78,7 +75,6 @@ public class Passport {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "registration_id")
     @NotNull
-    @NotBlank
     private Registration registration;
     @OneToOne(mappedBy = "passport")
     private Profile profile;

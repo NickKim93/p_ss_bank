@@ -50,7 +50,6 @@ public class Registration {
     private String flatNumber;
     @Column(name = "index")
     @NotNull
-    @NotBlank
     @Min(value = 100000L)
     @Max(value = 999999L)
     private Long index;

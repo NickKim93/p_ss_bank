@@ -22,7 +22,6 @@ public class Profile {
     private Long id;
     @Column(name = "phone_number")
     @NotNull
-    @NotBlank
     @Min(value = 1000000000L)
     @Max(value = 9999999999L)
     private Long phoneNumber;
@@ -44,7 +43,6 @@ public class Profile {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "passport_id")
     @NotNull
-    @NotBlank
     private Passport passport;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true) // optional = false,
     @JoinColumn(name = "actual_registration_id")

@@ -5,8 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Set;
 
 /**
@@ -18,13 +17,22 @@ import java.util.Set;
 @Builder
 public class ProfileDto {
     private Long id;
+    @NotNull
+    @Min(value = 1000000000L)
+    @Max(value = 9999999999L)
     private Long phoneNumber;
     @Size(max = 264)
-    @Email(message = "The email should look like 'email@mail.com'")
+    @Email(message = "Почтовый адрес должен иметь вид 'email@mail.com'")
     private String email;
+    @Size(max = 370)
     private String nameOnCard;
+    @Min(value = 100000000000L)
+    @Max(value = 999999999999L)
     private Long inn;
+    @Min(value = 10000000000L)
+    @Max(value = 99999999999L)
     private Long snils;
+    @NotNull
     private PassportDto passport;
     private ActualRegistrationDto actualRegistration;
     private Set<AccountDetailsDto> accountDetailsSet;

@@ -82,7 +82,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Transactional
     public ProfileDto create(ProfileDto profileDto) {
         if (profileRepository.findProfileByInnOrPhoneNumber(profileDto.getInn(), profileDto.getPhoneNumber()) != null) {
-            throw new BadRequestException(String.format("Request method create(). Профиль с ИНН или номером телефона = %s уже существует", profileDto.getInn(), profileDto.getPhoneNumber()));
+            throw new BadRequestException(String.format("Request method create(). Профиль с ИНН = %s или номером телефона = %s уже существует", profileDto.getInn(), profileDto.getPhoneNumber()));
         }
 
         Profile profile = ProfileMapper.INSTANCE.profileDtoToProfile(profileDto);

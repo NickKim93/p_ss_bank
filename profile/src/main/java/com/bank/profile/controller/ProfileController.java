@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 /**
  * REST контроллер
@@ -122,7 +123,7 @@ public class ProfileController {
      * }
      * */
     @PostMapping
-    public ResponseEntity<ProfileDto> create(@RequestBody ProfileDto profileDto) {
+    public ResponseEntity<ProfileDto> create(@Valid @RequestBody ProfileDto profileDto) {
         ProfileDto profileDtoLocal = profileService.create(profileDto);
         return profileDtoLocal == null ?
                 new ResponseEntity<>(null, HttpStatus.BAD_REQUEST)
@@ -141,7 +142,7 @@ public class ProfileController {
      * ]
      * */
     @PatchMapping
-    public ResponseEntity<ProfileDto> update(@RequestBody ProfileDto profileDto) {
+    public ResponseEntity<ProfileDto> update(@Valid @RequestBody ProfileDto profileDto) {
         ProfileDto profileDtoLocal = profileService.update(profileDto);
         return profileDtoLocal == null ?
                 new ResponseEntity<>(null, HttpStatus.BAD_REQUEST)
