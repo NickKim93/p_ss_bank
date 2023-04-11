@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.math.BigInteger;
 
-public interface BranchRepository extends JpaRepository<Branch, BigInteger> {
+public interface BranchRepository extends JpaRepository<Branch, Long> {
 }

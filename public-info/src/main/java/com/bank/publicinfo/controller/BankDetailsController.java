@@ -7,7 +7,6 @@ import com.bank.publicinfo.service.LicenseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -45,13 +44,13 @@ public class BankDetailsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BankDetails> updatedBankDetails(@PathVariable BigInteger id, @RequestBody BankDetails bankDetails) {
+    public ResponseEntity<BankDetails> updatedBankDetails(@PathVariable Long id, @RequestBody BankDetails bankDetails) {
         Optional<BankDetails> updatedBankDetails = bankDetailsService.updateBankDetails(id, bankDetails);
         return updatedBankDetails.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BankDetails> deleteBankDetails(@PathVariable BigInteger id) {
+    public ResponseEntity<BankDetails> deleteBankDetails(@PathVariable Long id) {
         boolean deleted = bankDetailsService.deleteBankDetailsById(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }

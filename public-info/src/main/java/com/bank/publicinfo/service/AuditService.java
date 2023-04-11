@@ -5,13 +5,13 @@ import java.math.BigInteger;
 import java.util.List;
 
 public interface AuditService {
-    public AuditDto getAuditById(BigInteger id);
+    AuditDto getAuditById(Long id);
 
-    public List<AuditDto> getAudits ();
+    List<AuditDto> getAudits ();
 
-    public AuditDto createAudit(AuditDto auditDto);
+    AuditDto createAudit(AuditDto auditDto);
 
-    public AuditDto updateAudit (BigInteger id, AuditDto auditDto);
+    AuditDto updateAudit (Long id, AuditDto auditDto);
 
-    public void deleteAuditById(BigInteger id);
+    void deleteAuditById(Long id);
 }

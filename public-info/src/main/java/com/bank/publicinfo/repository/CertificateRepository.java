@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.math.BigInteger;
 
-public interface CertificateRepository extends JpaRepository<Certificate, BigInteger> {
+public interface CertificateRepository extends JpaRepository<Certificate, Long> {
 }

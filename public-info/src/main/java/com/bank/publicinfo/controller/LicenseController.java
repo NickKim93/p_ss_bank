@@ -5,7 +5,6 @@ import com.bank.publicinfo.service.LicenseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +20,7 @@ public class LicenseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<License> getLicense(@PathVariable BigInteger id) {
+    public ResponseEntity<License> getLicense(@PathVariable Long id) {
         Optional<License> license = licenseService.getLicenseById(id);
         return license.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
@@ -43,13 +42,13 @@ public class LicenseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<License> updatedLicense(@PathVariable BigInteger id, @RequestBody License license) {
+    public ResponseEntity<License> updatedLicense(@PathVariable Long id, @RequestBody License license) {
         Optional<License> updatedLicense = licenseService.updateLicense(id, license);
         return updatedLicense.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<License> deleteLicense(@PathVariable BigInteger id) {
+    public ResponseEntity<License> deleteLicense(@PathVariable Long id) {
         boolean deleted = licenseService.deleteLicenseById(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }

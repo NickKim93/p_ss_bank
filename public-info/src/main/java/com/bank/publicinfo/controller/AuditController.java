@@ -5,7 +5,6 @@ import com.bank.publicinfo.service.AuditService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.net.URI;
 import java.util.List;
 
@@ -34,13 +33,13 @@ public class AuditController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AuditDto> update(@PathVariable BigInteger id, @RequestBody AuditDto auditDto) {
+    public ResponseEntity<AuditDto> update(@PathVariable Long id, @RequestBody AuditDto auditDto) {
         AuditDto updatedAudit = auditService.updateAudit(id, auditDto);
         return ResponseEntity.ok(updatedAudit);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable BigInteger id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         auditService.deleteAuditById(id);
         return ResponseEntity.noContent().build();
     }

@@ -1,12 +1,14 @@
 package com.bank.publicinfo.dto;
 
+import com.bank.publicinfo.entity.Branch;
+
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
-public record AtmDto(BigInteger id,
+public record AtmDto(Long id,
                      String address,
                      LocalDateTime startOfWork,
                      LocalDateTime endOfWork,
                      boolean allHours,
-                     BranchDto branchDto) {
+                     Long branchId) {
 }

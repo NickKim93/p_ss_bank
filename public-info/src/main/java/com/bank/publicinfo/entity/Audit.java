@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,7 +17,7 @@ public class Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    private Long id;
 
     @Column(name = "entity_type", nullable = false)
     private String entityType;

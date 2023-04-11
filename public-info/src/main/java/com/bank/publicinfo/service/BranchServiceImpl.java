@@ -7,7 +7,6 @@ import com.bank.publicinfo.repository.BranchRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -22,7 +21,7 @@ public class BranchServiceImpl implements BranchService{
     }
 
     @Override
-    public BranchDto getBranchById(BigInteger id) {
+    public BranchDto getBranchById(Long id) {
         Branch branch = branchRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Branch not found"));
         branch.setAtmList(branch.getAtmList());
@@ -31,8 +30,8 @@ public class BranchServiceImpl implements BranchService{
 
     @Override
     public List<BranchDto> getAllBranches() {
-        List<Branch> brancheList = branchRepository.findAll();
-        return branchMapper.branchListToDto(brancheList);
+        List<Branch> branchList = branchRepository.findAll();
+        return branchMapper.branchListToDto(branchList);
     }
 
     @Override
@@ -43,7 +42,7 @@ public class BranchServiceImpl implements BranchService{
     }
 
     @Override
-    public BranchDto updateBranch(BigInteger id, BranchDto branchDto) {
+    public BranchDto updateBranch(Long id, BranchDto branchDto) {
         Branch branch = branchRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("branch not found"));
         branchMapper.updateEntityFromDto(branchDto, branch);
@@ -52,7 +51,7 @@ public class BranchServiceImpl implements BranchService{
     }
 
     @Override
-    public void deleteBranchById(BigInteger id) {
+    public void deleteBranchById(Long id) {
         Branch branch = branchRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Branch not found"));
         branchRepository.delete(branch);

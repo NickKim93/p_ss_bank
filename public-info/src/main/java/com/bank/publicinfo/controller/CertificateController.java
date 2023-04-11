@@ -4,8 +4,6 @@ import com.bank.publicinfo.entity.Certificate;
 import com.bank.publicinfo.service.CertificateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigInteger;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +20,7 @@ public class CertificateController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Certificate> getLicense(@PathVariable BigInteger id) {
+    public ResponseEntity<Certificate> getLicense(@PathVariable Long id) {
         Optional<Certificate> certificate = certificateService.getCertificateById(id);
         return certificate.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
@@ -44,13 +42,13 @@ public class CertificateController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Certificate> updatedLicense(@PathVariable BigInteger id, @RequestBody Certificate certificate) {
+    public ResponseEntity<Certificate> updatedLicense(@PathVariable Long id, @RequestBody Certificate certificate) {
         Optional<Certificate> updatedCertificate = certificateService.updateCertificate(id, certificate);
         return updatedCertificate.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Certificate> deleteLicense(@PathVariable BigInteger id) {
+    public ResponseEntity<Certificate> deleteLicense(@PathVariable Long id) {
         boolean deleted = certificateService.deleteCertificateById(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }

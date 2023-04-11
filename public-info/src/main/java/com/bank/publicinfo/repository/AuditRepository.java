@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.math.BigInteger;
 
-public interface AuditRepository extends JpaRepository<Audit, BigInteger> {
+public interface AuditRepository extends JpaRepository<Audit, Long> {
 }

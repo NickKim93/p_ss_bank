@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +24,7 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
-    public AuditDto getAuditById(BigInteger id) {
+    public AuditDto getAuditById(Long id) {
         Audit audit = auditRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
         return auditMapper.AuditEntityToDto(audit);
@@ -47,7 +46,7 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
-    public AuditDto updateAudit(BigInteger id, AuditDto auditDto) {
+    public AuditDto updateAudit(Long id, AuditDto auditDto) {
         Audit audit = auditRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
         audit = auditMapper.updateEntityFromDto(auditDto, audit);
@@ -56,7 +55,7 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
-    public void deleteAuditById(BigInteger id) {
+    public void deleteAuditById(Long id) {
            auditRepository.deleteById(id);
     }
 }

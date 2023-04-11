@@ -1,10 +1,11 @@
 package com.bank.publicinfo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,7 +18,7 @@ public class Atm {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    private Long id;
 
     @Column(nullable = false)
     private String address;
@@ -31,8 +32,7 @@ public class Atm {
     @Column(name = "all_hours", nullable = false)
     private boolean allHours;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "branch_id", referencedColumnName = "id")
-    @JsonIgnore
     private Branch branch;
 }

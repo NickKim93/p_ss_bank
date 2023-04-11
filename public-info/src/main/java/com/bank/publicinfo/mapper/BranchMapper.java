@@ -11,14 +11,14 @@ import org.mapstruct.factory.Mappers;
 import java.util.Set;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {BranchMapper.class})
 public interface BranchMapper {
 
-    BranchMapper INSTANCE = Mappers.getMapper(BranchMapper.class);
+
     BranchDto branchToDto(Branch branch);
     Branch branchToEntity(BranchDto branchDto);
+    @Mapping(target = "branchId", source = "id")
     Set<AtmDto> toAtmDtoSet(Set<Atm> atmSet);
-
     List<BranchDto> branchListToDto (List<Branch> branchList);
     @Mapping(target = "id", ignore = true)
     Branch updateEntityFromDto(BranchDto dto, @MappingTarget Branch entity);
