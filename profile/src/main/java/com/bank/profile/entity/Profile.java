@@ -6,6 +6,9 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Set;
 
+/**
+ * Сущность профиля
+ * */
 @Entity
 @Table(name = "profile") // , uniqueConstraints={@UniqueConstraint(columnNames = {"inn" , "snils"})}
 @NoArgsConstructor

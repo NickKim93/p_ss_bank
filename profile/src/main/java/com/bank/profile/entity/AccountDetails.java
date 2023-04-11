@@ -1,13 +1,15 @@
 package com.bank.profile.entity;
 
 import lombok.*;
-import org.mapstruct.Mapping;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
+/**
+ * Тестовая сущность удаленного микросервиса account
+ * */
 @Entity
 @Table(name = "account_details")
 @NoArgsConstructor

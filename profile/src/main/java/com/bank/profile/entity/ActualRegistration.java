@@ -5,6 +5,10 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+/**
+ * Сущность адреса текущего места проживания
+ * является необязательной
+ * */
 @Entity
 @Table(name = "actual_registration")
 @NoArgsConstructor

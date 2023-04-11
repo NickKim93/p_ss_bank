@@ -14,6 +14,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+
+/**
+ * Сервисный слой, обеспечивающий обмен данными между REST контроллером и БД
+ * */
 @Service
 @Slf4j
 public class ProfileServiceImpl implements ProfileService {
@@ -23,6 +27,9 @@ public class ProfileServiceImpl implements ProfileService {
         this.profileRepository = profileRepository;
     }
 
+    /**
+     * Получение списка всех профилей
+     * */
     @Override
     @Transactional(readOnly = true)
     public List<ProfileDto> findAll() {
@@ -33,6 +40,9 @@ public class ProfileServiceImpl implements ProfileService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Получение профиля по id
+     * */
     @Override
     @Transactional(readOnly = true)
     public ProfileDto findOne(Long id) {
@@ -45,6 +55,9 @@ public class ProfileServiceImpl implements ProfileService {
         return ProfileMapper.INSTANCE.profileToProfileDto(profile);
     }
 
+    /**
+     * Получение профиля по ИНН или номеру телефона
+     * */
     @Override
     @Transactional(readOnly = true)
     public ProfileDto findByInnOrPhoneNumber(Long n) {
@@ -62,6 +75,9 @@ public class ProfileServiceImpl implements ProfileService {
         return ProfileMapper.INSTANCE.profileToProfileDto(profile);
     }
 
+    /**
+     * Создание нового профиля
+     * */
     @Override
     @Transactional
     public ProfileDto create(ProfileDto profileDto) {
@@ -75,6 +91,9 @@ public class ProfileServiceImpl implements ProfileService {
         return ProfileMapper.INSTANCE.profileToProfileDto(profileLocal);
     }
 
+    /**
+     * Удаление профиля по id
+     * */
     @Override
     @Transactional
     public void delete(Long id) {
@@ -86,6 +105,9 @@ public class ProfileServiceImpl implements ProfileService {
         log.info("Request method delete(id={}). Запись успешно удалена", id);
     }
 
+    /**
+     * Обновление данных профиля
+     * */
     @Override
     @Transactional
     public ProfileDto update(ProfileDto profileDto) {

@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-
+/**
+ * DTO сущности адреса прописки
+ * */
 @AllArgsConstructor
 @Setter
 @Getter

@@ -6,6 +6,9 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
+/**
+* Сущность паспорта
+* */
 @Entity
 @Table(name = "passport")
 @NoArgsConstructor

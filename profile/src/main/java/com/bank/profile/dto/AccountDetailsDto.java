@@ -8,6 +8,9 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+/**
+ * DTO удаленного микросервиса account
+*/
 @AllArgsConstructor
 @Setter
 @Getter

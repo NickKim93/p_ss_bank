@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
+/**
+ * DTO сущности пасспорта
+ * */
 @AllArgsConstructor
 @Setter
 @Getter
