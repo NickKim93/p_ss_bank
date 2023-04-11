@@ -1,12 +1,12 @@
 package com.bank.profile.entity;
 
 import lombok.*;
+import org.mapstruct.Mapping;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 @Entity
 @Table(name = "account_details")
@@ -25,7 +25,7 @@ public class AccountDetails {
     @Column(name = "account_number", unique = true)
     @NotNull
     @NotBlank
-    private BigInteger accountNumber;
+    private Long accountNumber;
     @Column(name = "bank_details_id", unique = true)
     @NotNull
     @NotBlank

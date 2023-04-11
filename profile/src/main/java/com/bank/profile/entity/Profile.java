@@ -3,13 +3,11 @@ package com.bank.profile.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "profile")
+@Table(name = "profile") // , uniqueConstraints={@UniqueConstraint(columnNames = {"inn" , "snils"})}
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -22,19 +20,23 @@ public class Profile {
     @Column(name = "phone_number")
     @NotNull
     @NotBlank
-    @Size(min = 10, max = 10)
+    @Min(value = 1000000000L)
+    @Max(value = 9999999999L)
     private Long phoneNumber;
     @Column(name = "email")
     @Size(max = 264)
+    @Email(message = "The email should look like 'email@mail.com'")
     private String email;
     @Column(name = "name_on_card")
     @Size(max = 370)
     private String nameOnCard;
-    @Column(name = "inn", unique = true)
-    @Size(min = 12, max = 12)
+    @Column(name = "inn") //, unique = true
+    @Min(value = 100000000000L)
+    @Max(value = 999999999999L)
     private Long inn;
-    @Column(name = "snils", unique = true)
-    @Size(min = 11, max = 11)
+    @Column(name = "snils") //, unique = true
+    @Min(value = 10000000000L)
+    @Max(value = 99999999999L)
     private Long snils;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "passport_id")

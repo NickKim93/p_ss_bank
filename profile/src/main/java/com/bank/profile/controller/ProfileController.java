@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @RestController
@@ -37,7 +36,7 @@ public class ProfileController {
     }
 
     @GetMapping("/n/{n}")
-    public ResponseEntity<ProfileDto> findByInn(@PathVariable Long n) {
+    public ResponseEntity<ProfileDto> findByInnOrPhoneNumber(@PathVariable Long n) {
         ProfileDto profileDto = profileService.findByInnOrPhoneNumber(n);
         return profileDto == null ?
             new ResponseEntity<>(null, HttpStatus.NOT_FOUND)
@@ -47,10 +46,7 @@ public class ProfileController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        return profileService.delete(id) ?
-            new ResponseEntity<>(null, HttpStatus.OK)
-            :
-            new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @PostMapping

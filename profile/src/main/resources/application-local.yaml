@@ -29,3 +29,16 @@ spring:
     drop-first: false
 #  application:
 #    name: profile-app
+#logging:
+#  level:
+#    root: info
+#    org:
+#      springframework:
+#        web: ERROR
+#    com:bank:profile: DEBUG
+#  file:
+#    name: application-profile.log
+#    path: d:\temp\log
+#  pattern:
+#    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%"
+#    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

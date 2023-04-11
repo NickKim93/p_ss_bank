@@ -3,9 +3,7 @@ package com.bank.profile.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Entity
@@ -22,12 +20,14 @@ public class Passport {
     @Column(name = "series")
     @NotNull
     @NotBlank
-    @Size(min = 4, max = 4)
+    @Min(value = 1000L)
+    @Max(value = 9999L)
     private Integer series;
     @Column(name = "number")
     @NotNull
     @NotBlank
-    @Size(min = 6, max = 6)
+    @Min(value = 100000L)
+    @Max(value = 999999L)
     private Long number;
     @Column(name = "last_name")
     @NotNull
@@ -67,7 +67,8 @@ public class Passport {
     @Column(name = "division_code")
     @NotNull
     @NotBlank
-    @Size(min = 6, max = 6)
+    @Min(value = 100000)
+    @Max(value = 999999)
     private Integer divisionCode;
     @Column(name = "expiration_date")
     private LocalDate expirationDate;

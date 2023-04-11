@@ -13,7 +13,7 @@ public interface ProfileService {
 
     public ProfileDto create(ProfileDto profileDto);
 
-    public boolean delete(Long id);
+    public void delete(Long id);
 
     public ProfileDto update(ProfileDto profileDto);
 }

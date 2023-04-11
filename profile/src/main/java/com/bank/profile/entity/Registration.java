@@ -3,9 +3,7 @@ package com.bank.profile.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "registration")
@@ -50,7 +48,8 @@ public class Registration {
     @Column(name = "index")
     @NotNull
     @NotBlank
-    @Size(min = 6, max = 6)
+    @Min(value = 100000L)
+    @Max(value = 999999L)
     private Long index;
     @OneToOne(mappedBy = "registration")
     private Passport passport;
