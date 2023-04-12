@@ -1,15 +1,12 @@
 package com.bank.antifraud.entity;
 
+import com.bank.antifraud.util.AuditingEntityListener;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 
@@ -20,8 +17,10 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-@Table(name = "audit")
+@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
+@MappedSuperclass
+@SecondaryTable(name = "audit")
 public class AuditEntity {
     /**
      * Уникальный id
@@ -30,24 +29,32 @@ public class AuditEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     BigInteger id;
     @Column(name = "entity_type",
-            nullable = false)
+            nullable = false,
+            table = "audit")
     String entityType;
     @Column(name = "operation_type",
-            nullable = false)
+            nullable = false,
+            table = "audit")
     String operationType;
     @Column(name = "created_by",
-            nullable = false)
+            nullable = false,
+            table = "audit")
     String createdBy;
-    @Column(name = "modified_by")
+    @Column(name = "modified_by",
+            table = "audit")
     String modifiedBy;
     @Column(name = "created_at",
-            nullable = false)
+            nullable = false,
+            table = "audit")
     Timestamp createdAt;
-    @Column(name = "modified_at")
+    @Column(name = "modified_at",
+            table = "audit")
     Timestamp modifiedAt;
-    @Column(name = "new_entity_json")
+    @Column(name = "new_entity_json",
+            table = "audit")
     String newEntityJson;
     @Column(name = "entity_json",
-            nullable = false)
+            nullable = false,
+            table = "audit")
     String entityJson;
 }

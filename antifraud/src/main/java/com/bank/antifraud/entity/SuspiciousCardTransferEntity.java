@@ -1,15 +1,12 @@
 package com.bank.antifraud.entity;
 
+import com.bank.antifraud.util.Auditable;
+import com.bank.antifraud.util.AuditingEntityListener;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigInteger;
 
 @Getter
@@ -17,7 +14,7 @@ import java.math.BigInteger;
 @NoArgsConstructor
 @Entity
 @Table(name = "suspicious_card_transfer")
-public class SuspiciousCardTransferEntity {
+public class SuspiciousCardTransferEntity extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     BigInteger id;

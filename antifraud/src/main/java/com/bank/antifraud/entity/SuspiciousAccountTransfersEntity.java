@@ -1,15 +1,13 @@
 package com.bank.antifraud.entity;
 
+import com.bank.antifraud.util.Auditable;
+import com.bank.antifraud.util.AuditingEntityListener;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.context.ApplicationContext;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigInteger;
 
 @Getter
@@ -17,7 +15,7 @@ import java.math.BigInteger;
 @NoArgsConstructor
 @Entity
 @Table(name = "suspicious_account_transfers")
-public class SuspiciousAccountTransfersEntity {
+public class SuspiciousAccountTransfersEntity extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     BigInteger id;
@@ -35,4 +33,5 @@ public class SuspiciousAccountTransfersEntity {
     @Column(name = "suspicious_reason",
             nullable = false)
     String suspiciousReason;
+
 }
