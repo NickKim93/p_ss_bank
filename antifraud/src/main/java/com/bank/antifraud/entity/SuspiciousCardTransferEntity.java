@@ -1,7 +1,5 @@
 package com.bank.antifraud.entity;
 
-import com.bank.antifraud.util.Auditable;
-import com.bank.antifraud.util.AuditingEntityListener;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +12,7 @@ import java.math.BigInteger;
 @NoArgsConstructor
 @Entity
 @Table(name = "suspicious_card_transfer")
+@SecondaryTable(name = "audit")
 public class SuspiciousCardTransferEntity extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

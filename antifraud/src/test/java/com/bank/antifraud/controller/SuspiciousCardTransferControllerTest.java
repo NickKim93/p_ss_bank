@@ -1,6 +1,5 @@
 package com.bank.antifraud.controller;
 
-import com.bank.antifraud.entity.SuspiciousAccountTransfersEntity;
 import com.bank.antifraud.entity.SuspiciousCardTransferEntity;
 import com.bank.antifraud.service.SuspiciousCardTransferService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,12 +50,12 @@ class SuspiciousCardTransferControllerTest {
 
     @Test
     void getById_mustReturnAutit_whenAuditIsExists() throws Exception {
-        SuspiciousCardTransferEntity suspiciousAccountTransfersEntity = new SuspiciousCardTransferEntity();
-        suspiciousAccountTransfersEntity.setCardTransferId(1L);
-        suspiciousAccountTransfersEntity.setId(BigInteger.ONE);
-        suspiciousAccountTransfersEntity.setIsSuspicious(true);
+        SuspiciousCardTransferEntity suspiciousCardTransferEntity = new SuspiciousCardTransferEntity();
+        suspiciousCardTransferEntity.setCardTransferId(1L);
+        suspiciousCardTransferEntity.setId(BigInteger.ONE);
+        suspiciousCardTransferEntity.setIsSuspicious(true);
 
-        when(suspiciousCardTransferService.findById(BigInteger.ONE)).thenReturn(suspiciousAccountTransfersEntity);
+        when(suspiciousCardTransferService.findById(BigInteger.ONE)).thenReturn(suspiciousCardTransferEntity);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/card/transfer/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -95,14 +94,14 @@ class SuspiciousCardTransferControllerTest {
 
     @Test
     void save_mustReturnNewObj_whenCreateIsOk() throws Exception {
-        SuspiciousCardTransferEntity suspiciousAccountTransfersEntity = new SuspiciousCardTransferEntity();
-        suspiciousAccountTransfersEntity.setId(BigInteger.ONE);
-        suspiciousAccountTransfersEntity.setCardTransferId(1L);
-        suspiciousAccountTransfersEntity.setIsSuspicious(true);
+        SuspiciousCardTransferEntity suspiciousCardTransferEntity = new SuspiciousCardTransferEntity();
+        suspiciousCardTransferEntity.setId(BigInteger.ONE);
+        suspiciousCardTransferEntity.setCardTransferId(1L);
+        suspiciousCardTransferEntity.setIsSuspicious(true);
 
-        when(suspiciousCardTransferService.save(any())).thenReturn(suspiciousAccountTransfersEntity);
+        when(suspiciousCardTransferService.save(any())).thenReturn(suspiciousCardTransferEntity);
 
-        String json = new ObjectMapper().writeValueAsString(suspiciousAccountTransfersEntity);
+        String json = new ObjectMapper().writeValueAsString(suspiciousCardTransferEntity);
         mockMvc.perform(MockMvcRequestBuilders.post("/card/transfer")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
@@ -121,13 +120,13 @@ class SuspiciousCardTransferControllerTest {
 
     @Test
     void update_mustReturnNewObject_whenIdExist() throws Exception {
-        SuspiciousCardTransferEntity suspiciousAccountTransfersEntity = new SuspiciousCardTransferEntity();
-        suspiciousAccountTransfersEntity.setCardTransferId(1L);
-        suspiciousAccountTransfersEntity.setIsSuspicious(true);
+        SuspiciousCardTransferEntity suspiciousCardTransferEntity = new SuspiciousCardTransferEntity();
+        suspiciousCardTransferEntity.setCardTransferId(1L);
+        suspiciousCardTransferEntity.setIsSuspicious(true);
 
-        when(suspiciousCardTransferService.save(any())).thenReturn(suspiciousAccountTransfersEntity);
+        when(suspiciousCardTransferService.save(any())).thenReturn(suspiciousCardTransferEntity);
 
-        String json = new ObjectMapper().writeValueAsString(suspiciousAccountTransfersEntity);
+        String json = new ObjectMapper().writeValueAsString(suspiciousCardTransferEntity);
         mockMvc.perform(MockMvcRequestBuilders.post("/card/transfer")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))

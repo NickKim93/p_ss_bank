@@ -1,10 +1,7 @@
 package com.bank.antifraud.service;
 
-import com.bank.antifraud.dto.AuditDto;
 import com.bank.antifraud.dto.SuspiciousAccountTransfersDto;
-import com.bank.antifraud.entity.AuditEntity;
 import com.bank.antifraud.entity.SuspiciousAccountTransfersEntity;
-import com.bank.antifraud.mapper.AuditMapper;
 import com.bank.antifraud.repository.SuspiciousAccountTransfersRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;

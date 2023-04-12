@@ -31,18 +31,21 @@ public class SuspiciousPhoneTransfersController {
     @GetMapping("all")
     public ResponseEntity<List<SuspiciousPhoneTransfersEntity>> getAll() {
         LOGGER.info("В SuspiciousPhoneTransfersController сработал метод getAll");
+
         return ResponseEntity.ok(suspiciousPhoneTransfersService.findAll());
     }
 
     @GetMapping("{id}")
     public ResponseEntity<SuspiciousPhoneTransfersEntity> getById(@PathVariable BigInteger id) {
         LOGGER.info("В SuspiciousPhoneTransfersController сработал метод getById, передан id: " + id.toString());
+
         return ResponseEntity.ok(suspiciousPhoneTransfersService.findById(id));
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<BigInteger> deleteAudit(@PathVariable BigInteger id) {
         LOGGER.info("В SuspiciousPhoneTransfersController сработал метод deleteAudit, передан id: " + id.toString());
+
         suspiciousPhoneTransfersService.delete(id);
         return ResponseEntity.ok(id);
     }
@@ -50,12 +53,14 @@ public class SuspiciousPhoneTransfersController {
     @PostMapping
     public ResponseEntity<SuspiciousPhoneTransfersEntity> save(@RequestBody SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
         LOGGER.info("В SuspiciousPhoneTransfersController сработал метод save: \n" + suspiciousPhoneTransfersDto.toString());
+
         return ResponseEntity.ok(suspiciousPhoneTransfersService.save(suspiciousPhoneTransfersDto));
     }
 
     @PatchMapping
     public ResponseEntity<SuspiciousPhoneTransfersEntity> update(@RequestBody SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
         LOGGER.info("В SuspiciousPhoneTransfersController сработал метод update: \n" + suspiciousPhoneTransfersDto.toString());
+
         return ResponseEntity.ok(suspiciousPhoneTransfersService.update(suspiciousPhoneTransfersDto));
     }
 }

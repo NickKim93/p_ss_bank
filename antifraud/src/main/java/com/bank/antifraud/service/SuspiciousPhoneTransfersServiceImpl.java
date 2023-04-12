@@ -6,6 +6,7 @@ import com.bank.antifraud.mapper.SuspiciousPhoneTransfersMapper;
 import com.bank.antifraud.repository.SuspiciousPhoneTransfersRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,15 +28,20 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     @Override
     @Transactional(readOnly = false)
     public SuspiciousPhoneTransfersEntity save(SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
-        LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод save: " + suspiciousPhoneTransfersDto.toString());
-        SuspiciousPhoneTransfersEntity suspiciousPhoneTransfersEntity = SuspiciousPhoneTransfersMapper.INSTANCE.suspiciousPhoneTransfersDtoToSuspiciousPhoneTransfersEntity(suspiciousPhoneTransfersDto);
+        LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод save");
+
+        SuspiciousPhoneTransfersEntity suspiciousPhoneTransfersEntity = SuspiciousPhoneTransfersMapper.INSTANCE
+                .suspiciousPhoneTransfersDtoToSuspiciousPhoneTransfersEntity(suspiciousPhoneTransfersDto);
+
         return suspiciousPhoneTransfersRepository.save(suspiciousPhoneTransfersEntity);
     }
 
     @Override
     public SuspiciousPhoneTransfersEntity findById(BigInteger id) {
         LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод findById: " + id.toString());
+
         Optional<SuspiciousPhoneTransfersEntity> suspiciousPhoneTransfersEntity = suspiciousPhoneTransfersRepository.findById(id);
+
         if (suspiciousPhoneTransfersEntity.isPresent()) {
             return suspiciousPhoneTransfersEntity.get();
         } else {
@@ -47,6 +53,7 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     @Override
     public List<SuspiciousPhoneTransfersEntity> findAll() {
         LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод findAll");
+
         return suspiciousPhoneTransfersRepository.findAll();
     }
 
@@ -54,11 +61,13 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     @Transactional(readOnly = false)
     public void delete(BigInteger id) {
         LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод delete: " + id.toString());
+
         SuspiciousPhoneTransfersEntity suspiciousPhoneTransfersEntity = suspiciousPhoneTransfersRepository.findById(id)
                 .orElseThrow(() -> {
                     LOGGER.error("Сущность не найдена");
                     return new EntityNotFoundException("сущность SuspiciousPhoneTransfers с id: " + id + " не найдена.");
                 });
+
         suspiciousPhoneTransfersRepository.delete(suspiciousPhoneTransfersEntity);
     }
 
@@ -66,12 +75,14 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     @Transactional(readOnly = false)
     public SuspiciousPhoneTransfersEntity update(SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
         LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод update: " + suspiciousPhoneTransfersDto.toString());
-        suspiciousPhoneTransfersRepository.findById(suspiciousPhoneTransfersDto.id())
+
+        SuspiciousPhoneTransfersEntity updateEntity = suspiciousPhoneTransfersRepository.findById(suspiciousPhoneTransfersDto.id())
                 .orElseThrow(() -> {
                     LOGGER.error("Сущность не найдена");
                     return new EntityNotFoundException(suspiciousPhoneTransfersDto.id().toString());
                 });
-        return suspiciousPhoneTransfersRepository.save(SuspiciousPhoneTransfersMapper
-                .INSTANCE.suspiciousPhoneTransfersDtoToSuspiciousPhoneTransfersEntity(suspiciousPhoneTransfersDto));
+
+        BeanUtils.copyProperties(suspiciousPhoneTransfersDto, updateEntity);
+        return suspiciousPhoneTransfersRepository.save(updateEntity);
     }
 }

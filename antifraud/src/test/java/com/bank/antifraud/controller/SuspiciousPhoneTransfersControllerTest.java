@@ -1,6 +1,5 @@
 package com.bank.antifraud.controller;
 
-import com.bank.antifraud.entity.SuspiciousAccountTransfersEntity;
 import com.bank.antifraud.entity.SuspiciousPhoneTransfersEntity;
 import com.bank.antifraud.service.SuspiciousPhoneTransfersService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,12 +50,12 @@ class SuspiciousPhoneTransfersControllerTest {
 
     @Test
     void getById_mustReturnAutit_whenAuditIsExists() throws Exception {
-        SuspiciousPhoneTransfersEntity suspiciousAccountTransfersEntity = new SuspiciousPhoneTransfersEntity();
-        suspiciousAccountTransfersEntity.setPhoneTransferId(1L);
-        suspiciousAccountTransfersEntity.setId(BigInteger.ONE);
-        suspiciousAccountTransfersEntity.setIsSuspicious(true);
+        SuspiciousPhoneTransfersEntity suspiciousPhoneTransfersEntity = new SuspiciousPhoneTransfersEntity();
+        suspiciousPhoneTransfersEntity.setPhoneTransferId(1L);
+        suspiciousPhoneTransfersEntity.setId(BigInteger.ONE);
+        suspiciousPhoneTransfersEntity.setIsSuspicious(true);
 
-        when(suspiciousPhoneTransfersService.findById(BigInteger.ONE)).thenReturn(suspiciousAccountTransfersEntity);
+        when(suspiciousPhoneTransfersService.findById(BigInteger.ONE)).thenReturn(suspiciousPhoneTransfersEntity);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/phone/transfers/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -95,14 +94,14 @@ class SuspiciousPhoneTransfersControllerTest {
 
     @Test
     void save_mustReturnNewObj_whenCreateIsOk() throws Exception {
-        SuspiciousPhoneTransfersEntity suspiciousAccountTransfersEntity = new SuspiciousPhoneTransfersEntity();
-        suspiciousAccountTransfersEntity.setId(BigInteger.ONE);
-        suspiciousAccountTransfersEntity.setPhoneTransferId(1L);
-        suspiciousAccountTransfersEntity.setIsSuspicious(true);
+        SuspiciousPhoneTransfersEntity suspiciousPhoneTransfersEntity = new SuspiciousPhoneTransfersEntity();
+        suspiciousPhoneTransfersEntity.setId(BigInteger.ONE);
+        suspiciousPhoneTransfersEntity.setPhoneTransferId(1L);
+        suspiciousPhoneTransfersEntity.setIsSuspicious(true);
 
-        when(suspiciousPhoneTransfersService.save(any())).thenReturn(suspiciousAccountTransfersEntity);
+        when(suspiciousPhoneTransfersService.save(any())).thenReturn(suspiciousPhoneTransfersEntity);
 
-        String json = new ObjectMapper().writeValueAsString(suspiciousAccountTransfersEntity);
+        String json = new ObjectMapper().writeValueAsString(suspiciousPhoneTransfersEntity);
         mockMvc.perform(MockMvcRequestBuilders.post("/phone/transfers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
@@ -121,13 +120,13 @@ class SuspiciousPhoneTransfersControllerTest {
 
     @Test
     void update_mustReturnNewObject_whenIdExist() throws Exception {
-        SuspiciousPhoneTransfersEntity suspiciousAccountTransfersEntity = new SuspiciousPhoneTransfersEntity();
-        suspiciousAccountTransfersEntity.setPhoneTransferId(1L);
-        suspiciousAccountTransfersEntity.setIsSuspicious(true);
+        SuspiciousPhoneTransfersEntity suspiciousPhoneTransfersEntity = new SuspiciousPhoneTransfersEntity();
+        suspiciousPhoneTransfersEntity.setPhoneTransferId(1L);
+        suspiciousPhoneTransfersEntity.setIsSuspicious(true);
 
-        when(suspiciousPhoneTransfersService.save(any())).thenReturn(suspiciousAccountTransfersEntity);
+        when(suspiciousPhoneTransfersService.save(any())).thenReturn(suspiciousPhoneTransfersEntity);
 
-        String json = new ObjectMapper().writeValueAsString(suspiciousAccountTransfersEntity);
+        String json = new ObjectMapper().writeValueAsString(suspiciousPhoneTransfersEntity);
         mockMvc.perform(MockMvcRequestBuilders.post("/phone/transfers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
