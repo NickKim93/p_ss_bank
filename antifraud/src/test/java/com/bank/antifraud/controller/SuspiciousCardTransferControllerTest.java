@@ -16,14 +16,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import javax.persistence.EntityNotFoundException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,10 +50,10 @@ class SuspiciousCardTransferControllerTest {
     void getById_mustReturnAutit_whenAuditIsExists() throws Exception {
         SuspiciousCardTransferEntity suspiciousCardTransferEntity = new SuspiciousCardTransferEntity();
         suspiciousCardTransferEntity.setCardTransferId(1L);
-        suspiciousCardTransferEntity.setId(BigInteger.ONE);
+        suspiciousCardTransferEntity.setId(1L);
         suspiciousCardTransferEntity.setIsSuspicious(true);
 
-        when(suspiciousCardTransferService.findById(BigInteger.ONE)).thenReturn(suspiciousCardTransferEntity);
+        when(suspiciousCardTransferService.findById(1L)).thenReturn(suspiciousCardTransferEntity);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/card/transfer/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -67,7 +65,7 @@ class SuspiciousCardTransferControllerTest {
 
     @Test
     void getById_mustReturn404_whenAuditNotFound() throws Exception {
-        when(suspiciousCardTransferService.findById(BigInteger.ONE)).thenThrow(new EntityNotFoundException());
+        when(suspiciousCardTransferService.findById(1L)).thenThrow(new EntityNotFoundException());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/card/transfer/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -76,7 +74,7 @@ class SuspiciousCardTransferControllerTest {
 
     @Test
     void deleteAudit_mustBeOk_whenAuditExistAndSuccessfulDel() throws Exception {
-        doAnswer(invocationOnMock -> null).when(suspiciousCardTransferService).delete(BigInteger.ONE);
+        doAnswer(invocationOnMock -> null).when(suspiciousCardTransferService).delete(1L);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/card/transfer/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -85,7 +83,7 @@ class SuspiciousCardTransferControllerTest {
 
     @Test
     void deleteAudit_mustBeError404_whenAuditNotExist() throws Exception {
-        doThrow(new EntityNotFoundException()).when(suspiciousCardTransferService).delete(BigInteger.ONE);
+        doThrow(new EntityNotFoundException()).when(suspiciousCardTransferService).delete(1L);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/card/transfer/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -95,7 +93,7 @@ class SuspiciousCardTransferControllerTest {
     @Test
     void save_mustReturnNewObj_whenCreateIsOk() throws Exception {
         SuspiciousCardTransferEntity suspiciousCardTransferEntity = new SuspiciousCardTransferEntity();
-        suspiciousCardTransferEntity.setId(BigInteger.ONE);
+        suspiciousCardTransferEntity.setId(1L);
         suspiciousCardTransferEntity.setCardTransferId(1L);
         suspiciousCardTransferEntity.setIsSuspicious(true);
 

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @RestController
@@ -36,14 +35,14 @@ public class SuspiciousPhoneTransfersController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<SuspiciousPhoneTransfersEntity> getById(@PathVariable BigInteger id) {
+    public ResponseEntity<SuspiciousPhoneTransfersEntity> getById(@PathVariable Long id) {
         LOGGER.info("В SuspiciousPhoneTransfersController сработал метод getById, передан id: " + id.toString());
 
         return ResponseEntity.ok(suspiciousPhoneTransfersService.findById(id));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<BigInteger> deleteAudit(@PathVariable BigInteger id) {
+    public ResponseEntity<Long> deleteAudit(@PathVariable Long id) {
         LOGGER.info("В SuspiciousPhoneTransfersController сработал метод deleteAudit, передан id: " + id.toString());
 
         suspiciousPhoneTransfersService.delete(id);

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +36,7 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     }
 
     @Override
-    public SuspiciousCardTransferEntity findById(BigInteger id) {
+    public SuspiciousCardTransferEntity findById(Long id) {
         LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод findById: " + id.toString());
 
         Optional<SuspiciousCardTransferEntity> suspiciousCardTransferEntity = suspiciousCardTransferRepository.findById(id);
@@ -59,7 +58,7 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
 
     @Override
     @Transactional(readOnly = false)
-    public void delete(BigInteger id) {
+    public void delete(Long id) {
         LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод delete: " + id.toString());
 
         SuspiciousCardTransferEntity suspiciousCardTransferEntity = suspiciousCardTransferRepository.findById(id)

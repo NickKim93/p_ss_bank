@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -16,7 +15,7 @@ import java.math.BigInteger;
 public class SuspiciousAccountTransfersEntity extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    BigInteger id;
+    Long id;
     @Column(name = "account_transfer_id",
             nullable = false, unique = true)
     Long accountTransferId;

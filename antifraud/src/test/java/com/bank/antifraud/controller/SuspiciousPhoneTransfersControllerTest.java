@@ -16,14 +16,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import javax.persistence.EntityNotFoundException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,10 +50,10 @@ class SuspiciousPhoneTransfersControllerTest {
     void getById_mustReturnAutit_whenAuditIsExists() throws Exception {
         SuspiciousPhoneTransfersEntity suspiciousPhoneTransfersEntity = new SuspiciousPhoneTransfersEntity();
         suspiciousPhoneTransfersEntity.setPhoneTransferId(1L);
-        suspiciousPhoneTransfersEntity.setId(BigInteger.ONE);
+        suspiciousPhoneTransfersEntity.setId(1L);
         suspiciousPhoneTransfersEntity.setIsSuspicious(true);
 
-        when(suspiciousPhoneTransfersService.findById(BigInteger.ONE)).thenReturn(suspiciousPhoneTransfersEntity);
+        when(suspiciousPhoneTransfersService.findById(1L)).thenReturn(suspiciousPhoneTransfersEntity);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/phone/transfers/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -67,7 +65,7 @@ class SuspiciousPhoneTransfersControllerTest {
 
     @Test
     void getById_mustReturn404_whenAuditNotFound() throws Exception {
-        when(suspiciousPhoneTransfersService.findById(BigInteger.ONE)).thenThrow(new EntityNotFoundException());
+        when(suspiciousPhoneTransfersService.findById(1L)).thenThrow(new EntityNotFoundException());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/phone/transfers/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -76,7 +74,7 @@ class SuspiciousPhoneTransfersControllerTest {
 
     @Test
     void deleteAudit_mustBeOk_whenAuditExistAndSuccessfulDel() throws Exception {
-        doAnswer(invocationOnMock -> null).when(suspiciousPhoneTransfersService).delete(BigInteger.ONE);
+        doAnswer(invocationOnMock -> null).when(suspiciousPhoneTransfersService).delete(1L);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/phone/transfers/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -85,7 +83,7 @@ class SuspiciousPhoneTransfersControllerTest {
 
     @Test
     void deleteAudit_mustBeError404_whenAuditNotExist() throws Exception {
-        doThrow(new EntityNotFoundException()).when(suspiciousPhoneTransfersService).delete(BigInteger.ONE);
+        doThrow(new EntityNotFoundException()).when(suspiciousPhoneTransfersService).delete(1L);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/phone/transfers/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -95,7 +93,7 @@ class SuspiciousPhoneTransfersControllerTest {
     @Test
     void save_mustReturnNewObj_whenCreateIsOk() throws Exception {
         SuspiciousPhoneTransfersEntity suspiciousPhoneTransfersEntity = new SuspiciousPhoneTransfersEntity();
-        suspiciousPhoneTransfersEntity.setId(BigInteger.ONE);
+        suspiciousPhoneTransfersEntity.setId(1L);
         suspiciousPhoneTransfersEntity.setPhoneTransferId(1L);
         suspiciousPhoneTransfersEntity.setIsSuspicious(true);
 

@@ -2,7 +2,6 @@ package com.bank.antifraud.controller;
 
 import com.bank.antifraud.entity.SuspiciousAccountTransfersEntity;
 import com.bank.antifraud.service.SuspiciousAccountTransfersService;
-import com.bank.antifraud.util.AuditingEntityListener;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.hibernate.exception.ConstraintViolationException;
@@ -17,13 +16,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import javax.persistence.EntityNotFoundException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,10 +49,10 @@ class SuspiciousAccountTransfersControllerTest {
     void getById_mustReturnAutit_whenAuditIsExists() throws Exception {
         SuspiciousAccountTransfersEntity suspiciousAccountTransfersEntity = new SuspiciousAccountTransfersEntity();
         suspiciousAccountTransfersEntity.setAccountTransferId(1L);
-        suspiciousAccountTransfersEntity.setId(BigInteger.ONE);
+        suspiciousAccountTransfersEntity.setId(1L);
         suspiciousAccountTransfersEntity.setIsSuspicious(true);
 
-        when(suspiciousAccountTransfersService.findById(BigInteger.ONE)).thenReturn(suspiciousAccountTransfersEntity);
+        when(suspiciousAccountTransfersService.findById(1L)).thenReturn(suspiciousAccountTransfersEntity);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/account/transfers/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -67,7 +64,7 @@ class SuspiciousAccountTransfersControllerTest {
 
     @Test
     void getById_mustReturn404_whenAuditNotFound() throws Exception {
-        when(suspiciousAccountTransfersService.findById(BigInteger.ONE)).thenThrow(new EntityNotFoundException());
+        when(suspiciousAccountTransfersService.findById(1L)).thenThrow(new EntityNotFoundException());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/account/transfers/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -76,7 +73,7 @@ class SuspiciousAccountTransfersControllerTest {
 
     @Test
     void deleteAudit_mustBeOk_whenAuditExistAndSuccessfulDel() throws Exception {
-        doAnswer(invocationOnMock -> null).when(suspiciousAccountTransfersService).delete(BigInteger.ONE);
+        doAnswer(invocationOnMock -> null).when(suspiciousAccountTransfersService).delete(1L);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/account/transfers/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -85,7 +82,7 @@ class SuspiciousAccountTransfersControllerTest {
 
     @Test
     void deleteAudit_mustBeError404_whenAuditNotExist() throws Exception {
-        doThrow(new EntityNotFoundException()).when(suspiciousAccountTransfersService).delete(BigInteger.ONE);
+        doThrow(new EntityNotFoundException()).when(suspiciousAccountTransfersService).delete(1L);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/account/transfers/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -95,7 +92,7 @@ class SuspiciousAccountTransfersControllerTest {
     @Test
     void save_mustReturnNewObj_whenCreateIsOk() throws Exception {
         SuspiciousAccountTransfersEntity suspiciousAccountTransfersEntity = new SuspiciousAccountTransfersEntity();
-        suspiciousAccountTransfersEntity.setId(BigInteger.ONE);
+        suspiciousAccountTransfersEntity.setId(1L);
         suspiciousAccountTransfersEntity.setAccountTransferId(1L);
         suspiciousAccountTransfersEntity.setIsSuspicious(true);
 

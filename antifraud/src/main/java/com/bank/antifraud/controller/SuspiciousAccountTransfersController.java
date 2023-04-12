@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @RestController
@@ -37,14 +36,14 @@ public class SuspiciousAccountTransfersController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<SuspiciousAccountTransfersEntity> getById(@PathVariable BigInteger id) {
+    public ResponseEntity<SuspiciousAccountTransfersEntity> getById(@PathVariable Long id) {
         LOGGER.info("В SuspiciousAccountTransfersController сработал метод getById, передан id: " + id.toString());
 
         return ResponseEntity.ok(suspiciousAccountTransfersService.findById(id));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<BigInteger> deleteAudit(@PathVariable BigInteger id) {
+    public ResponseEntity<Long> deleteAudit(@PathVariable Long id) {
         LOGGER.info("В SuspiciousAccountTransfersController сработал метод deleteAudit, передан id: " + id.toString());
 
         suspiciousAccountTransfersService.delete(id);
