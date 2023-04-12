@@ -6,6 +6,7 @@ import com.bank.antifraud.mapper.SuspiciousCardTransferMapper;
 import com.bank.antifraud.repository.SuspiciousCardTransferRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,16 +28,20 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     @Override
     @Transactional(readOnly = false)
     public SuspiciousCardTransferEntity save(SuspiciousCardTransferDto suspiciousCardTransferDto) {
-        LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод save: " + suspiciousCardTransferDto.toString());
+        LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод save");
+
         SuspiciousCardTransferEntity suspiciousCardTransferEntity = SuspiciousCardTransferMapper
                 .INSTANCE.suspiciousCardTransferDtoToSuspiciousCardTransferEntity(suspiciousCardTransferDto);
+
         return suspiciousCardTransferRepository.save(suspiciousCardTransferEntity);
     }
 
     @Override
     public SuspiciousCardTransferEntity findById(BigInteger id) {
         LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод findById: " + id.toString());
+
         Optional<SuspiciousCardTransferEntity> suspiciousCardTransferEntity = suspiciousCardTransferRepository.findById(id);
+
         if (suspiciousCardTransferEntity.isPresent()) {
             return suspiciousCardTransferEntity.get();
         } else {
@@ -48,6 +53,7 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     @Override
     public List<SuspiciousCardTransferEntity> findAll() {
         LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод findAll");
+
         return suspiciousCardTransferRepository.findAll();
     }
 
@@ -55,11 +61,13 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     @Transactional(readOnly = false)
     public void delete(BigInteger id) {
         LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод delete: " + id.toString());
+
         SuspiciousCardTransferEntity suspiciousCardTransferEntity = suspiciousCardTransferRepository.findById(id)
                 .orElseThrow(() -> {
                     LOGGER.error("Сущность не найдена");
                     return new EntityNotFoundException("сущность SuspiciousCardTransfer с id: " + id + " не найдена.");
                 });
+
         suspiciousCardTransferRepository.delete(suspiciousCardTransferEntity);
     }
 
@@ -67,12 +75,14 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     @Transactional(readOnly = false)
     public SuspiciousCardTransferEntity update(SuspiciousCardTransferDto suspiciousCardTransferDto) {
         LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод update: " + suspiciousCardTransferDto.toString());
-        suspiciousCardTransferRepository.findById(suspiciousCardTransferDto.id())
+
+        SuspiciousCardTransferEntity updateEntity = suspiciousCardTransferRepository.findById(suspiciousCardTransferDto.id())
                 .orElseThrow(() -> {
                     LOGGER.error("Сущность не найдена");
                     return new EntityNotFoundException(suspiciousCardTransferDto.id().toString());
                 });
-        return suspiciousCardTransferRepository.save(SuspiciousCardTransferMapper
-                .INSTANCE.suspiciousCardTransferDtoToSuspiciousCardTransferEntity(suspiciousCardTransferDto));
+
+        BeanUtils.copyProperties(suspiciousCardTransferDto, updateEntity);
+        return suspiciousCardTransferRepository.save(updateEntity);
     }
 }

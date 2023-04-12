@@ -1,9 +1,8 @@
 package com.bank.antifraud.controller;
 
-import com.bank.antifraud.dto.AuditDto;
 import com.bank.antifraud.entity.SuspiciousAccountTransfersEntity;
-import com.bank.antifraud.mapper.SuspiciousAccountTransfersMapper;
 import com.bank.antifraud.service.SuspiciousAccountTransfersService;
+import com.bank.antifraud.util.AuditingEntityListener;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.hibernate.exception.ConstraintViolationException;
@@ -19,7 +18,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 

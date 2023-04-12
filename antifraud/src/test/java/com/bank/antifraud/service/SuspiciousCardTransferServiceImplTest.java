@@ -1,8 +1,6 @@
 package com.bank.antifraud.service;
 
-import com.bank.antifraud.dto.SuspiciousAccountTransfersDto;
 import com.bank.antifraud.dto.SuspiciousCardTransferDto;
-import com.bank.antifraud.entity.SuspiciousAccountTransfersEntity;
 import com.bank.antifraud.entity.SuspiciousCardTransferEntity;
 import com.bank.antifraud.repository.SuspiciousCardTransferRepository;
 import org.junit.jupiter.api.AfterEach;
