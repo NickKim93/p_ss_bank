@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.EntityNotFoundException;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,11 +49,11 @@ class SuspiciousPhoneTransfersServiceImplTest {
     @Test
     void findById_mustReturnAuditById_whenExist() {
         SuspiciousPhoneTransfersEntity auditEntity = new SuspiciousPhoneTransfersEntity();
-        auditEntity.setId(BigInteger.ONE);
+        auditEntity.setId(1L);
 
-        Mockito.when(mockRepository.findById(BigInteger.ONE)).thenReturn(Optional.of(auditEntity));
+        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.of(auditEntity));
 
-        SuspiciousPhoneTransfersEntity result = suspiciousPhoneTransfersService.findById(BigInteger.ONE);
+        SuspiciousPhoneTransfersEntity result = suspiciousPhoneTransfersService.findById(1L);
 
         Mockito.verify(mockRepository, Mockito.times(1)).findById(Mockito.any());
         assertEquals(result, auditEntity);
@@ -62,10 +61,10 @@ class SuspiciousPhoneTransfersServiceImplTest {
 
     @Test
     void findById_mustEntityNotFoundException_whenNotExist() {
-        Mockito.when(mockRepository.findById(BigInteger.ONE)).thenReturn(Optional.empty());
+        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.empty());
 
         try {
-            suspiciousPhoneTransfersService.findById(BigInteger.ONE);
+            suspiciousPhoneTransfersService.findById(1L);
             fail("Expected EntityNotFoundException but no exception was thrown");
         } catch (EntityNotFoundException ignored) {
 
@@ -74,10 +73,10 @@ class SuspiciousPhoneTransfersServiceImplTest {
 
     @Test
     void delete_mustEntityNotFoundException_whenNotExist() {
-        Mockito.when(mockRepository.findById(BigInteger.ONE)).thenReturn(Optional.empty());
+        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.empty());
 
         try {
-            suspiciousPhoneTransfersService.delete(BigInteger.ONE);
+            suspiciousPhoneTransfersService.delete(1L);
             fail("Expected EntityNotFoundException but no exception was thrown");
         } catch (EntityNotFoundException ignored) {
 
@@ -87,18 +86,18 @@ class SuspiciousPhoneTransfersServiceImplTest {
     @Test
     void delete_mustCallDelete_whenExist() {
         SuspiciousPhoneTransfersEntity auditEntity = new SuspiciousPhoneTransfersEntity();
-        Mockito.when(mockRepository.findById(BigInteger.ONE)).thenReturn(Optional.of(auditEntity));
+        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.of(auditEntity));
 
-        suspiciousPhoneTransfersService.delete(BigInteger.ONE);
+        suspiciousPhoneTransfersService.delete(1L);
 
         Mockito.verify(mockRepository, Mockito.times(1)).delete(auditEntity);
     }
 
     @Test
     void update_mustCallFindByIdAndSaveInRepository_whenExist() {
-        Mockito.when(mockRepository.findById(BigInteger.ONE)).thenReturn(Optional.of(new SuspiciousPhoneTransfersEntity()));
+        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.of(new SuspiciousPhoneTransfersEntity()));
         SuspiciousPhoneTransfersDto dto = new SuspiciousPhoneTransfersDto(
-                BigInteger.ONE,
+                1L,
                 1L,
                 null,
                 null,
@@ -114,9 +113,9 @@ class SuspiciousPhoneTransfersServiceImplTest {
 
     @Test
     void update_mustEntityNotFoundException_whenNotExist() {
-        Mockito.when(mockRepository.findById(BigInteger.ONE)).thenReturn(Optional.empty());
+        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.empty());
         SuspiciousPhoneTransfersDto dto = new SuspiciousPhoneTransfersDto(
-                BigInteger.ONE,
+                1L,
                 1L,
                 null,
                 null,

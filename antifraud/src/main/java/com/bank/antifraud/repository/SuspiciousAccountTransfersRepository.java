@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.math.BigInteger;
 
 @Repository
-public interface SuspiciousAccountTransfersRepository extends JpaRepository<SuspiciousAccountTransfersEntity, BigInteger> {
+public interface SuspiciousAccountTransfersRepository extends JpaRepository<SuspiciousAccountTransfersEntity, Long> {
 }

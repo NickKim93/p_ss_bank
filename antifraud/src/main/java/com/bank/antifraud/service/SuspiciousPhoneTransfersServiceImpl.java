@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +36,7 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     }
 
     @Override
-    public SuspiciousPhoneTransfersEntity findById(BigInteger id) {
+    public SuspiciousPhoneTransfersEntity findById(Long id) {
         LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод findById: " + id.toString());
 
         Optional<SuspiciousPhoneTransfersEntity> suspiciousPhoneTransfersEntity = suspiciousPhoneTransfersRepository.findById(id);
@@ -59,7 +58,7 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
 
     @Override
     @Transactional(readOnly = false)
-    public void delete(BigInteger id) {
+    public void delete(Long id) {
         LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод delete: " + id.toString());
 
         SuspiciousPhoneTransfersEntity suspiciousPhoneTransfersEntity = suspiciousPhoneTransfersRepository.findById(id)
