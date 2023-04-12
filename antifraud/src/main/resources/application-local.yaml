@@ -25,6 +25,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: secretpassword
+    driver-class-name: org.postgresql.Driver
   liquibase:
     default-schema: anti_fraud
     change-log: db/changelog/db.changelog-master.yaml
