@@ -25,7 +25,7 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional()
     public SuspiciousPhoneTransfersEntity save(SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
         LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод save");
 
@@ -57,7 +57,7 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional()
     public void delete(Long id) {
         LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод delete: " + id.toString());
 
@@ -71,7 +71,7 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional()
     public SuspiciousPhoneTransfersEntity update(SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
         LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод update: " + suspiciousPhoneTransfersDto.toString());
 
