@@ -7,19 +7,19 @@ import com.bank.publicinfo.entity.Branch;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.factory.Mappers;
 import java.util.Set;
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {BranchMapper.class})
 public interface BranchMapper {
 
-
     BranchDto branchToDto(Branch branch);
     Branch branchToEntity(BranchDto branchDto);
-    @Mapping(target = "branchId", source = "id")
+
     Set<AtmDto> toAtmDtoSet(Set<Atm> atmSet);
+
     List<BranchDto> branchListToDto (List<Branch> branchList);
+
     @Mapping(target = "id", ignore = true)
     Branch updateEntityFromDto(BranchDto dto, @MappingTarget Branch entity);
 }

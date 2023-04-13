@@ -44,10 +44,6 @@ public class AtmServiceImpl implements AtmService{
     @Override
     public AtmDto createAtm(AtmDto atmDto) {
         Atm atm = atmMapper.atmToEntity(atmDto);
-        Long branchId = atmDto.branchId();
-        Branch branch = branchRepository.findById(branchId)
-                .orElseThrow(() -> new EntityNotFoundException("Branch not found"));
-        atm.setBranch(branch);
         atm = atmRepository.save(atm);
         return atmMapper.atmToDto(atm);
     }
@@ -57,10 +53,13 @@ public class AtmServiceImpl implements AtmService{
         Atm atm = atmRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ATM not found"));
         atmMapper.update(atmDto, atm);
-        Long branchId = atmDto.branchId();
-        Branch branch = branchRepository.findById(branchId)
-                .orElseThrow(() -> new EntityNotFoundException("Branch not found"));
-        atm.setBranch(branch);
+        if (atmDto.branchId() != null) {
+            Branch branch = branchRepository.findById(atmDto.branchId())
+                    .orElseThrow(() -> new EntityNotFoundException("Branch not found"));
+            atm.setBranch(branch);
+        } else {
+            atm.setBranch(null);
+        }
         atm = atmRepository.save(atm);
         return atmMapper.atmToDto(atm);
     }

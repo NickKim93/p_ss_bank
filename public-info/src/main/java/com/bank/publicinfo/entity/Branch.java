@@ -1,5 +1,6 @@
 package com.bank.publicinfo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,5 +35,6 @@ public class Branch {
     private LocalDateTime endOfWork;
 
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Atm> atmList;
 }

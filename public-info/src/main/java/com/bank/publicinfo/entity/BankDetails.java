@@ -42,11 +42,11 @@ public class BankDetails {
     @Column(name = "name", nullable = false, length = 80)
     private String name;
 
-    @OneToMany(mappedBy = "bankDetails")
+    @OneToMany(mappedBy = "bankDetails", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Certificate> certificates;
 
-    @OneToMany(mappedBy = "bankDetails")
+    @OneToMany(mappedBy = "bankDetails", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<License> licenses;
 
