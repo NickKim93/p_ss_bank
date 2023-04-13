@@ -8,8 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -17,7 +18,7 @@ import javax.persistence.EntityNotFoundException;
  * Обработка стандартных ошибок для информативных ответов клиенту
  * @author Makariy Petrov
  */
-@ControllerAdvice
+@RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class DefaultHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultHandler.class);
@@ -50,5 +51,11 @@ public class DefaultHandler {
         LOGGER.info("Обрабатывается ошибка ConstraintViolationException");
         String message = "Нарушена уникальность значения " + ex.getConstraintName();
         return ResponseEntity.badRequest().body(message);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex) {
+        String response = "Ошибка валидации входящих значений: " + ex.getMessage();
+        return ResponseEntity.badRequest().body(response);
     }
 }
