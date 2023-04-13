@@ -2,9 +2,9 @@ package com.bank.publicinfo.controller;
 
 import com.bank.publicinfo.dto.BranchDto;
 import com.bank.publicinfo.service.BranchService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -32,9 +32,7 @@ public class BranchController {
     @PostMapping()
     public ResponseEntity<BranchDto> createAtm (@RequestBody BranchDto branchDto) {
         BranchDto createdDto = branchService.createBranch(branchDto);
-        return ResponseEntity
-                .created(URI.create("/atms" + createdDto.id()))
-                .body(createdDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdDto);
     }
 
     @PutMapping("/{id}")

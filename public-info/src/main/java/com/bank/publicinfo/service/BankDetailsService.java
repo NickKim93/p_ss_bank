@@ -1,21 +1,18 @@
 package com.bank.publicinfo.service;
 
-import com.bank.publicinfo.entity.BankDetails;
-import com.bank.publicinfo.entity.Certificate;
-
-import java.math.BigInteger;
+import com.bank.publicinfo.dto.BankDetailsDto;
 import java.util.List;
-import java.util.Optional;
+
 
 public interface BankDetailsService {
 
-    Optional<BankDetails> getBankDetailsById(Long id);
+    BankDetailsDto getBankDetailsById(Long id);
 
-    List<BankDetails> getAllBankDetails ();
+    List<BankDetailsDto> getAllBankDetails ();
 
-    BankDetails createBankDetails(BankDetails bankDetails);
+    BankDetailsDto createBankDetails(BankDetailsDto bankDetailsDto);
 
-    Optional<BankDetails> updateBankDetails (Long id, BankDetails bankDetails);
+    BankDetailsDto updateBankDetails (Long id, BankDetailsDto bankDetailsDto);
 
-    boolean deleteBankDetailsById(Long id);
+    void deleteBankDetailsById(Long id);
 }

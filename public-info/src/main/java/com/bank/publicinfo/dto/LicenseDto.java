@@ -1,4 +1,6 @@
 package com.bank.publicinfo.dto;
 
-public record LicenseDto() {
+public record LicenseDto(Long id,
+                         byte[] photo,
+                         Long bankDetailsId) {
 }

@@ -1,13 +1,14 @@
 package com.bank.publicinfo.service;
 
+import com.bank.publicinfo.dto.LicenseDto;
 import com.bank.publicinfo.entity.License;
+import com.bank.publicinfo.mapper.LicenseMapper;
 import com.bank.publicinfo.repository.LicenseRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -15,46 +16,48 @@ public class LicenseServiceImpl implements LicenseService {
 
     private final LicenseRepository licenseRepository;
 
-    public LicenseServiceImpl(LicenseRepository licenseRepository) {
+    private final LicenseMapper licenseMapper;
+
+
+    public LicenseServiceImpl(LicenseRepository licenseRepository, LicenseMapper licenseMapper) {
         this.licenseRepository = licenseRepository;
+        this.licenseMapper = licenseMapper;
     }
 
     @Override
-    public Optional<License> getLicenseById(Long id) {
-        return licenseRepository.findById(id);
+    public LicenseDto getLicenseById(Long id) {
+        License license = licenseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("License not found"));
+        license = licenseRepository.save(license);
+        return licenseMapper.licenseEntityToDto(license);
     }
 
     @Override
-    public List<License> getAllLicenses() {
-        return licenseRepository.findAll();
+    public List<LicenseDto> getAllLicenses() {
+        List<License> licenses = licenseRepository.findAll();
+        return licenseMapper.licenseListEntityToDto(licenses);
     }
 
     @Override
-    public License createLicense(License license) {
-        return licenseRepository.save(license);
+    public LicenseDto createLicense(LicenseDto licenseDto) {
+        License license = licenseMapper.licenseDtoToEntity(licenseDto);
+        license = licenseRepository.save(license);
+        return licenseMapper.licenseEntityToDto(license);
     }
 
     @Override
-    public Optional<License> updateLicense(Long id, License license) {
-        Optional<License> existingLicense = licenseRepository.findById(id);
-        if (existingLicense.isPresent()) {
-            License updatedLicense = existingLicense.get();
-            updatedLicense.setPhoto(license.getPhoto());
-            updatedLicense.setBankDetails(license.getBankDetails());
-            return Optional.of(licenseRepository.save(updatedLicense));
-        } else {
-            return Optional.empty();
-        }
+    public LicenseDto updateLicense(Long id, LicenseDto licenseDto) {
+        License existingLicense = licenseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("License not found"));
+        licenseMapper.update(licenseDto, existingLicense);
+        existingLicense = licenseRepository.save(existingLicense);
+        return licenseMapper.licenseEntityToDto(existingLicense);
     }
 
     @Override
-    public boolean deleteLicenseById(Long id) {
-        Optional<License> license = licenseRepository.findById(id);
-        if (license.isPresent()) {
-            licenseRepository.deleteById(id);
-            return true;
-        } else {
-            return false;
-        }
+    public void deleteLicenseById(Long id) {
+        License license = licenseRepository.findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("License not found"));
+        licenseRepository.delete(license);
     }
 }
