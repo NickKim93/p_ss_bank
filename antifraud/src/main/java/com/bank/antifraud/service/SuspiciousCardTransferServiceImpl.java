@@ -25,7 +25,7 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional()
     public SuspiciousCardTransferEntity save(SuspiciousCardTransferDto suspiciousCardTransferDto) {
         LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод save");
 
@@ -57,7 +57,7 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional()
     public void delete(Long id) {
         LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод delete: " + id.toString());
 
@@ -71,7 +71,7 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional()
     public SuspiciousCardTransferEntity update(SuspiciousCardTransferDto suspiciousCardTransferDto) {
         LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод update: " + suspiciousCardTransferDto.toString());
 
