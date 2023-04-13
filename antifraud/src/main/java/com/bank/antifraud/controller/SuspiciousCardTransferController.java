@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -50,14 +51,14 @@ public class SuspiciousCardTransferController {
     }
 
     @PostMapping
-    public ResponseEntity<SuspiciousCardTransferEntity> save(@RequestBody SuspiciousCardTransferDto suspiciousCardTransferDto) {
+    public ResponseEntity<SuspiciousCardTransferEntity> save(@Valid @RequestBody SuspiciousCardTransferDto suspiciousCardTransferDto) {
         LOGGER.info("В SuspiciousCardTransferController сработал метод save: \n" + suspiciousCardTransferDto.toString());
 
         return ResponseEntity.ok(suspiciousCardTransferService.save(suspiciousCardTransferDto));
     }
 
     @PatchMapping
-    public ResponseEntity<SuspiciousCardTransferEntity> update(@RequestBody SuspiciousCardTransferDto suspiciousCardTransferDto) {
+    public ResponseEntity<SuspiciousCardTransferEntity> update(@Valid @RequestBody SuspiciousCardTransferDto suspiciousCardTransferDto) {
         LOGGER.info("В SuspiciousCardTransferController сработал метод update: \n" + suspiciousCardTransferDto.toString());
 
         return ResponseEntity.ok(suspiciousCardTransferService.update(suspiciousCardTransferDto));

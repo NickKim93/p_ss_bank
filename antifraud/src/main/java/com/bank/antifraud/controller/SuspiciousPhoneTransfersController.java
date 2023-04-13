@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -50,14 +51,14 @@ public class SuspiciousPhoneTransfersController {
     }
 
     @PostMapping
-    public ResponseEntity<SuspiciousPhoneTransfersEntity> save(@RequestBody SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
+    public ResponseEntity<SuspiciousPhoneTransfersEntity> save(@Valid @RequestBody SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
         LOGGER.info("В SuspiciousPhoneTransfersController сработал метод save: \n" + suspiciousPhoneTransfersDto.toString());
 
         return ResponseEntity.ok(suspiciousPhoneTransfersService.save(suspiciousPhoneTransfersDto));
     }
 
     @PatchMapping
-    public ResponseEntity<SuspiciousPhoneTransfersEntity> update(@RequestBody SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
+    public ResponseEntity<SuspiciousPhoneTransfersEntity> update(@Valid @RequestBody SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
         LOGGER.info("В SuspiciousPhoneTransfersController сработал метод update: \n" + suspiciousPhoneTransfersDto.toString());
 
         return ResponseEntity.ok(suspiciousPhoneTransfersService.update(suspiciousPhoneTransfersDto));

@@ -21,6 +21,8 @@ spring:
     properties:
       hibernate:
         default_schema: anti_fraud
+        hbm2ddl:
+          auto: validate
     database: postgresql
 
   liquibase:
