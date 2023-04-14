@@ -1,9 +1,11 @@
 package com.bank.antifraud.service;
 
+import com.bank.antifraud.audit.Auditing;
 import com.bank.antifraud.dto.SuspiciousCardTransferDto;
 import com.bank.antifraud.entity.SuspiciousCardTransferEntity;
 import com.bank.antifraud.mapper.SuspiciousCardTransferMapper;
 import com.bank.antifraud.repository.SuspiciousCardTransferRepository;
+import com.bank.antifraud.util.OperationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -25,7 +27,8 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     }
 
     @Override
-    @Transactional()
+    @Transactional
+    @Auditing(operationType = OperationType.CREATE)
     public SuspiciousCardTransferEntity save(SuspiciousCardTransferDto suspiciousCardTransferDto) {
         LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод save");
 
@@ -72,6 +75,7 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
 
     @Override
     @Transactional()
+    @Auditing(operationType = OperationType.UPDATE)
     public SuspiciousCardTransferEntity update(SuspiciousCardTransferDto suspiciousCardTransferDto) {
         LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод update: " + suspiciousCardTransferDto.toString());
 

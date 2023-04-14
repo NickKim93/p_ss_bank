@@ -11,8 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "suspicious_card_transfer")
-@SecondaryTable(name = "audit")
-public class SuspiciousCardTransferEntity extends AuditEntity {
+public class SuspiciousCardTransferEntity extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;

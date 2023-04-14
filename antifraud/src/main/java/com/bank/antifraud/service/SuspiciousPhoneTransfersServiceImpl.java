@@ -1,9 +1,11 @@
 package com.bank.antifraud.service;
 
+import com.bank.antifraud.audit.Auditing;
 import com.bank.antifraud.dto.SuspiciousPhoneTransfersDto;
 import com.bank.antifraud.entity.SuspiciousPhoneTransfersEntity;
 import com.bank.antifraud.mapper.SuspiciousPhoneTransfersMapper;
 import com.bank.antifraud.repository.SuspiciousPhoneTransfersRepository;
+import com.bank.antifraud.util.OperationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -25,7 +27,8 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     }
 
     @Override
-    @Transactional()
+    @Transactional
+    @Auditing(operationType = OperationType.CREATE)
     public SuspiciousPhoneTransfersEntity save(SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
         LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод save");
 
@@ -71,7 +74,8 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     }
 
     @Override
-    @Transactional()
+    @Transactional
+    @Auditing(operationType = OperationType.UPDATE)
     public SuspiciousPhoneTransfersEntity update(SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
         LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод update: " + suspiciousPhoneTransfersDto.toString());
 
