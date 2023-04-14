@@ -1,5 +1,8 @@
 package com.bank.antifraud.controller;
 
+import com.bank.antifraud.entity.AuditEntity;
+import com.bank.antifraud.repository.AuditRepository;
+import com.bank.antifraud.service.AuditService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +18,14 @@ import java.util.Map;
 @RequestMapping("audit")
 public class AuditController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SuspiciousAccountTransfersController.class);
-    private final JdbcTemplate jdbcTemplate;
+    private final AuditService auditService;
 
-    public AuditController(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public AuditController(AuditService auditService) {
+        this.auditService = auditService;
     }
 
     @GetMapping("all")
-    public ResponseEntity<List<Map<String, Object>>> findAll() {
-        List<Map<String, Object>> data = jdbcTemplate.queryForList("SELECT * FROM anti_fraud.audit");
-
-        return ResponseEntity.ok(data);
+    public ResponseEntity<List<AuditEntity>> findAll() {
+        return ResponseEntity.ok(auditService.findAll());
     }
 }

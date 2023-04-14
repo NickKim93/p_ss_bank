@@ -1,9 +1,11 @@
 package com.bank.antifraud.service;
 
+import com.bank.antifraud.audit.Auditing;
 import com.bank.antifraud.dto.SuspiciousAccountTransfersDto;
 import com.bank.antifraud.entity.SuspiciousAccountTransfersEntity;
 import com.bank.antifraud.mapper.SuspiciousAccountTransfersMapper;
 import com.bank.antifraud.repository.SuspiciousAccountTransfersRepository;
+import com.bank.antifraud.util.OperationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -27,11 +29,12 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
 
     @Override
     @Transactional
-    public SuspiciousAccountTransfersEntity save(SuspiciousAccountTransfersDto suspiciousAccountTransfersDto) {
+    @Auditing(operationType = OperationType.CREATE)
+    public SuspiciousAccountTransfersEntity save(SuspiciousAccountTransfersDto dto) {
         LOGGER.info("В SuspiciousAccountTransfersServiceImpl вызван метод save");
 
         SuspiciousAccountTransfersEntity suspiciousAccountTransfersEntity = SuspiciousAccountTransfersMapper
-                .INSTANCE.suspiciousAccountTransfersDtoToSuspiciousAccountTransfersEntity(suspiciousAccountTransfersDto);
+                .INSTANCE.suspiciousAccountTransfersDtoToSuspiciousAccountTransfersEntity(dto);
 
         return suspiciousAccountTransfersRepository.save(suspiciousAccountTransfersEntity);
     }
@@ -72,16 +75,17 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
 
     @Override
     @Transactional
-    public SuspiciousAccountTransfersEntity update(SuspiciousAccountTransfersDto suspiciousAccountTransfersDto) {
-        LOGGER.info("В SuspiciousAccountTransfersServiceImpl вызван метод update: " + suspiciousAccountTransfersDto.toString());
+    @Auditing(operationType = OperationType.UPDATE)
+    public SuspiciousAccountTransfersEntity update(SuspiciousAccountTransfersDto dto) {
+        LOGGER.info("В SuspiciousAccountTransfersServiceImpl вызван метод update: " + dto.toString());
 
-        SuspiciousAccountTransfersEntity updateEntity = suspiciousAccountTransfersRepository.findById(suspiciousAccountTransfersDto.id())
+        SuspiciousAccountTransfersEntity updateEntity = suspiciousAccountTransfersRepository.findById(dto.id())
                 .orElseThrow(() -> {
                     LOGGER.error("Сущность не найдена");
-                    return new EntityNotFoundException(suspiciousAccountTransfersDto.id().toString());
+                    return new EntityNotFoundException(dto.id().toString());
                 });
 
-        BeanUtils.copyProperties(suspiciousAccountTransfersDto, updateEntity);
+        BeanUtils.copyProperties(dto, updateEntity);
         return suspiciousAccountTransfersRepository.save(updateEntity);
     }
 }

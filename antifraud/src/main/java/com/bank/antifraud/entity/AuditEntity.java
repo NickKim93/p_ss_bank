@@ -1,15 +1,16 @@
 package com.bank.antifraud.entity;
 
-import com.bank.antifraud.util.AuditingEntityListener;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 
 /**
@@ -20,44 +21,31 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
-@MappedSuperclass
+@Entity
+@Table(name = "audit")
 public class AuditEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     @Column(name = "entity_type",
-            nullable = false,
-            table = "audit")
-    @JsonIgnore
+            nullable = false)
     String entityType;
     @Column(name = "operation_type",
-            nullable = false,
-            table = "audit")
-    @JsonIgnore
+            nullable = false)
     String operationType;
     @Column(name = "created_by",
-            nullable = false,
-            table = "audit")
-    @JsonIgnore
+            nullable = false)
     String createdBy;
-    @Column(name = "modified_by",
-            table = "audit")
-    @JsonIgnore
+    @Column(name = "modified_by")
     String modifiedBy;
     @Column(name = "created_at",
-            nullable = false,
-            table = "audit")
-    @JsonIgnore
+            nullable = false)
     Timestamp createdAt;
-    @Column(name = "modified_at",
-            table = "audit")
-    @JsonIgnore
+    @Column(name = "modified_at")
     Timestamp modifiedAt;
-    @Column(name = "new_entity_json",
-            table = "audit")
-    @JsonIgnore
+    @Column(name = "new_entity_json")
     String newEntityJson;
     @Column(name = "entity_json",
-            nullable = false,
-            table = "audit")
-    @JsonIgnore
+            nullable = false)
     String entityJson;
 }
