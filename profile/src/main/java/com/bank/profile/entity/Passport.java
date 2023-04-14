@@ -50,7 +50,6 @@ public class Passport {
     private String gender;
     @Column(name = "birth_date")
     @NotNull
-    @NotBlank
     private LocalDate birthDate;
     @Column(name = "birth_place")
     @NotNull
@@ -63,7 +62,6 @@ public class Passport {
     private String issuedBy;
     @Column(name = "date_of_issue")
     @NotNull
-    @NotBlank
     private LocalDate dateOfIssue;
     @Column(name = "division_code")
     @NotNull

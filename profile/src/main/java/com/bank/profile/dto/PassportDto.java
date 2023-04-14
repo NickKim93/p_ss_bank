@@ -40,7 +40,6 @@ public class PassportDto {
     @Size(max = 3)
     private String gender;
     @NotNull
-    @NotBlank
     private LocalDate birthDate;
     @NotNull
     @NotBlank
@@ -50,7 +49,6 @@ public class PassportDto {
     @NotBlank
     private String issuedBy;
     @NotNull
-    @NotBlank
     private LocalDate dateOfIssue;
     @NotNull
     @Min(value = 100000)

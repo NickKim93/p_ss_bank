@@ -7,6 +7,7 @@ import com.bank.profile.exception.EntityNotFoundException;
 import com.bank.profile.mapper.ProfileMapper;
 import com.bank.profile.repository.ProfileRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,7 +82,8 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     @Transactional
     public ProfileDto create(ProfileDto profileDto) {
-        if (profileRepository.findProfileByInnOrPhoneNumber(profileDto.getInn(), profileDto.getPhoneNumber()) != null) {
+        if (profileDto.getInn() != null && (profileRepository.findProfileByInn(profileDto.getInn()) != null)
+                || profileRepository.findProfileByPhoneNumber(profileDto.getPhoneNumber()) != null) {
             throw new BadRequestException(String.format("Request method create(). Профиль с ИНН = %s или номером телефона = %s уже существует", profileDto.getInn(), profileDto.getPhoneNumber()));
         }
 
@@ -131,9 +133,10 @@ public class ProfileServiceImpl implements ProfileService {
         }
 
         log.info("Request method update(id={}). Запись успешно отредактирована", profileDto.getId());
+
+        BeanUtils.copyProperties(profileDto, profile);
+
         return ProfileMapper.INSTANCE.profileToProfileDto(
-                profileRepository.save(
-                        ProfileMapper.INSTANCE.profileDtoToProfile(profileDto)
-                ));
+                profileRepository.save(profile));
     }
 }

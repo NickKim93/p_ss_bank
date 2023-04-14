@@ -1,5 +1,6 @@
 package com.bank.profile.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,13 +11,15 @@ import java.util.Set;
  * Сущность профиля
  * */
 @Entity
-@Table(name = "profile") // , uniqueConstraints={@UniqueConstraint(columnNames = {"inn" , "snils"})}
+@Table(name = "profile")
+//@AuditTable("audit")
+@SecondaryTable(name = "audit")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Setter
 @Getter
-public class Profile {
+public class Profile extends Audit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +30,7 @@ public class Profile {
     private Long phoneNumber;
     @Column(name = "email")
     @Size(max = 264)
-    @Email(message = "The email should look like 'email@mail.com'")
+    @Email(message = "Адрес электронной почты должен иметь вид 'email@mail.com'")
     private String email;
     @Column(name = "name_on_card")
     @Size(max = 370)
@@ -43,9 +46,13 @@ public class Profile {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "passport_id")
     @NotNull
+//    @AuditJoinTable(name = "audit", inverseJoinColumns = @JoinColumn(name = "id"))
+    @JsonIgnore
     private Passport passport;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true) // optional = false,
     @JoinColumn(name = "actual_registration_id")
+//    @AuditJoinTable(name = "audit", inverseJoinColumns = @JoinColumn(name = "id"))
+    @JsonIgnore
     private ActualRegistration actualRegistration;
 
 
@@ -55,5 +62,7 @@ public class Profile {
     @JoinTable(name = "account_details_id",
                 joinColumns = @JoinColumn(name = "profile_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"))
+//    @AuditJoinTable(name = "audit", inverseJoinColumns = @JoinColumn(name = "id"))
+    @JsonIgnore
     private Set<AccountDetails> accountDetailsSet;
 }

@@ -22,7 +22,7 @@ public class ProfileDto {
     @Max(value = 9999999999L)
     private Long phoneNumber;
     @Size(max = 264)
-    @Email(message = "Почтовый адрес должен иметь вид 'email@mail.com'")
+    @Email(message = "Адрес электронной почты должен иметь вид 'email@mail.com'")
     private String email;
     @Size(max = 370)
     private String nameOnCard;
