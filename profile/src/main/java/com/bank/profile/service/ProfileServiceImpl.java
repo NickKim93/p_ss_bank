@@ -113,20 +113,20 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     @Transactional
     public ProfileDto update(ProfileDto profileDto) {
-        Profile profile = profileRepository.findById(profileDto.getId())
+        Profile profileLocal = profileRepository.findById(profileDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Request method update(id=%s). Профиль не найден", profileDto.getId())));
 
-        if ((profile.getInn() != null && !Objects.equals(profile.getInn(), profileDto.getInn()))
-                || (profile.getSnils() != null && !Objects.equals(profile.getSnils(), profileDto.getSnils()))) {
+        if ((profileLocal.getInn() != null && !Objects.equals(profileLocal.getInn(), profileDto.getInn()))
+                || (profileLocal.getSnils() != null && !Objects.equals(profileLocal.getSnils(), profileDto.getSnils()))) {
             throw new BadRequestException("Request method update(). Вы поменяли id профиля, либо ИНН или номер телефона уже разегистрированы");
         }
 
-        if (!Objects.equals(profile.getPassport().getId(), profileDto.getPassport().getId())
-                || !Objects.equals(profile.getPassport().getRegistration().getId(), profileDto.getPassport().getRegistration().getId())
+        if (!Objects.equals(profileLocal.getPassport().getId(), profileDto.getPassport().getId())
+                || !Objects.equals(profileLocal.getPassport().getRegistration().getId(), profileDto.getPassport().getRegistration().getId())
                 || (
-                        profile.getActualRegistration() != null
+                profileLocal.getActualRegistration() != null
                         && profileDto.getActualRegistration() != null
-                        && !Objects.equals(profile.getActualRegistration().getId(), profileDto.getActualRegistration().getId())
+                        && !Objects.equals(profileLocal.getActualRegistration().getId(), profileDto.getActualRegistration().getId())
                 )
         ) {
             throw new BadRequestException("Request method update(). Вы поменяли id паспорта или адресов регистрации");
@@ -134,9 +134,18 @@ public class ProfileServiceImpl implements ProfileService {
 
         log.info("Request method update(id={}). Запись успешно отредактирована", profileDto.getId());
 
-        BeanUtils.copyProperties(profileDto, profile);
+        Profile profile = ProfileMapper.INSTANCE.profileDtoToProfile(profileDto);
+        profile.setEntityType(profileLocal.getEntityType() == null ? null : profileLocal.getEntityType());
+        profile.setOperationType(profileLocal.getOperationType() == null ? null : profileLocal.getOperationType());
+        profile.setCreatedBy(profileLocal.getCreatedBy() == null ? null : profileLocal.getCreatedBy());
+        profile.setModifiedBy(profileLocal.getModifiedBy() == null ? null : profileLocal.getModifiedBy());
+        profile.setCreatedAt(profileLocal.getCreatedAt() == null ? null : profileLocal.getCreatedAt());
+        profile.setModifiedAt(profileLocal.getModifiedAt() == null ? null : profileLocal.getModifiedAt());
+        profile.setNewEntityJson(profileLocal.getNewEntityJson() == null ? null : profileLocal.getNewEntityJson());
+        profile.setEntityJson(profileLocal.getEntityJson() == null ? null : profileLocal.getEntityJson());
 
         return ProfileMapper.INSTANCE.profileToProfileDto(
                 profileRepository.save(profile));
     }
+
 }
