@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class SuspiciousPhoneTransfersServiceImplTest {
@@ -34,12 +36,12 @@ class SuspiciousPhoneTransfersServiceImplTest {
     void save_mustCallSaveMethod() {
         suspiciousPhoneTransfersService.save(Mockito.any());
 
-        Mockito.verify(mockRepository, Mockito.times(1)).save(Mockito.any());
+        verify(mockRepository, Mockito.times(1)).save(Mockito.any());
     }
 
     @Test
     void findAll_mustReturnEmptyList_whenAuditCountIs0() {
-        Mockito.when(mockRepository.findAll()).thenReturn(List.of());
+        when(mockRepository.findAll()).thenReturn(List.of());
 
         List<SuspiciousPhoneTransfersEntity> result = suspiciousPhoneTransfersService.findAll();
 
@@ -51,17 +53,17 @@ class SuspiciousPhoneTransfersServiceImplTest {
         SuspiciousPhoneTransfersEntity auditEntity = new SuspiciousPhoneTransfersEntity();
         auditEntity.setId(1L);
 
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.of(auditEntity));
+        when(mockRepository.findById(1L)).thenReturn(Optional.of(auditEntity));
 
         SuspiciousPhoneTransfersEntity result = suspiciousPhoneTransfersService.findById(1L);
 
-        Mockito.verify(mockRepository, Mockito.times(1)).findById(Mockito.any());
+        verify(mockRepository, Mockito.times(1)).findById(Mockito.any());
         assertEquals(result, auditEntity);
     }
 
     @Test
     void findById_mustEntityNotFoundException_whenNotExist() {
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.empty());
+        when(mockRepository.findById(1L)).thenReturn(Optional.empty());
 
         try {
             suspiciousPhoneTransfersService.findById(1L);
@@ -73,7 +75,7 @@ class SuspiciousPhoneTransfersServiceImplTest {
 
     @Test
     void delete_mustEntityNotFoundException_whenNotExist() {
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.empty());
+        when(mockRepository.findById(1L)).thenReturn(Optional.empty());
 
         try {
             suspiciousPhoneTransfersService.delete(1L);
@@ -86,16 +88,16 @@ class SuspiciousPhoneTransfersServiceImplTest {
     @Test
     void delete_mustCallDelete_whenExist() {
         SuspiciousPhoneTransfersEntity auditEntity = new SuspiciousPhoneTransfersEntity();
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.of(auditEntity));
+        when(mockRepository.findById(1L)).thenReturn(Optional.of(auditEntity));
 
         suspiciousPhoneTransfersService.delete(1L);
 
-        Mockito.verify(mockRepository, Mockito.times(1)).delete(auditEntity);
+        verify(mockRepository, Mockito.times(1)).delete(auditEntity);
     }
 
     @Test
     void update_mustCallFindByIdAndSaveInRepository_whenExist() {
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.of(new SuspiciousPhoneTransfersEntity()));
+        when(mockRepository.findById(1L)).thenReturn(Optional.of(new SuspiciousPhoneTransfersEntity()));
         SuspiciousPhoneTransfersDto dto = new SuspiciousPhoneTransfersDto(
                 1L,
                 1L,
@@ -107,13 +109,13 @@ class SuspiciousPhoneTransfersServiceImplTest {
 
         suspiciousPhoneTransfersService.update(dto);
 
-        Mockito.verify(mockRepository, Mockito.times(1)).findById(Mockito.any());
-        Mockito.verify(mockRepository, Mockito.times(1)).save(Mockito.any());
+        verify(mockRepository, Mockito.times(1)).findById(Mockito.any());
+        verify(mockRepository, Mockito.times(1)).save(Mockito.any());
     }
 
     @Test
     void update_mustEntityNotFoundException_whenNotExist() {
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.empty());
+        when(mockRepository.findById(1L)).thenReturn(Optional.empty());
         SuspiciousPhoneTransfersDto dto = new SuspiciousPhoneTransfersDto(
                 1L,
                 1L,
