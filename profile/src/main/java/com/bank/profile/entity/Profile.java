@@ -1,6 +1,9 @@
 package com.bank.profile.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,6 +22,10 @@ import java.util.Set;
 @Builder
 @Setter
 @Getter
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id"
+//)
 public class Profile extends Audit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,13 +53,11 @@ public class Profile extends Audit {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "passport_id")
     @NotNull
-//    @AuditJoinTable(name = "audit", inverseJoinColumns = @JoinColumn(name = "id"))
-    @JsonIgnore
+    @JsonManagedReference
     private Passport passport;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true) // optional = false,
     @JoinColumn(name = "actual_registration_id")
-//    @AuditJoinTable(name = "audit", inverseJoinColumns = @JoinColumn(name = "id"))
-    @JsonIgnore
+    @JsonManagedReference
     private ActualRegistration actualRegistration;
 
 
@@ -62,7 +67,6 @@ public class Profile extends Audit {
     @JoinTable(name = "account_details_id",
                 joinColumns = @JoinColumn(name = "profile_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"))
-//    @AuditJoinTable(name = "audit", inverseJoinColumns = @JoinColumn(name = "id"))
-    @JsonIgnore
+    @JsonManagedReference
     private Set<AccountDetails> accountDetailsSet;
 }

@@ -1,5 +1,6 @@
 package com.bank.profile.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,6 +17,10 @@ import java.time.LocalDate;
 @Builder
 @Setter
 @Getter
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id"
+//)
 public class Passport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,7 +78,9 @@ public class Passport {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "registration_id")
     @NotNull
+    @JsonManagedReference
     private Registration registration;
     @OneToOne(mappedBy = "passport")
+    @JsonBackReference
     private Profile profile;
 }

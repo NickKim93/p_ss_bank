@@ -1,5 +1,6 @@
 package com.bank.profile.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -37,5 +38,6 @@ public class AccountDetails {
     private boolean negativeBalance;
     @Column(name = "profile_id")
     @NotNull
+    @JsonBackReference
     private Long profileId;
 }

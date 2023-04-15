@@ -1,5 +1,6 @@
 package com.bank.profile.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -55,5 +56,6 @@ public class ActualRegistration {
     @Max(value = 999999L)
     private Long index;
     @OneToOne(mappedBy = "actualRegistration")
+    @JsonBackReference
     private Profile profile;
 }
