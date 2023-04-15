@@ -8,13 +8,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -30,7 +24,7 @@ public class AuditAspect {
     }
 
     @AfterReturning(value = "@annotation(auditing)", returning = "ret")
-    public void save(JoinPoint joinPoint, Auditing auditing, Object ret) throws JsonProcessingException {
+    public void doAfterSaveAndUpdate(JoinPoint joinPoint, Auditing auditing, Object ret) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);
 
@@ -43,17 +37,41 @@ public class AuditAspect {
                 auditEntity.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
             } else {
                 AuditEntity firstAudit = auditRepository.findByEntityId(auditable.getId());
-                auditEntity.setOperationType("UPDATE");
                 auditEntity.setEntityJson(firstAudit.getEntityJson());
                 auditEntity.setCreatedAt(firstAudit.getCreatedAt());
-                auditEntity.setNewEntityJson(mapper.writeValueAsString(auditable));
                 auditEntity.setModifiedAt(Timestamp.valueOf(LocalDateTime.now()));
                 auditEntity.setModifiedBy("system");
+
+                if (auditing.operationType() == OperationType.UPDATE) {
+                    auditEntity.setOperationType("UPDATE");
+                    auditEntity.setNewEntityJson(mapper.writeValueAsString(auditable));
+                } else {
+                    auditEntity.setOperationType("DELETE");
+                    auditEntity.setNewEntityJson("");
+                }
             }
             auditEntity.setEntityType("transfer");
             auditEntity.setCreatedBy("system");
-
             auditRepository.save(auditEntity);
         }
+    }
+
+    @After(value = "@annotation(auditing)")
+    public void DoAfterDelete(JoinPoint joinPoint, Auditing auditing) {
+        if (auditing.operationType() != OperationType.DELETE) return;
+        Long id = (Long) joinPoint.getArgs()[0];
+
+        AuditEntity auditEntity = new AuditEntity();
+        AuditEntity firstAudit = auditRepository.findByEntityId(id);
+
+        auditEntity.setEntityType("transfer");
+        auditEntity.setCreatedBy("system");
+        auditEntity.setEntityJson(firstAudit.getEntityJson());
+        auditEntity.setCreatedAt(firstAudit.getCreatedAt());
+        auditEntity.setModifiedAt(Timestamp.valueOf(LocalDateTime.now()));
+        auditEntity.setModifiedBy("system");
+        auditEntity.setOperationType("DELETE");
+
+        auditRepository.save(auditEntity);
     }
 }

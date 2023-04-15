@@ -60,7 +60,8 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     }
 
     @Override
-    @Transactional()
+    @Transactional
+    @Auditing(operationType = OperationType.DELETE)
     public void delete(Long id) {
         LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод delete: " + id.toString());
 

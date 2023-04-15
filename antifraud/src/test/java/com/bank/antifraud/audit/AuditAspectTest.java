@@ -43,7 +43,7 @@ class AuditAspectTest {
         JoinPoint joinPoint = Mockito.mock(JoinPoint.class);
 
         // Act
-        auditAspect.save(joinPoint,
+        auditAspect.doAfterSaveAndUpdate(joinPoint,
                 auditing,
                 auditable);
 
@@ -77,7 +77,7 @@ class AuditAspectTest {
         when(auditRepository.findByEntityId(auditable.getId())).thenReturn(firstAudit);
 
         // Act
-        auditAspect.save(joinPoint,
+        auditAspect.doAfterSaveAndUpdate(joinPoint,
                 auditing,
                 auditable);
 
