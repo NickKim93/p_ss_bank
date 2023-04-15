@@ -60,7 +60,8 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     }
 
     @Override
-    @Transactional()
+    @Transactional
+    @Auditing(operationType = OperationType.DELETE)
     public void delete(Long id) {
         LOGGER.info("В SuspiciousPhoneTransfersServiceImpl вызван метод delete: " + id.toString());
 

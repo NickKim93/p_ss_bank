@@ -61,6 +61,7 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
 
     @Override
     @Transactional
+    @Auditing(operationType = OperationType.DELETE)
     public void delete(Long id) {
         LOGGER.info("В SuspiciousAccountTransfersServiceImpl вызван метод delete: " + id.toString());
 
