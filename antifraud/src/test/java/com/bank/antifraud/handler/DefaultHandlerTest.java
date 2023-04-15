@@ -23,6 +23,7 @@ class DefaultHandlerTest {
     public void handleEntityNotFoundException() {
         EntityNotFoundException ex = new EntityNotFoundException("Entity not found");
         ResponseEntity<String> responseEntity = defaultHandler.handleEntityNotFoundException(ex);
+
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
         assertEquals("Entity not found", responseEntity.getBody());
     }
@@ -31,6 +32,7 @@ class DefaultHandlerTest {
     public void handlePropertyValueException() {
         PropertyValueException ex = new PropertyValueException("property", "value", "message");
         ResponseEntity<String> responseEntity = defaultHandler.handlePropertyValueException(ex);
+
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 
@@ -38,6 +40,7 @@ class DefaultHandlerTest {
     public void handleConstraintViolationException() {
         ConstraintViolationException ex = new ConstraintViolationException("message", null, "constraint");
         ResponseEntity<String> responseEntity = defaultHandler.handleConstraintViolationException(ex);
+
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals("Нарушена уникальность значения constraint", responseEntity.getBody());
     }

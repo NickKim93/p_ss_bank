@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class SuspiciousAccountTransfersServiceImplTest {
@@ -34,12 +36,12 @@ class SuspiciousAccountTransfersServiceImplTest {
     void save_mustCallSaveMethod() {
         suspiciousAccountTransfersService.save(Mockito.any());
 
-        Mockito.verify(mockRepository, Mockito.times(1)).save(Mockito.any());
+        verify(mockRepository, Mockito.times(1)).save(Mockito.any());
     }
 
     @Test
     void findAll_mustReturnEmptyList_whenAuditCountIs0() {
-        Mockito.when(mockRepository.findAll()).thenReturn(List.of());
+        when(mockRepository.findAll()).thenReturn(List.of());
 
         List<SuspiciousAccountTransfersEntity> result = suspiciousAccountTransfersService.findAll();
 
@@ -51,17 +53,17 @@ class SuspiciousAccountTransfersServiceImplTest {
         SuspiciousAccountTransfersEntity auditEntity = new SuspiciousAccountTransfersEntity();
         auditEntity.setId(1L);
 
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.of(auditEntity));
+        when(mockRepository.findById(1L)).thenReturn(Optional.of(auditEntity));
 
         SuspiciousAccountTransfersEntity result = suspiciousAccountTransfersService.findById(1L);
 
-        Mockito.verify(mockRepository, Mockito.times(1)).findById(Mockito.any());
+        verify(mockRepository, Mockito.times(1)).findById(Mockito.any());
         assertEquals(result, auditEntity);
     }
 
     @Test
     void findById_mustEntityNotFoundException_whenNotExist() {
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.empty());
+        when(mockRepository.findById(1L)).thenReturn(Optional.empty());
 
         try {
             suspiciousAccountTransfersService.findById(1L);
@@ -73,7 +75,7 @@ class SuspiciousAccountTransfersServiceImplTest {
 
     @Test
     void delete_mustEntityNotFoundException_whenNotExist() {
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.empty());
+        when(mockRepository.findById(1L)).thenReturn(Optional.empty());
 
         try {
             suspiciousAccountTransfersService.delete(1L);
@@ -86,16 +88,16 @@ class SuspiciousAccountTransfersServiceImplTest {
     @Test
     void delete_mustCallDelete_whenExist() {
         SuspiciousAccountTransfersEntity auditEntity = new SuspiciousAccountTransfersEntity();
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.of(auditEntity));
+        when(mockRepository.findById(1L)).thenReturn(Optional.of(auditEntity));
 
         suspiciousAccountTransfersService.delete(1L);
 
-        Mockito.verify(mockRepository, Mockito.times(1)).delete(auditEntity);
+        verify(mockRepository, Mockito.times(1)).delete(auditEntity);
     }
 
     @Test
     void update_mustCallFindByIdAndSaveInRepository_whenExist() {
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.of(new SuspiciousAccountTransfersEntity()));
+        when(mockRepository.findById(1L)).thenReturn(Optional.of(new SuspiciousAccountTransfersEntity()));
         SuspiciousAccountTransfersDto dto = new SuspiciousAccountTransfersDto(
                 1L,
                 1L,
@@ -107,13 +109,13 @@ class SuspiciousAccountTransfersServiceImplTest {
 
         suspiciousAccountTransfersService.update(dto);
 
-        Mockito.verify(mockRepository, Mockito.times(1)).findById(Mockito.any());
-        Mockito.verify(mockRepository, Mockito.times(1)).save(Mockito.any());
+        verify(mockRepository, Mockito.times(1)).findById(Mockito.any());
+        verify(mockRepository, Mockito.times(1)).save(Mockito.any());
     }
 
     @Test
     void update_mustEntityNotFoundException_whenNotExist() {
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.empty());
+        when(mockRepository.findById(1L)).thenReturn(Optional.empty());
         SuspiciousAccountTransfersDto dto = new SuspiciousAccountTransfersDto(
                 1L,
                 1L,

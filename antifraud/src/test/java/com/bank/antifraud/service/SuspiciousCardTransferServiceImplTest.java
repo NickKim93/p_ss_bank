@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class SuspiciousCardTransferServiceImplTest {
@@ -34,12 +36,12 @@ class SuspiciousCardTransferServiceImplTest {
     void save_mustCallSaveMethod() {
         suspiciousCardTransferService.save(Mockito.any());
 
-        Mockito.verify(mockRepository, Mockito.times(1)).save(Mockito.any());
+        verify(mockRepository, Mockito.times(1)).save(Mockito.any());
     }
 
     @Test
     void findAll_mustReturnEmptyList_whenAuditCountIs0() {
-        Mockito.when(mockRepository.findAll()).thenReturn(List.of());
+        when(mockRepository.findAll()).thenReturn(List.of());
 
         List<SuspiciousCardTransferEntity> result = suspiciousCardTransferService.findAll();
 
@@ -51,17 +53,17 @@ class SuspiciousCardTransferServiceImplTest {
         SuspiciousCardTransferEntity auditEntity = new SuspiciousCardTransferEntity();
         auditEntity.setId(1L);
 
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.of(auditEntity));
+        when(mockRepository.findById(1L)).thenReturn(Optional.of(auditEntity));
 
         SuspiciousCardTransferEntity result = suspiciousCardTransferService.findById(1L);
 
-        Mockito.verify(mockRepository, Mockito.times(1)).findById(Mockito.any());
+        verify(mockRepository, Mockito.times(1)).findById(Mockito.any());
         assertEquals(result, auditEntity);
     }
 
     @Test
     void findById_mustEntityNotFoundException_whenNotExist() {
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.empty());
+        when(mockRepository.findById(1L)).thenReturn(Optional.empty());
 
         try {
             suspiciousCardTransferService.findById(1L);
@@ -73,7 +75,7 @@ class SuspiciousCardTransferServiceImplTest {
 
     @Test
     void delete_mustEntityNotFoundException_whenNotExist() {
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.empty());
+        when(mockRepository.findById(1L)).thenReturn(Optional.empty());
 
         try {
             suspiciousCardTransferService.delete(1L);
@@ -86,16 +88,16 @@ class SuspiciousCardTransferServiceImplTest {
     @Test
     void delete_mustCallDelete_whenExist() {
         SuspiciousCardTransferEntity auditEntity = new SuspiciousCardTransferEntity();
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.of(auditEntity));
+        when(mockRepository.findById(1L)).thenReturn(Optional.of(auditEntity));
 
         suspiciousCardTransferService.delete(1L);
 
-        Mockito.verify(mockRepository, Mockito.times(1)).delete(auditEntity);
+        verify(mockRepository, Mockito.times(1)).delete(auditEntity);
     }
 
     @Test
     void update_mustCallFindByIdAndSaveInRepository_whenExist() {
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.of(new SuspiciousCardTransferEntity()));
+        when(mockRepository.findById(1L)).thenReturn(Optional.of(new SuspiciousCardTransferEntity()));
         SuspiciousCardTransferDto dto = new SuspiciousCardTransferDto(
                 1L,
                 1L,
@@ -107,13 +109,13 @@ class SuspiciousCardTransferServiceImplTest {
 
         suspiciousCardTransferService.update(dto);
 
-        Mockito.verify(mockRepository, Mockito.times(1)).findById(Mockito.any());
-        Mockito.verify(mockRepository, Mockito.times(1)).save(Mockito.any());
+        verify(mockRepository, Mockito.times(1)).findById(Mockito.any());
+        verify(mockRepository, Mockito.times(1)).save(Mockito.any());
     }
 
     @Test
     void update_mustEntityNotFoundException_whenNotExist() {
-        Mockito.when(mockRepository.findById(1L)).thenReturn(Optional.empty());
+        when(mockRepository.findById(1L)).thenReturn(Optional.empty());
         SuspiciousCardTransferDto dto = new SuspiciousCardTransferDto(
                 1L,
                 1L,
