@@ -1,7 +1,7 @@
 package com.bank.antifraud.aspect;
 
-import com.bank.antifraud.entity.Auditable;
 import com.bank.antifraud.entity.AuditEntity;
+import com.bank.antifraud.entity.Auditable;
 import com.bank.antifraud.entity.SuspiciousAccountTransfersEntity;
 import com.bank.antifraud.repository.AuditRepository;
 import com.bank.antifraud.util.OperationType;
@@ -18,7 +18,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
