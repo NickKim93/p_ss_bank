@@ -30,7 +30,7 @@ public class AuditingEntityListener {
         }
     }
 
-    private void createStructure(Audit audit, OperationType operationType) {
+    protected void createStructure(Audit audit, OperationType operationType) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         objectMapper.registerModule(new JavaTimeModule());

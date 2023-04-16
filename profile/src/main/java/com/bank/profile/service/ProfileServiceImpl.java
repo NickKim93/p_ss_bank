@@ -34,7 +34,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     @Transactional(readOnly = true)
     public List<ProfileDto> findAll() {
-        log.info("Request method findAll()");
+        log.info("Request method findAll() успешно выполнен");
         return profileRepository.findAll()
                 .stream()
                 .map(ProfileMapper.INSTANCE::profileToProfileDto)
@@ -47,12 +47,10 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     @Transactional(readOnly = true)
     public ProfileDto findOne(Long id) {
-        if (id < 0) {
-            throw new BadRequestException(String.format("Request method findOne(id=%s). Значение id должно быть больше 0", id));
-        }
+        if (id < 0) throw new BadRequestException("Значение id должно быть больше 0");
 
-        Profile profile = profileRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Request method findOne(id=%s). Профиль не найден", id)));
-        log.info("Request method findOne(id={})", id);
+        Profile profile = profileRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Профиль с id=%s не найден", id)));
+        log.info("Request method findOne(id={}) успешно выполнен", id);
         return ProfileMapper.INSTANCE.profileToProfileDto(profile);
     }
 
@@ -63,16 +61,16 @@ public class ProfileServiceImpl implements ProfileService {
     @Transactional(readOnly = true)
     public ProfileDto findByInnOrPhoneNumber(Long n) {
         if (n < 0) {
-            throw new BadRequestException(String.format("Request method findByInnOrPhoneNumber(n=%s). Значение ИНН или номера телефона должно быть больше 0", n));
+            throw new BadRequestException(String.format("Значение ИНН или номера телефона (%s) должно быть больше 0", n));
         }
 
         Profile profile = profileRepository.findProfileByInnOrPhoneNumber(n, n);
 
         if (profile == null) {
-            throw new EntityNotFoundException(String.format("Request method findByInnOrPhoneNumber(n=%s). Профиль с ИНН или номером телефона не найден", n));
+            throw new EntityNotFoundException(String.format("Профиль с ИНН или номером телефона (%s) не найден", n));
         }
 
-        log.info("Request method findByInnOrPhoneNumber(n={})", n);
+        log.info("Request method findByInnOrPhoneNumber(n={}) успешно выполнен", n);
         return ProfileMapper.INSTANCE.profileToProfileDto(profile);
     }
 
@@ -89,7 +87,7 @@ public class ProfileServiceImpl implements ProfileService {
 
         Profile profile = ProfileMapper.INSTANCE.profileDtoToProfile(profileDto);
         Profile profileLocal = profileRepository.save(profile);
-        log.info("Request method create()");
+        log.info("Request method create() успешно выполнен");
         return ProfileMapper.INSTANCE.profileToProfileDto(profileLocal);
     }
 
@@ -117,9 +115,8 @@ public class ProfileServiceImpl implements ProfileService {
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Request method update(id=%s). Профиль не найден", profileDto.getId())));
 
         if ((profileLocal.getInn() != null && !Objects.equals(profileLocal.getInn(), profileDto.getInn()))
-                || (profileLocal.getSnils() != null && !Objects.equals(profileLocal.getSnils(), profileDto.getSnils()))) {
+                || (profileLocal.getSnils() != null && !Objects.equals(profileLocal.getSnils(), profileDto.getSnils())))
             throw new BadRequestException("Request method update(). Вы поменяли id профиля, либо ИНН или номер телефона уже разегистрированы");
-        }
 
         if (!Objects.equals(profileLocal.getPassport().getId(), profileDto.getPassport().getId())
                 || !Objects.equals(profileLocal.getPassport().getRegistration().getId(), profileDto.getPassport().getRegistration().getId())
@@ -127,10 +124,8 @@ public class ProfileServiceImpl implements ProfileService {
                 profileLocal.getActualRegistration() != null
                         && profileDto.getActualRegistration() != null
                         && !Objects.equals(profileLocal.getActualRegistration().getId(), profileDto.getActualRegistration().getId())
-                )
-        ) {
+                ))
             throw new BadRequestException("Request method update(). Вы поменяли id паспорта или адресов регистрации");
-        }
 
         log.info("Request method update(id={}). Запись успешно отредактирована", profileDto.getId());
 

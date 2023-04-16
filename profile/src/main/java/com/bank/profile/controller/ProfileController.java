@@ -3,11 +3,15 @@ package com.bank.profile.controller;
 import com.bank.profile.dto.ProfileDto;
 import com.bank.profile.service.ProfileService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
+
 /**
  * REST контроллер
  * доступ по /api/profile
@@ -32,9 +36,14 @@ public class ProfileController {
     public ResponseEntity<List<ProfileDto>> findAll() {
         List<ProfileDto> profileDtoList = profileService.findAll();
         return profileDtoList == null || profileDtoList.isEmpty() ?
-            new ResponseEntity<>(null, HttpStatus.NO_CONTENT)
+            ResponseEntity
+                    .noContent()
+                    .build()
             :
-            new ResponseEntity<>(profileDtoList, HttpStatus.OK);
+            ResponseEntity
+                    .ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(profileDtoList);
     }
 
     /**
@@ -44,10 +53,10 @@ public class ProfileController {
     @GetMapping("/{id}")
     public ResponseEntity<ProfileDto> findOne(@PathVariable Long id) {
         ProfileDto profileDto = profileService.findOne(id);
-        return profileDto == null ?
-            new ResponseEntity<>(null, HttpStatus.NOT_FOUND)
-            :
-            new ResponseEntity<>(profileDto, HttpStatus.OK);
+        return ResponseEntity
+                    .ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(profileDto);
     }
 
     /**
@@ -57,10 +66,10 @@ public class ProfileController {
     @GetMapping("/n/{n}")
     public ResponseEntity<ProfileDto> findByInnOrPhoneNumber(@PathVariable Long n) {
         ProfileDto profileDto = profileService.findByInnOrPhoneNumber(n);
-        return profileDto == null ?
-            new ResponseEntity<>(null, HttpStatus.NOT_FOUND)
-            :
-            new ResponseEntity<>(profileDto, HttpStatus.OK);
+        return ResponseEntity
+                    .ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(profileDto);
     }
 
     /**
@@ -70,7 +79,9 @@ public class ProfileController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         profileService.delete(id);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return ResponseEntity
+                .ok()
+                .build();
     }
 
     /**
@@ -126,10 +137,12 @@ public class ProfileController {
     @PostMapping
     public ResponseEntity<ProfileDto> create(@Valid @RequestBody ProfileDto profileDto) {
         ProfileDto profileDtoLocal = profileService.create(profileDto);
-        return profileDtoLocal == null ?
-                new ResponseEntity<>(null, HttpStatus.BAD_REQUEST)
-                :
-                new ResponseEntity<>(profileDtoLocal, HttpStatus.OK);
+        return ResponseEntity
+                    .created(UriComponentsBuilder
+                            .fromPath("/api/profile/{id}")
+                            .build(Map.of("id", profileDtoLocal.getId())))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(profileDtoLocal);
     }
 
     /**
@@ -145,9 +158,9 @@ public class ProfileController {
     @PatchMapping
     public ResponseEntity<ProfileDto> update(@Valid @RequestBody ProfileDto profileDto) {
         ProfileDto profileDtoLocal = profileService.update(profileDto);
-        return profileDtoLocal == null ?
-                new ResponseEntity<>(null, HttpStatus.BAD_REQUEST)
-                :
-                new ResponseEntity<>(profileDtoLocal, HttpStatus.OK);
+        return ResponseEntity
+                    .accepted()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(profileDtoLocal);
     }
 }
