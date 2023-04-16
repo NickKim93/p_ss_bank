@@ -14,6 +14,7 @@ import javax.persistence.EntityNotFoundException;
 
 /**
  * Обработка стандартных ошибок для информативных ответов клиенту
+ *
  * @author Makariy Petrov
  */
 @RestControllerAdvice
@@ -21,6 +22,7 @@ import javax.persistence.EntityNotFoundException;
 public class DefaultHandler {
     /**
      * Ошибка, когда сущности по указанному  id не существует
+     *
      * @param ex информация об ошибке
      * @return сообщение, которое было передано
      */
@@ -32,6 +34,7 @@ public class DefaultHandler {
 
     /**
      * Когда не передают значение, которое не может быть null
+     *
      * @param ex информация об ошибке
      * @return возвращает поле, которое не может быть равно null
      */

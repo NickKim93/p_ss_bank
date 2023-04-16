@@ -10,6 +10,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+/**
+ * Аспект, который проводит логирование сервиса
+ *
+ * @author Makariy Petrov
+ */
 @Aspect
 @Component
 public class LoggingAspect {

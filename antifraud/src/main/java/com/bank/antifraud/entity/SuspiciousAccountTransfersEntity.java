@@ -6,6 +6,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Класс, описывающий сущность SuspiciousAccountTransfers
+ *
+ * @author Makariy Petrov
+ */
 @Getter
 @Setter
 @NoArgsConstructor

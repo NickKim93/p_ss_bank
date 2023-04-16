@@ -1,6 +1,7 @@
 package com.bank.antifraud.controller;
 
 import com.bank.antifraud.dto.SuspiciousPhoneTransfersDto;
+import com.bank.antifraud.entity.SuspiciousCardTransferEntity;
 import com.bank.antifraud.entity.SuspiciousPhoneTransfersEntity;
 import com.bank.antifraud.service.SuspiciousPhoneTransfersService;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * Контроллер, который работает с сущность {@link SuspiciousPhoneTransfersEntity}
+ *
+ * @author Makariy Petrov
+ */
 @RestController
 @RequestMapping("phone/transfers")
 public class SuspiciousPhoneTransfersController {
