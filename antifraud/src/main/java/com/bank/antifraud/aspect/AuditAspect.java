@@ -1,4 +1,4 @@
-package com.bank.antifraud.audit;
+package com.bank.antifraud.aspect;
 
 import com.bank.antifraud.entity.AuditEntity;
 import com.bank.antifraud.entity.Auditable;
@@ -11,7 +11,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Column;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -25,7 +24,7 @@ public class AuditAspect {
     }
 
     @AfterReturning(value = "@annotation(auditing)", returning = "ret")
-    public void doAfterSaveAndUpdate(JoinPoint joinPoint, Auditing auditing, Object ret) throws JsonProcessingException {
+    public void doAfterSaveAndUpdate(Auditing auditing, Object ret) throws JsonProcessingException {
         if (ret instanceof Auditable auditable) {
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);

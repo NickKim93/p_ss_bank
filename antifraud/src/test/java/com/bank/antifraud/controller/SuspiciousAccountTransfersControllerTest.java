@@ -46,7 +46,7 @@ class SuspiciousAccountTransfersControllerTest {
     }
 
     @Test
-    void getById_mustReturnAutit_whenAuditIsExists() throws Exception {
+    void getById_mustReturnAudit_whenAuditIsExists() throws Exception {
         SuspiciousAccountTransfersEntity suspiciousAccountTransfersEntity = new SuspiciousAccountTransfersEntity();
         suspiciousAccountTransfersEntity.setAccountTransferId(1L);
         suspiciousAccountTransfersEntity.setId(1L);

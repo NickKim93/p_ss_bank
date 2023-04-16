@@ -1,6 +1,6 @@
 package com.bank.antifraud.service;
 
-import com.bank.antifraud.audit.Auditing;
+import com.bank.antifraud.aspect.Auditing;
 import com.bank.antifraud.dto.SuspiciousCardTransferDto;
 import com.bank.antifraud.entity.SuspiciousCardTransferEntity;
 import com.bank.antifraud.mapper.SuspiciousCardTransferMapper;
@@ -19,7 +19,6 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransferService{
-    private static final Logger LOGGER = LoggerFactory.getLogger(SuspiciousCardTransferServiceImpl.class);
     private final SuspiciousCardTransferRepository suspiciousCardTransferRepository;
 
     public SuspiciousCardTransferServiceImpl(SuspiciousCardTransferRepository suspiciousCardTransferRepository) {
@@ -30,8 +29,6 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     @Transactional
     @Auditing(operationType = OperationType.CREATE)
     public SuspiciousCardTransferEntity save(SuspiciousCardTransferDto suspiciousCardTransferDto) {
-        LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод save");
-
         SuspiciousCardTransferEntity suspiciousCardTransferEntity = SuspiciousCardTransferMapper
                 .INSTANCE.suspiciousCardTransferDtoToSuspiciousCardTransferEntity(suspiciousCardTransferDto);
 
@@ -40,22 +37,17 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
 
     @Override
     public SuspiciousCardTransferEntity findById(Long id) {
-        LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод findById: " + id.toString());
-
         Optional<SuspiciousCardTransferEntity> suspiciousCardTransferEntity = suspiciousCardTransferRepository.findById(id);
 
         if (suspiciousCardTransferEntity.isPresent()) {
             return suspiciousCardTransferEntity.get();
         } else {
-            LOGGER.error("Сущность не найдена");
             throw new EntityNotFoundException("сущность SuspiciousCardTransfer с id: " + id + " не найдена.");
         }
     }
 
     @Override
     public List<SuspiciousCardTransferEntity> findAll() {
-        LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод findAll");
-
         return suspiciousCardTransferRepository.findAll();
     }
 
@@ -63,13 +55,8 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     @Transactional
     @Auditing(operationType = OperationType.DELETE)
     public void delete(Long id) {
-        LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод delete: " + id.toString());
-
         SuspiciousCardTransferEntity suspiciousCardTransferEntity = suspiciousCardTransferRepository.findById(id)
-                .orElseThrow(() -> {
-                    LOGGER.error("Сущность не найдена");
-                    return new EntityNotFoundException("сущность SuspiciousCardTransfer с id: " + id + " не найдена.");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("сущность SuspiciousCardTransfer с id: " + id + " не найдена."));
 
         suspiciousCardTransferRepository.delete(suspiciousCardTransferEntity);
     }
@@ -78,13 +65,8 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     @Transactional()
     @Auditing(operationType = OperationType.UPDATE)
     public SuspiciousCardTransferEntity update(SuspiciousCardTransferDto suspiciousCardTransferDto) {
-        LOGGER.info("В SuspiciousCardTransferServiceImpl сработал метод update: " + suspiciousCardTransferDto.toString());
-
         SuspiciousCardTransferEntity updateEntity = suspiciousCardTransferRepository.findById(suspiciousCardTransferDto.id())
-                .orElseThrow(() -> {
-                    LOGGER.error("Сущность не найдена");
-                    return new EntityNotFoundException(suspiciousCardTransferDto.id().toString());
-                });
+                .orElseThrow(() -> new EntityNotFoundException(suspiciousCardTransferDto.id().toString()));
 
         BeanUtils.copyProperties(suspiciousCardTransferDto, updateEntity);
         return suspiciousCardTransferRepository.save(updateEntity);

@@ -21,7 +21,6 @@ import java.util.List;
 @RestController
 @RequestMapping("card/transfer")
 public class SuspiciousCardTransferController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SuspiciousCardTransferController.class);
     private final SuspiciousCardTransferService suspiciousCardTransferService;
 
     public SuspiciousCardTransferController(SuspiciousCardTransferService suspiciousCardTransferService) {
@@ -30,37 +29,27 @@ public class SuspiciousCardTransferController {
 
     @GetMapping("all")
     public ResponseEntity<List<SuspiciousCardTransferEntity>> getAll() {
-        LOGGER.info("В SuspiciousCardTransferController сработал метод getAll");
-
         return ResponseEntity.ok(suspiciousCardTransferService.findAll());
     }
 
     @GetMapping("{id}")
     public ResponseEntity<SuspiciousCardTransferEntity> getById(@PathVariable Long id) {
-        LOGGER.info("В SuspiciousCardTransferController сработал метод getById, с id: " + id.toString());
-
         return ResponseEntity.ok(suspiciousCardTransferService.findById(id));
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Long> deleteAudit(@PathVariable Long id) {
-        LOGGER.info("В SuspiciousCardTransferController сработал метод deleteAudit, с id: " + id.toString());
-
         suspiciousCardTransferService.delete(id);
         return ResponseEntity.ok(id);
     }
 
     @PostMapping
     public ResponseEntity<SuspiciousCardTransferEntity> save(@Valid @RequestBody SuspiciousCardTransferDto suspiciousCardTransferDto) {
-        LOGGER.info("В SuspiciousCardTransferController сработал метод save: \n" + suspiciousCardTransferDto.toString());
-
         return ResponseEntity.ok(suspiciousCardTransferService.save(suspiciousCardTransferDto));
     }
 
     @PatchMapping
     public ResponseEntity<SuspiciousCardTransferEntity> update(@Valid @RequestBody SuspiciousCardTransferDto suspiciousCardTransferDto) {
-        LOGGER.info("В SuspiciousCardTransferController сработал метод update: \n" + suspiciousCardTransferDto.toString());
-
         return ResponseEntity.ok(suspiciousCardTransferService.update(suspiciousCardTransferDto));
     }
 }
