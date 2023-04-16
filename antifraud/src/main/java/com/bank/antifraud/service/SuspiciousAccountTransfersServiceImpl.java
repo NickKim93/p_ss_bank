@@ -1,6 +1,6 @@
 package com.bank.antifraud.service;
 
-import com.bank.antifraud.audit.Auditing;
+import com.bank.antifraud.aspect.Auditing;
 import com.bank.antifraud.dto.SuspiciousAccountTransfersDto;
 import com.bank.antifraud.entity.SuspiciousAccountTransfersEntity;
 import com.bank.antifraud.mapper.SuspiciousAccountTransfersMapper;
@@ -19,8 +19,6 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountTransfersService{
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SuspiciousAccountTransfersServiceImpl.class);
     private final SuspiciousAccountTransfersRepository suspiciousAccountTransfersRepository;
 
     public SuspiciousAccountTransfersServiceImpl(SuspiciousAccountTransfersRepository suspiciousAccountTransfersRepository) {
@@ -31,8 +29,6 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
     @Transactional
     @Auditing(operationType = OperationType.CREATE)
     public SuspiciousAccountTransfersEntity save(SuspiciousAccountTransfersDto dto) {
-        LOGGER.info("В SuspiciousAccountTransfersServiceImpl вызван метод save");
-
         SuspiciousAccountTransfersEntity suspiciousAccountTransfersEntity = SuspiciousAccountTransfersMapper
                 .INSTANCE.suspiciousAccountTransfersDtoToSuspiciousAccountTransfersEntity(dto);
 
@@ -41,20 +37,16 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
 
     @Override
     public List<SuspiciousAccountTransfersEntity> findAll() {
-        LOGGER.info("В SuspiciousAccountTransfersServiceImpl вызван метод findAll");
         return suspiciousAccountTransfersRepository.findAll();
     }
 
     @Override
     public SuspiciousAccountTransfersEntity findById(Long id) {
-        LOGGER.info("В SuspiciousAccountTransfersServiceImpl вызван метод findById: " + id.toString());
-
         Optional<SuspiciousAccountTransfersEntity> suspiciousAccountTransfersEntity = suspiciousAccountTransfersRepository.findById(id);
 
         if (suspiciousAccountTransfersEntity.isPresent()) {
             return suspiciousAccountTransfersEntity.get();
         } else {
-            LOGGER.error("сущность SuspiciousAccountTransfers с id: " + id + " не найдена");
             throw new EntityNotFoundException("сущность SuspiciousAccountTransfers с id: " + id + " не найдена.");
         }
     }
@@ -63,13 +55,8 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
     @Transactional
     @Auditing(operationType = OperationType.DELETE)
     public void delete(Long id) {
-        LOGGER.info("В SuspiciousAccountTransfersServiceImpl вызван метод delete: " + id.toString());
-
         SuspiciousAccountTransfersEntity suspiciousAccountTransfersEntity = suspiciousAccountTransfersRepository.findById(id)
-                .orElseThrow(() -> {
-                    LOGGER.error("сущность SuspiciousAccountTransfers с id: " + id + " не найдена.");
-                    return new EntityNotFoundException("сущность SuspiciousAccountTransfers с id: " + id + " не найдена.");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("сущность SuspiciousAccountTransfers с id: " + id + " не найдена."));
 
         suspiciousAccountTransfersRepository.delete(suspiciousAccountTransfersEntity);
     }
@@ -78,13 +65,8 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
     @Transactional
     @Auditing(operationType = OperationType.UPDATE)
     public SuspiciousAccountTransfersEntity update(SuspiciousAccountTransfersDto dto) {
-        LOGGER.info("В SuspiciousAccountTransfersServiceImpl вызван метод update: " + dto.toString());
-
         SuspiciousAccountTransfersEntity updateEntity = suspiciousAccountTransfersRepository.findById(dto.id())
-                .orElseThrow(() -> {
-                    LOGGER.error("Сущность не найдена");
-                    return new EntityNotFoundException(dto.id().toString());
-                });
+                .orElseThrow(() -> new EntityNotFoundException(dto.id().toString()));
 
         BeanUtils.copyProperties(dto, updateEntity);
         return suspiciousAccountTransfersRepository.save(updateEntity);

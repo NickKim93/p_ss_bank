@@ -1,4 +1,4 @@
-package com.bank.antifraud.audit;
+package com.bank.antifraud.aspect;
 
 import com.bank.antifraud.entity.Auditable;
 import com.bank.antifraud.entity.AuditEntity;
@@ -7,7 +7,6 @@ import com.bank.antifraud.repository.AuditRepository;
 import com.bank.antifraud.util.OperationType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.aspectj.lang.JoinPoint;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -40,11 +39,8 @@ class AuditAspectTest {
         Auditable auditable = new SuspiciousAccountTransfersEntity();
         auditable.setId(1L);
 
-        JoinPoint joinPoint = Mockito.mock(JoinPoint.class);
-
         // Act
-        auditAspect.doAfterSaveAndUpdate(joinPoint,
-                auditing,
+        auditAspect.doAfterSaveAndUpdate(auditing,
                 auditable);
 
         // Assert
@@ -72,13 +68,10 @@ class AuditAspectTest {
         firstAudit.setEntityJson(new ObjectMapper().writeValueAsString(auditable));
         firstAudit.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
 
-        JoinPoint joinPoint = Mockito.mock(JoinPoint.class);
-
         when(auditRepository.findByEntityId(auditable.getId())).thenReturn(firstAudit);
 
         // Act
-        auditAspect.doAfterSaveAndUpdate(joinPoint,
-                auditing,
+        auditAspect.doAfterSaveAndUpdate(auditing,
                 auditable);
 
         // Assert

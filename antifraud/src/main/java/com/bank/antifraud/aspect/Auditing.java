@@ -1,4 +1,4 @@
-package com.bank.antifraud.audit;
+package com.bank.antifraud.aspect;
 
 import com.bank.antifraud.util.OperationType;
 

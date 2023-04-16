@@ -46,7 +46,7 @@ class SuspiciousPhoneTransfersControllerTest {
     }
 
     @Test
-    void getById_mustReturnAutit_whenAuditIsExists() throws Exception {
+    void getById_mustReturnAudit_whenAuditIsExists() throws Exception {
         SuspiciousPhoneTransfersEntity suspiciousPhoneTransfersEntity = new SuspiciousPhoneTransfersEntity();
         suspiciousPhoneTransfersEntity.setPhoneTransferId(1L);
         suspiciousPhoneTransfersEntity.setId(1L);

@@ -21,7 +21,6 @@ import java.util.List;
 @RestController
 @RequestMapping("phone/transfers")
 public class SuspiciousPhoneTransfersController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SuspiciousPhoneTransfersController.class);
     private final SuspiciousPhoneTransfersService suspiciousPhoneTransfersService;
 
     public SuspiciousPhoneTransfersController(SuspiciousPhoneTransfersService suspiciousPhoneTransfersService) {
@@ -30,37 +29,27 @@ public class SuspiciousPhoneTransfersController {
 
     @GetMapping("all")
     public ResponseEntity<List<SuspiciousPhoneTransfersEntity>> getAll() {
-        LOGGER.info("В SuspiciousPhoneTransfersController сработал метод getAll");
-
         return ResponseEntity.ok(suspiciousPhoneTransfersService.findAll());
     }
 
     @GetMapping("{id}")
     public ResponseEntity<SuspiciousPhoneTransfersEntity> getById(@PathVariable Long id) {
-        LOGGER.info("В SuspiciousPhoneTransfersController сработал метод getById, передан id: " + id.toString());
-
         return ResponseEntity.ok(suspiciousPhoneTransfersService.findById(id));
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Long> deleteAudit(@PathVariable Long id) {
-        LOGGER.info("В SuspiciousPhoneTransfersController сработал метод deleteAudit, передан id: " + id.toString());
-
         suspiciousPhoneTransfersService.delete(id);
         return ResponseEntity.ok(id);
     }
 
     @PostMapping
     public ResponseEntity<SuspiciousPhoneTransfersEntity> save(@Valid @RequestBody SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
-        LOGGER.info("В SuspiciousPhoneTransfersController сработал метод save: \n" + suspiciousPhoneTransfersDto.toString());
-
         return ResponseEntity.ok(suspiciousPhoneTransfersService.save(suspiciousPhoneTransfersDto));
     }
 
     @PatchMapping
     public ResponseEntity<SuspiciousPhoneTransfersEntity> update(@Valid @RequestBody SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
-        LOGGER.info("В SuspiciousPhoneTransfersController сработал метод update: \n" + suspiciousPhoneTransfersDto.toString());
-
         return ResponseEntity.ok(suspiciousPhoneTransfersService.update(suspiciousPhoneTransfersDto));
     }
 }

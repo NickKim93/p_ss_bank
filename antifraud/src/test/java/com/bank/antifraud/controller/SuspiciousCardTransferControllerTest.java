@@ -46,7 +46,7 @@ class SuspiciousCardTransferControllerTest {
     }
 
     @Test
-    void getById_mustReturnAutit_whenAuditIsExists() throws Exception {
+    void getById_mustReturnAudit_whenAuditIsExists() throws Exception {
         SuspiciousCardTransferEntity suspiciousCardTransferEntity = new SuspiciousCardTransferEntity();
         suspiciousCardTransferEntity.setCardTransferId(1L);
         suspiciousCardTransferEntity.setId(1L);

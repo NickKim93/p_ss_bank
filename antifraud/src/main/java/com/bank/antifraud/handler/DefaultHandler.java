@@ -21,7 +21,6 @@ import javax.persistence.EntityNotFoundException;
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class DefaultHandler {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultHandler.class);
     /**
      * Ошибка, когда сущности по указанному  id не существует
      * @param ex информация об ошибке
@@ -29,7 +28,6 @@ public class DefaultHandler {
      */
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException ex) {
-        LOGGER.info("Обрабатывается ошибка EntityNotFoundException");
         String message = ex.getMessage();
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
@@ -41,14 +39,12 @@ public class DefaultHandler {
      */
     @ExceptionHandler(PropertyValueException.class)
     public ResponseEntity<String> handlePropertyValueException(PropertyValueException ex) {
-        LOGGER.info("Обрабатывается ошибка PropertyValueException");
         String message = "В запросе отсутствует или равно null обязятальное поле: " + ex.getPropertyName();
         return ResponseEntity.badRequest().body(message);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException ex) {
-        LOGGER.info("Обрабатывается ошибка ConstraintViolationException");
         String message = "Нарушена уникальность значения " + ex.getConstraintName();
         return ResponseEntity.badRequest().body(message);
     }
