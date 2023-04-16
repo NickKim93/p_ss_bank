@@ -1,5 +1,6 @@
 package com.bank.publicinfo.service;
 
+import com.bank.publicinfo.auditlistener.Auditable;
 import com.bank.publicinfo.dto.BankDetailsDto;
 import com.bank.publicinfo.entity.BankDetails;
 import com.bank.publicinfo.mapper.BankDetailsMapper;
@@ -37,6 +38,7 @@ public class BankDetailsServiceImpl implements BankDetailsService{
     }
 
     @Override
+    @Auditable(operationType = "create")
     public BankDetailsDto createBankDetails(BankDetailsDto bankDetailsDto) {
         BankDetails bankDetails = bankDetailsMapper.bankDetailsDtoToEntity(bankDetailsDto);
         bankDetails = bankDetailsRepository.save(bankDetails);
@@ -44,6 +46,7 @@ public class BankDetailsServiceImpl implements BankDetailsService{
     }
 
     @Override
+    @Auditable(operationType = "update")
     public BankDetailsDto updateBankDetails (Long id, BankDetailsDto bankDetailsDto) {
         BankDetails bankDetails = bankDetailsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("BankDetails not found"));
@@ -54,6 +57,7 @@ public class BankDetailsServiceImpl implements BankDetailsService{
     }
 
     @Override
+    @Auditable(operationType = "delete")
     public void deleteBankDetailsById(Long id) {
         BankDetails bankDetails = bankDetailsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("BankDetails not found"));

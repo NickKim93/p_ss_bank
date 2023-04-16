@@ -1,5 +1,6 @@
 package com.bank.publicinfo.service;
 
+import com.bank.publicinfo.auditlistener.Auditable;
 import com.bank.publicinfo.dto.LicenseDto;
 import com.bank.publicinfo.entity.License;
 import com.bank.publicinfo.mapper.LicenseMapper;
@@ -39,6 +40,7 @@ public class LicenseServiceImpl implements LicenseService {
     }
 
     @Override
+    @Auditable(operationType = "create")
     public LicenseDto createLicense(LicenseDto licenseDto) {
         License license = licenseMapper.licenseDtoToEntity(licenseDto);
         license = licenseRepository.save(license);
@@ -46,6 +48,7 @@ public class LicenseServiceImpl implements LicenseService {
     }
 
     @Override
+    @Auditable(operationType = "update")
     public LicenseDto updateLicense(Long id, LicenseDto licenseDto) {
         License existingLicense = licenseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("License not found"));
@@ -55,6 +58,7 @@ public class LicenseServiceImpl implements LicenseService {
     }
 
     @Override
+    @Auditable(operationType = "delete")
     public void deleteLicenseById(Long id) {
         License license = licenseRepository.findById(id)
                         .orElseThrow(() -> new EntityNotFoundException("License not found"));
