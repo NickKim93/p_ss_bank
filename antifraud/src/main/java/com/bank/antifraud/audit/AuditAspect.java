@@ -11,6 +11,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.Column;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -25,33 +26,41 @@ public class AuditAspect {
 
     @AfterReturning(value = "@annotation(auditing)", returning = "ret")
     public void doAfterSaveAndUpdate(JoinPoint joinPoint, Auditing auditing, Object ret) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);
-
         if (ret instanceof Auditable auditable) {
-            AuditEntity auditEntity = new AuditEntity();
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);
+
+            // Эти переменные есть в любом случае
+            String entityJson;
+            Timestamp createdAt;
+
+            // Эти только при UPDATE
+            Timestamp modifiedAt = null;
+            String newEntityJson = null;
 
             if (auditing.operationType() == OperationType.CREATE) {
-                auditEntity.setOperationType("CREATE");
-                auditEntity.setEntityJson(mapper.writeValueAsString(auditable));
-                auditEntity.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+                entityJson = mapper.writeValueAsString(auditable);
+                createdAt = Timestamp.valueOf(LocalDateTime.now());
             } else {
                 AuditEntity firstAudit = auditRepository.findByEntityId(auditable.getId());
-                auditEntity.setEntityJson(firstAudit.getEntityJson());
-                auditEntity.setCreatedAt(firstAudit.getCreatedAt());
-                auditEntity.setModifiedAt(Timestamp.valueOf(LocalDateTime.now()));
-                auditEntity.setModifiedBy("system");
 
-                if (auditing.operationType() == OperationType.UPDATE) {
-                    auditEntity.setOperationType("UPDATE");
-                    auditEntity.setNewEntityJson(mapper.writeValueAsString(auditable));
-                } else {
-                    auditEntity.setOperationType("DELETE");
-                    auditEntity.setNewEntityJson("");
-                }
+                entityJson = firstAudit.getEntityJson();
+                createdAt = firstAudit.getCreatedAt();
+                modifiedAt = Timestamp.valueOf(LocalDateTime.now());
+                newEntityJson = mapper.writeValueAsString(auditable);
             }
-            auditEntity.setEntityType("transfer");
-            auditEntity.setCreatedBy("system");
+
+            AuditEntity auditEntity = new AuditEntity(
+                    null,
+                    "transfer",
+                    auditing.operationType().toString(),
+                    "system",
+                    "system",
+                    createdAt,
+                    modifiedAt,
+                    newEntityJson,
+                    entityJson);
+
             auditRepository.save(auditEntity);
         }
     }
@@ -59,18 +68,20 @@ public class AuditAspect {
     @After(value = "@annotation(auditing)")
     public void DoAfterDelete(JoinPoint joinPoint, Auditing auditing) {
         if (auditing.operationType() != OperationType.DELETE) return;
-        Long id = (Long) joinPoint.getArgs()[0];
 
-        AuditEntity auditEntity = new AuditEntity();
+        Long id = (Long) joinPoint.getArgs()[0];
         AuditEntity firstAudit = auditRepository.findByEntityId(id);
 
-        auditEntity.setEntityType("transfer");
-        auditEntity.setCreatedBy("system");
-        auditEntity.setEntityJson(firstAudit.getEntityJson());
-        auditEntity.setCreatedAt(firstAudit.getCreatedAt());
-        auditEntity.setModifiedAt(Timestamp.valueOf(LocalDateTime.now()));
-        auditEntity.setModifiedBy("system");
-        auditEntity.setOperationType("DELETE");
+        AuditEntity auditEntity = new AuditEntity(
+                null,
+                "transfer",
+                "DELETE",
+                "system",
+                "system",
+                firstAudit.getCreatedAt(),
+                Timestamp.valueOf(LocalDateTime.now()),
+                null,
+                firstAudit.getEntityJson());
 
         auditRepository.save(auditEntity);
     }
