@@ -1,9 +1,6 @@
 package com.bank.profile.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -15,6 +12,7 @@ import java.math.BigInteger;
 @Setter
 @Getter
 @Builder
+@EqualsAndHashCode
 public class AccountDetailsDto {
     private Long id;
     private Long passportId;

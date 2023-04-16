@@ -82,13 +82,16 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileDto create(ProfileDto profileDto) {
         if (profileDto.getInn() != null && (profileRepository.findProfileByInn(profileDto.getInn()) != null)
                 || profileRepository.findProfileByPhoneNumber(profileDto.getPhoneNumber()) != null) {
-            throw new BadRequestException(String.format("Request method create(). Профиль с ИНН = %s или номером телефона = %s уже существует", profileDto.getInn(), profileDto.getPhoneNumber()));
+            throw new BadRequestException(String.format("Request method create(). Профиль с ИНН = %s или номером телефона = %s уже существует",
+                    profileDto.getInn(), profileDto.getPhoneNumber()));
         }
 
-        Profile profile = ProfileMapper.INSTANCE.profileDtoToProfile(profileDto);
-        Profile profileLocal = profileRepository.save(profile);
         log.info("Request method create() успешно выполнен");
-        return ProfileMapper.INSTANCE.profileToProfileDto(profileLocal);
+        return ProfileMapper.INSTANCE.profileToProfileDto(
+                profileRepository.save(
+                        ProfileMapper.INSTANCE.profileDtoToProfile(profileDto)
+                )
+        );
     }
 
     /**
@@ -102,7 +105,7 @@ public class ProfileServiceImpl implements ProfileService {
         }
 
         profileRepository.deleteById(id);
-        log.info("Request method delete(id={}). Запись успешно удалена", id);
+        log.info("Request method delete(id={}). Профиль успешно удален", id);
     }
 
     /**

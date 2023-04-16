@@ -13,6 +13,7 @@ import java.util.Set;
 @Setter
 @Getter
 @Builder
+@EqualsAndHashCode
 public class ProfileDto {
     private Long id;
     @NotNull

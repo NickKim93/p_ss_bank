@@ -16,6 +16,7 @@ import javax.validation.constraints.*;
 @Builder
 @Setter
 @Getter
+@EqualsAndHashCode
 public class Registration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

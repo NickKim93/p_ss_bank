@@ -1,9 +1,6 @@
 package com.bank.profile.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.*;
 
@@ -14,6 +11,7 @@ import javax.validation.constraints.*;
 @Setter
 @Getter
 @Builder
+@EqualsAndHashCode
 public class RegistrationDto {
     private Long id;
     @NotNull

@@ -17,10 +17,7 @@ import java.time.LocalDate;
 @Builder
 @Setter
 @Getter
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "id"
-//)
+@EqualsAndHashCode
 public class Passport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

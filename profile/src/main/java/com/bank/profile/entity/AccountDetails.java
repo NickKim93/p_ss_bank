@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Setter
 @Getter
+@EqualsAndHashCode
 public class AccountDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

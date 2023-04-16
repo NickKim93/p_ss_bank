@@ -21,6 +21,7 @@ import java.time.OffsetDateTime;
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode
 public class Audit {
     @Column(name = "entity_type", table = "audit")
     @JsonIgnore

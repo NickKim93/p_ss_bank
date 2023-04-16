@@ -86,14 +86,12 @@ class ProfileControllerTest {
             .build();
 
         profileDto2 = ProfileDto.builder()
-            .id(2l)
             .phoneNumber(9999998888L)
             .email("google@mail.com")
             .nameOnCard("FName LName")
             .inn(999999998888L)
             .snils(99999998888L)
             .passport(PassportDto.builder()
-                    .id(2l)
                     .series(9988)
                     .number(999888L)
                     .lastName("LName")
@@ -107,7 +105,6 @@ class ProfileControllerTest {
                     .divisionCode(999888)
                     .expirationDate(null)
                     .registration(RegistrationDto.builder()
-                            .id(2l)
                             .country("Россия")
                             .region(null)
                             .city(null)
@@ -121,7 +118,6 @@ class ProfileControllerTest {
                             .build())
                     .build())
             .actualRegistration(ActualRegistrationDto.builder()
-                    .id(2l)
                     .country("Российская Федерация")
                     .region(null)
                     .city(null)
@@ -145,7 +141,7 @@ class ProfileControllerTest {
     @DisplayName("GET /api/profile - запрос списка профилей, список не пустой, ответ 200 OK")
     void handleFindAllProfile_ReturnsValidResponseEntity() {
         // given
-        var profilesDto = List.of(profileDto1,profileDto2);
+        var profilesDto = List.of(profileDto1);
         doReturn(profilesDto).when(profileService).findAll();
 
         // when
