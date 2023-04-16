@@ -8,7 +8,9 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -49,16 +51,7 @@ public class AuditAspect {
                 newEntityJson = mapper.writeValueAsString(auditable);
             }
 
-            AuditEntity auditEntity = new AuditEntity(
-                    null,
-                    "transfer",
-                    auditing.operationType().toString(),
-                    "system",
-                    "system",
-                    createdAt,
-                    modifiedAt,
-                    newEntityJson,
-                    entityJson);
+            AuditEntity auditEntity = createAuditEntity(auditing, createdAt, modifiedAt, newEntityJson, entityJson);
 
             auditRepository.save(auditEntity);
         }
@@ -71,17 +64,25 @@ public class AuditAspect {
         Long id = (Long) joinPoint.getArgs()[0];
         AuditEntity firstAudit = auditRepository.findByEntityId(id);
 
-        AuditEntity auditEntity = new AuditEntity(
-                null,
-                "transfer",
-                "DELETE",
-                "system",
-                "system",
+        AuditEntity auditEntity = createAuditEntity(auditing,
                 firstAudit.getCreatedAt(),
                 Timestamp.valueOf(LocalDateTime.now()),
                 null,
                 firstAudit.getEntityJson());
 
         auditRepository.save(auditEntity);
+    }
+
+    private AuditEntity createAuditEntity(Auditing auditing, Timestamp createdAt, Timestamp modifiedAt, String newEntityJson, String entityJson) {
+        return new AuditEntity(
+                null,
+                "transfer",
+                auditing.operationType().toString(),
+                "system",
+                "system",
+                createdAt,
+                modifiedAt,
+                newEntityJson,
+                entityJson);
     }
 }
