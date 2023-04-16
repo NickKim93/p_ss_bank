@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 
 /**
  * Класс, описывающий сущность Audit
+ *
  * @author Makariy Petrov
  */
 @Getter

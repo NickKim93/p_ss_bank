@@ -9,6 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+/**
+ * Суперкласс для сущностей, которые подлежат аудиту
+ *
+ * @author Makariy Petrov
+ */
 @Getter
 @Setter
 @NoArgsConstructor

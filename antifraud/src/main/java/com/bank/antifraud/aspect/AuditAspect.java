@@ -16,6 +16,11 @@ import org.springframework.stereotype.Component;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * Класс, который проводит аудит методов, помеченных аннотацией @Auditing
+ *
+ * @author Makariy Petrov
+ */
 @Aspect
 @Component
 public class AuditAspect {
@@ -29,6 +34,7 @@ public class AuditAspect {
     public void doAfterSaveAndUpdate(Auditing auditing, Object ret) throws JsonProcessingException {
         if (ret instanceof Auditable auditable) {
             ObjectMapper mapper = new ObjectMapper();
+            // Просим делать ключи в двойных кавычках, чтобы PostgreSQL правильно читал json при поиске
             mapper.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);
 
             // Эти переменные есть в любом случае
@@ -43,6 +49,7 @@ public class AuditAspect {
                 entityJson = mapper.writeValueAsString(auditable);
                 createdAt = Timestamp.valueOf(LocalDateTime.now());
             } else {
+                // Ищем первую запись о данной сущности
                 AuditEntity firstAudit = auditRepository.findByEntityId(auditable.getId());
 
                 entityJson = firstAudit.getEntityJson();

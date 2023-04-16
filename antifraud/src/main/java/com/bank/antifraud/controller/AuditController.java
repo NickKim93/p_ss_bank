@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Контроллер, который работает с сущность {@link AuditEntity}
+ *
+ * @author Makariy Petrov
+ */
 @RestController
 @RequestMapping("audit")
 public class AuditController {

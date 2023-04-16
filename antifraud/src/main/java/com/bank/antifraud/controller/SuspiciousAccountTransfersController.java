@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * Контроллер, который работает с сущность {@link SuspiciousAccountTransfersEntity}
+ *
+ * @author Makariy Petrov
+ */
 @RestController
 @RequestMapping("account/transfers")
 public class SuspiciousAccountTransfersController {
