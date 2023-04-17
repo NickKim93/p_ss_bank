@@ -15,43 +15,37 @@ import javax.persistence.PreUpdate;
 @EnableJpaRepositories
 public class AuditingEntityListener {
 
-
     @PrePersist
-    public void prePersist(Object entity) {
+    public void prePersist(Object entity) throws JsonProcessingException {
         if (entity instanceof Audit audit) {
             createStructure(audit, OperationType.CREATE);
         }
     }
 
     @PreUpdate
-    public void preUpdate(Object entity) {
+    public void preUpdate(Object entity) throws JsonProcessingException {
         if (entity instanceof Audit audit) {
             createStructure(audit, OperationType.UPDATE);
         }
     }
 
-    protected void createStructure(Audit audit, OperationType operationType) {
-        ObjectMapper objectMapper = new ObjectMapper();
+    protected void createStructure(Audit audit, OperationType operationType) throws JsonProcessingException {
+        final ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         objectMapper.registerModule(new JavaTimeModule());
-        String entityJson;
 
-        try {
-            entityJson = objectMapper.writeValueAsString(audit);
-        } catch (JsonProcessingException e) {
-            entityJson = "Error convert entity to Json";
-            log.error("Ошибка преобразования Entity в JSON для записи в таблицу аудита");
-            log.error(String.valueOf(e));
-        }
+        final String entityJson = objectMapper.writeValueAsString(audit);
 
         switch (operationType) {
             case CREATE -> {
-                audit.setEntityJson(entityJson);
+                audit.setNewEntityJson(entityJson);
                 audit.setCreatedBy("SYSTEM");
             }
             case UPDATE -> {
-                if (audit.getNewEntityJson() != null)
+                if (audit.getNewEntityJson() != null) {
                     audit.setEntityJson(audit.getNewEntityJson());
+                }
+
                 audit.setNewEntityJson(entityJson);
                 audit.setModifiedBy("SYSTEM");
             }
@@ -59,6 +53,6 @@ public class AuditingEntityListener {
 
         audit.setEntityType(audit.getClass().getSimpleName());
         audit.setOperationType(operationType.name());
-        log.info("Запись успешно доавлена/изменена в таблице аудита");
+        log.info("Запись успешно добавлена/изменена в таблице аудита");
     }
 }

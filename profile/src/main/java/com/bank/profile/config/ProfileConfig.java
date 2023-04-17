@@ -11,9 +11,9 @@ import java.util.Optional;
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class ProfileConfig {
 
-        @Bean
-        public AuditorAware<String> auditorAware(){
-            return () -> Optional.of("USER");
-        }
+    @Bean
+    public AuditorAware<String> auditorAware() {
+        return () -> Optional.of("USER");
+    }
 
 }
