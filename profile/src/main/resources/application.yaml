@@ -3,3 +3,11 @@ spring:
     name: profile-app
   profiles:
     active: local
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+#    enabled: true
+#  instance:
+#    preferIpAddress: true
+#    lease-renewal-interval-in-seconds: 30
