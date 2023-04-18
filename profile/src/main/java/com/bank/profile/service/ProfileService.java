@@ -5,15 +5,15 @@ import com.bank.profile.dto.ProfileDto;
 import java.util.List;
 
 public interface ProfileService {
-    public List<ProfileDto> findAll();
+    List<ProfileDto> findAll();
 
-    public ProfileDto findOne(Long id);
+    ProfileDto findOne(Long id);
 
-    public ProfileDto findByInnOrPhoneNumber(Long n);
+    ProfileDto findByInnOrPhoneNumber(Long n);
 
-    public ProfileDto create(ProfileDto profileDto);
+    ProfileDto create(ProfileDto profileDto);
 
-    public void delete(Long id);
+    void delete(Long id);
 
-    public ProfileDto update(ProfileDto profileDto);
+    ProfileDto update(ProfileDto profileDto);
 }

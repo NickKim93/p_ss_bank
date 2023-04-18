@@ -6,10 +6,12 @@ import org.springframework.stereotype.Repository;
 
 /**
  * Интерфейс доступа к базе данных
- * */
+ */
 @Repository
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
     Profile findProfileByInn(Long inn);
+
     Profile findProfileByPhoneNumber(Long n);
+
     Profile findProfileByInnOrPhoneNumber(Long inn, Long n);
 }

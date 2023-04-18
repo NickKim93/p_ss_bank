@@ -3,7 +3,7 @@ package com.bank.profile.handler;
 import com.bank.profile.exception.BadRequestException;
 import com.bank.profile.exception.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,32 +16,44 @@ import java.util.Map;
 
 /**
  * Контроллер обработчика исключений
- * */
+ */
 @RestControllerAdvice
 @Slf4j
 public class HandlerException {
     @ResponseBody
     @ExceptionHandler(value = BadRequestException.class)
-    public ResponseEntity<?> handlerBadRequest(BadRequestException exception) {
-        log.error(exception.getMessage());
-        return ResponseEntity.badRequest().body(exception.getMessage());
+    public ResponseEntity<?> handlerBadRequestException(BadRequestException exception) {
+        log.error("{} [{}]", exception.getMessage(), exception.getStackTrace()[0]);
+        final Map<String, String> error = new HashMap<>();
+        error.put("errorMessage", exception.getMessage());
+        return ResponseEntity
+                .badRequest()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(error);
     }
+
     @ResponseBody
     @ExceptionHandler(value = EntityNotFoundException.class)
     public ResponseEntity<?> handlerNotFoundEntity(EntityNotFoundException exception) {
-        log.warn(exception.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+        log.error("{} [{}]", exception.getMessage(), exception.getStackTrace()[0]);
+        return ResponseEntity
+                .notFound()
+                .build();
     }
+
     @ResponseBody
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleValidationExceptions(
-            MethodArgumentNotValidException exception) {
-        Map<String, String> errors = new HashMap<>();
+    public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException exception) {
+        final Map<String, String> errors = new HashMap<>();
         exception.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
+            final String fieldName = ((FieldError) error).getField();
+            final String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        return ResponseEntity.badRequest().body(errors);
+        log.error(exception.getMessage());
+        return ResponseEntity
+                .badRequest()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(errors);
     }
 }

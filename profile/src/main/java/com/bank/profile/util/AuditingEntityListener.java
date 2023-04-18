@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
@@ -13,45 +14,50 @@ import javax.persistence.PreUpdate;
 
 @Slf4j
 @EnableJpaRepositories
+@RequiredArgsConstructor
 public class AuditingEntityListener {
 
+    private final ObjectMapper objectMapper;
 
     @PrePersist
-    public void prePersist(Object entity) {
+    public void prePersist(Object entity) throws JsonProcessingException {
         if (entity instanceof Audit audit) {
             createStructure(audit, OperationType.CREATE);
+            log.info("Запись успешно добавлена в таблицу аудита");
         }
     }
 
     @PreUpdate
-    public void preUpdate(Object entity) {
+    public void preUpdate(Object entity) throws JsonProcessingException {
         if (entity instanceof Audit audit) {
             createStructure(audit, OperationType.UPDATE);
+            log.info("Запись успешно изменена в таблице аудита");
         }
     }
 
-    private void createStructure(Audit audit, OperationType operationType) {
-        ObjectMapper objectMapper = new ObjectMapper();
+    protected Audit createStructure(Audit audit, OperationType operationType) throws JsonProcessingException {
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         objectMapper.registerModule(new JavaTimeModule());
-        String entityJson;
 
+        final String entityJson;
         try {
             entityJson = objectMapper.writeValueAsString(audit);
-        } catch (JsonProcessingException e) {
-            entityJson = "Error convert entity to Json";
-            log.error("Ошибка преобразования Entity в JSON для записи в таблицу аудита");
-            log.error(String.valueOf(e));
+        } catch (JsonProcessingException exception) {
+            log.error("Ошибка преобразования Entity в JSON для записи в таблицу аудита []");
+            throw new JsonProcessingException(exception) {
+            };
         }
 
         switch (operationType) {
             case CREATE -> {
-                audit.setEntityJson(entityJson);
+                audit.setNewEntityJson(entityJson);
                 audit.setCreatedBy("SYSTEM");
             }
             case UPDATE -> {
-                if (audit.getNewEntityJson() != null)
+                if (audit.getNewEntityJson() != null) {
                     audit.setEntityJson(audit.getNewEntityJson());
+                }
+
                 audit.setNewEntityJson(entityJson);
                 audit.setModifiedBy("SYSTEM");
             }
@@ -59,6 +65,6 @@ public class AuditingEntityListener {
 
         audit.setEntityType(audit.getClass().getSimpleName());
         audit.setOperationType(operationType.name());
-        log.info("Запись успешно доавлена/изменена в таблице аудита");
+        return audit;
     }
 }
