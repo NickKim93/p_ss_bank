@@ -2,7 +2,6 @@ package com.bank.profile.handler;
 
 import com.bank.profile.exception.BadRequestException;
 import com.bank.profile.exception.EntityNotFoundException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,17 +50,10 @@ public class HandlerException {
             final String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        log.error("{} [{}]", exception.getMessage(), exception.getStackTrace()[0]);
+        log.error(exception.getMessage());
         return ResponseEntity
                 .badRequest()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(errors);
-    }
-
-    @ExceptionHandler(JsonProcessingException.class)
-    public void handleJsonProcessingExceptions(JsonProcessingException exception) {
-        log.error("Ошибка преобразования Entity в JSON для записи в таблицу аудита [{}]",
-                exception.getStackTrace()[0]);
-        log.error(String.valueOf(exception));
     }
 }

@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -75,5 +76,6 @@ public class PassportDto {
     private LocalDate expirationDate;
 
     @NotNull
+    @Valid
     private RegistrationDto registration;
 }

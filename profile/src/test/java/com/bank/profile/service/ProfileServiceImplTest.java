@@ -43,28 +43,28 @@ class ProfileServiceImplTest {
     @BeforeEach
     void setUp() {
         profile1 = Profile.builder()
-                .id(1l)
+                .id(1L)
                 .phoneNumber(9999999999L)
                 .email("email@mail.com")
                 .nameOnCard("First Last")
                 .inn(999999999999L)
                 .snils(99999999999L)
                 .passport(Passport.builder()
-                        .id(1l)
+                        .id(1L)
                         .series(9999)
                         .number(999999L)
                         .lastName("Last")
                         .firstName("First")
                         .middleName("Middle")
                         .gender("G")
-                        .birthDate(LocalDate.ofEpochDay(2000-01-01))
+                        .birthDate(LocalDate.ofEpochDay(2000 - 01 - 01))
                         .birthPlace("Москва")
                         .issuedBy("УВД гор.Москвы")
-                        .dateOfIssue(LocalDate.ofEpochDay(2016-01-01))
+                        .dateOfIssue(LocalDate.ofEpochDay(2016 - 01 - 01))
                         .divisionCode(999999)
                         .expirationDate(null)
                         .registration(Registration.builder()
-                                .id(1l)
+                                .id(1L)
                                 .country("РФ")
                                 .region(null)
                                 .city(null)
@@ -78,7 +78,7 @@ class ProfileServiceImplTest {
                                 .build())
                         .build())
                 .actualRegistration(ActualRegistration.builder()
-                        .id(1l)
+                        .id(1L)
                         .country("РФ")
                         .region(null)
                         .city(null)
@@ -106,10 +106,10 @@ class ProfileServiceImplTest {
                         .firstName("FName")
                         .middleName("MName")
                         .gender("M")
-                        .birthDate(LocalDate.ofEpochDay(1990-01-01))
+                        .birthDate(LocalDate.ofEpochDay(1990 - 01 - 01))
                         .birthPlace("Екатеринбург")
                         .issuedBy("УВД гор.Екатеринбурга")
-                        .dateOfIssue(LocalDate.ofEpochDay(2006-01-01))
+                        .dateOfIssue(LocalDate.ofEpochDay(2006 - 01 - 01))
                         .divisionCode(999888)
                         .expirationDate(null)
                         .registration(Registration.builder()
@@ -141,28 +141,28 @@ class ProfileServiceImplTest {
                 .build();
 
         profileDto1 = ProfileDto.builder()
-                .id(1l)
+                .id(1L)
                 .phoneNumber(9999999999L)
                 .email("email@mail.com")
                 .nameOnCard("First Last")
                 .inn(999999999999L)
                 .snils(99999999999L)
                 .passport(PassportDto.builder()
-                        .id(1l)
+                        .id(1L)
                         .series(9999)
                         .number(999999L)
                         .lastName("Last")
                         .firstName("First")
                         .middleName("Middle")
                         .gender("G")
-                        .birthDate(LocalDate.ofEpochDay(2000-01-01))
+                        .birthDate(LocalDate.ofEpochDay(2000 - 01 - 01))
                         .birthPlace("Москва")
                         .issuedBy("УВД гор.Москвы")
-                        .dateOfIssue(LocalDate.ofEpochDay(2016-01-01))
+                        .dateOfIssue(LocalDate.ofEpochDay(2016 - 01 - 01))
                         .divisionCode(999999)
                         .expirationDate(null)
                         .registration(RegistrationDto.builder()
-                                .id(1l)
+                                .id(1L)
                                 .country("РФ")
                                 .region(null)
                                 .city(null)
@@ -176,7 +176,7 @@ class ProfileServiceImplTest {
                                 .build())
                         .build())
                 .actualRegistration(ActualRegistrationDto.builder()
-                        .id(1l)
+                        .id(1L)
                         .country("РФ")
                         .region(null)
                         .city(null)
@@ -204,10 +204,10 @@ class ProfileServiceImplTest {
                         .firstName("FName")
                         .middleName("MName")
                         .gender("M")
-                        .birthDate(LocalDate.ofEpochDay(1990-01-01))
+                        .birthDate(LocalDate.ofEpochDay(1990 - 01 - 01))
                         .birthPlace("Екатеринбург")
                         .issuedBy("УВД гор.Екатеринбурга")
-                        .dateOfIssue(LocalDate.ofEpochDay(2006-01-01))
+                        .dateOfIssue(LocalDate.ofEpochDay(2006 - 01 - 01))
                         .divisionCode(999888)
                         .expirationDate(null)
                         .registration(RegistrationDto.builder()
@@ -277,10 +277,10 @@ class ProfileServiceImplTest {
     @DisplayName("Запрос профиля из базы по id, профиль существует")
     void handleFindProfileById_ReturnsValidEntity() {
         // given
-        doReturn(Optional.of(profile1)).when(profileRepository).findById(1l);
+        doReturn(Optional.of(profile1)).when(profileRepository).findById(1L);
 
         // when
-        var profileDto = profileService.findOne(1l);
+        var profileDto = profileService.findOne(1L);
 
         // then
         assertNotNull(profileDto);
@@ -297,7 +297,7 @@ class ProfileServiceImplTest {
 
         // then
         assertThrows(BadRequestException.class, () -> {
-            profileService.findOne(-1l);
+            profileService.findOne(-1L);
         });
     }
 
@@ -305,12 +305,12 @@ class ProfileServiceImplTest {
     @DisplayName("Запрос профиля из базы по id, профиль не существует")
     void handleFindProfileById_MissingId_EntityNotFoundException() {
         // given
-        doThrow(EntityNotFoundException.class).when(profileRepository).findById(1000000l);
+        doThrow(EntityNotFoundException.class).when(profileRepository).findById(1000000L);
         // when
 
         // then
         assertThrows(EntityNotFoundException.class, () -> {
-            profileService.findOne(1000000l);
+            profileService.findOne(1000000L);
         });
     }
 
@@ -409,13 +409,13 @@ class ProfileServiceImplTest {
     @DisplayName("Удаление профиля, профиль существует, успешное удаление")
     void handleDeleteProfile_ProfileIsExist_SuccessfulDeletion() {
         // given
-        doReturn(true).when(profileRepository).existsById(1l);
+        doReturn(true).when(profileRepository).existsById(1L);
 
         // when
-        profileService.delete(1l);
+        profileService.delete(1L);
 
         // then
-        verify(profileRepository).deleteById(1l);
+        verify(profileRepository).deleteById(1L);
         verifyNoMoreInteractions(profileRepository);
     }
 
@@ -423,14 +423,14 @@ class ProfileServiceImplTest {
     @DisplayName("Удаление профиля, профиль не существует, EntityNotFoundException")
     void handleDeleteProfile_ProfileIsNotExist_EntityNotFoundException() {
         // given
-        doReturn(false).when(profileRepository).existsById(1l);
+        doReturn(false).when(profileRepository).existsById(1L);
 
         // when
 
         // then
         verifyNoInteractions(profileRepository);
         assertThrows(EntityNotFoundException.class, () -> {
-            profileService.delete(1l);
+            profileService.delete(1L);
         });
     }
 
@@ -438,7 +438,7 @@ class ProfileServiceImplTest {
     @DisplayName("Обновление профиля, профиль существует, данные для обновления валидны")
     void handleUpdateProfile_ProfileIsExist_RequestIsValid() {
         // given
-        doReturn(Optional.of(profile1)).when(profileRepository).findById(1l);
+        doReturn(Optional.of(profile1)).when(profileRepository).findById(1L);
         doReturn(profile1).when(profileRepository).save(profile1);
 
         // when
@@ -456,7 +456,7 @@ class ProfileServiceImplTest {
     @DisplayName("Обновление профиля, профиль отсутсвует, EntityNotFoundException")
     void handleUpdateProfile_ProfileIsNotExist_EntityNotFoundException() {
         // given
-        doThrow(EntityNotFoundException.class).when(profileRepository).findById(1l);
+        doThrow(EntityNotFoundException.class).when(profileRepository).findById(1L);
 
         // when
 
@@ -471,10 +471,10 @@ class ProfileServiceImplTest {
     @DisplayName("Обновление профиля, был изменен id, либо введен ИНН или номер телефона, существующий в базе, BadRequestException")
     void handleUpdateProfile_ReplaceProfileIdOrINNOrPhoneNumberIsExist_BadRequestException() {
         // given
-        doReturn(Optional.of(profile2)).when(profileRepository).findById(2l);
+        doReturn(Optional.of(profile2)).when(profileRepository).findById(2L);
 
         // when
-        profileDto1.setId(2l);
+        profileDto1.setId(2L);
 
         // then
         verifyNoInteractions(profileRepository);
@@ -487,10 +487,10 @@ class ProfileServiceImplTest {
     @DisplayName("Обновление профиля, был изменен id пасспорта или регистрации, BadRequestException")
     void handleUpdateProfile_ReplacePassportOrRegistrationId_BadRequestException() {
         // given
-        doReturn(Optional.of(profile1)).when(profileRepository).findById(1l);
+        doReturn(Optional.of(profile1)).when(profileRepository).findById(1L);
 
         // when
-        profileDto1.getPassport().setId(2l);
+        profileDto1.getPassport().setId(2L);
 
         // then
         verifyNoInteractions(profileRepository);
