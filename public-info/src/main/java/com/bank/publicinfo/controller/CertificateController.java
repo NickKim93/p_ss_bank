@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,13 +27,13 @@ public class CertificateController {
     }
 
     @PostMapping
-    public ResponseEntity<CertificateDto> createLicense(@RequestBody CertificateDto certificateDto) {
+    public ResponseEntity<CertificateDto> createLicense(@Valid  @RequestBody CertificateDto certificateDto) {
         CertificateDto createdCertificate = certificateService.createLicense(certificateDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCertificate);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CertificateDto> updatedLicense(@PathVariable Long id, @RequestBody CertificateDto certificateDto) {
+    public ResponseEntity<CertificateDto> updatedLicense(@PathVariable Long id, @Valid @RequestBody CertificateDto certificateDto) {
         CertificateDto updatedCertificate = certificateService.updateCertificate(id, certificateDto);
         return ResponseEntity.ok(updatedCertificate);
     }
