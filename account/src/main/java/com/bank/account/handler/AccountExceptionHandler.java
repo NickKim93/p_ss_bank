@@ -4,6 +4,7 @@ import com.bank.account.exception.AccountDetailsNotFoundException;
 import com.bank.account.exception.AuditNotFoundException;
 import com.bank.account.util.AccountDetailsErrorResponse;
 import com.bank.account.util.AuditErrorResponse;
+import liquibase.pro.packaged.S;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.OffsetDateTime;
+import java.util.Map;
 
 @RestControllerAdvice
 public class AccountExceptionHandler {
@@ -38,7 +40,8 @@ public class AccountExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidationExceptions(
             @NonNull MethodArgumentNotValidException e) {
+        Map<String, String> errors = null;
+        e.getAllErrors().forEach(objectError -> errors.put(objectError.getObjectName(),objectError.getDefaultMessage()));
         return ResponseEntity.badRequest().body(e.getBindingResult().getAllErrors());
     }
-
 }
