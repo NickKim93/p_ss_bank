@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 
 /**
  * Класс, описывающий сущность Audit
@@ -22,26 +22,26 @@ import java.sql.Timestamp;
 public class AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @Column(name = "entity_type",
             nullable = false)
-    String entityType;
+    private String entityType;
     @Column(name = "operation_type",
             nullable = false)
-    String operationType;
+    private String operationType;
     @Column(name = "created_by",
             nullable = false)
-    String createdBy;
+    private String createdBy;
     @Column(name = "modified_by")
-    String modifiedBy;
+    private String modifiedBy;
     @Column(name = "created_at",
             nullable = false)
-    Timestamp createdAt;
+    private OffsetDateTime createdAt;
     @Column(name = "modified_at")
-    Timestamp modifiedAt;
+    private OffsetDateTime modifiedAt;
     @Column(name = "new_entity_json")
-    String newEntityJson;
+    private String newEntityJson;
     @Column(name = "entity_json",
             nullable = false)
-    String entityJson;
+    private String entityJson;
 }

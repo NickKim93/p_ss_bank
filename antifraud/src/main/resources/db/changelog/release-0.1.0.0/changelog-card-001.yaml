@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-suspicious_card_transfer-table
+      author: Петров Макарий
+      changes:
+        - createTable:
+            tableName: suspicious_card_transfer
+            remarks: подозрительные переводы по номеру карты
+            columns:
+              - column:
+                  name: id
+                  autoIncrement: true
+                  type: BIGINT
+                  remarks: технический идентификатор
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: suspicious_card_transfer_pkey
+              - column:
+                  name: card_transfer_id
+                  type: BIGINT
+                  remarks: технический идентификатор на перевод по номеру карты
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_blocked
+                  type: BOOLEAN
+                  remarks: заблокировано ли
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_suspicious
+                  type: BOOLEAN
+                  remarks: подозрительный ли перевод
+                  constraints:
+                    nullable: false
+              - column:
+                  name: blocked_reason
+                  type: TEXT
+                  remarks: причина блокировки
+              - column:
+                  name: suspicious_reason
+                  type: TEXT
+                  remarks: причина почему перевод попал в антифрод
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: unique_card-id
+      author: Петров Макарий
+      changes:
+        - addUniqueConstraint:
+            columnNames: card_transfer_id
+            constraintName: suspicious_card_transfer_id_key
+            tableName: suspicious_card_transfer
