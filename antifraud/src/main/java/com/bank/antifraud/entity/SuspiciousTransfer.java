@@ -7,32 +7,28 @@ import lombok.Setter;
 import javax.persistence.*;
 
 /**
- * Класс, описывающий сущность SuspiciousAccountTransfers
+ * Родительский класс для всех сущностей подозрительных переводов
  *
  * @author Makariy Petrov
  */
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-@Table(name = "suspicious_account_transfers")
-public class SuspiciousAccountTransfersEntity extends Auditable {
+@MappedSuperclass
+public abstract class SuspiciousTransfer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    @Column(name = "account_transfer_id",
-            nullable = false, unique = true)
-    Long accountTransferId;
+    private Long id;
+    private Long transferId;
     @Column(name = "is_blocked",
             nullable = false)
-    Boolean isBlocked;
+    private Boolean isBlocked;
     @Column(name = "is_suspicious",
             nullable = false)
-    Boolean isSuspicious;
+    private Boolean isSuspicious;
     @Column(name = "blocked_reason")
-    String blockedReason;
+    private String blockedReason;
     @Column(name = "suspicious_reason",
             nullable = false)
-    String suspiciousReason;
-
+    private String suspiciousReason;
 }

@@ -1,10 +1,11 @@
 package com.bank.antifraud.controller;
 
-import com.bank.antifraud.entity.SuspiciousAccountTransfersEntity;
-import com.bank.antifraud.service.SuspiciousAccountTransfersService;
+import com.bank.antifraud.entity.AccountEntity;
+import com.bank.antifraud.service.SuspiciousTransferService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.hibernate.exception.ConstraintViolationException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +27,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(SuspiciousAccountTransfersController.class)
+@DisplayName("Контроллер - подозрительные транзакции (account)")
 class SuspiciousAccountTransfersControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private SuspiciousAccountTransfersService suspiciousAccountTransfersService;
+    private SuspiciousTransferService<AccountEntity> suspiciousAccountTransfersService;
 
     @Test
+    @DisplayName("GET /account/transfers/all возвращает пустой лист и статус 200")
     void getAll_mustReturnEmptyList() throws Exception {
-        List<SuspiciousAccountTransfersEntity> result = new ArrayList<>();
+        // given
+        List<AccountEntity> result = new ArrayList<>();
 
+        // when
         when(suspiciousAccountTransfersService.findAll()).thenReturn(result);
 
+        // then
         mockMvc.perform(MockMvcRequestBuilders.get("/account/transfers/all")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -46,59 +52,82 @@ class SuspiciousAccountTransfersControllerTest {
     }
 
     @Test
+    @DisplayName("GET /account/transfers/{id} возвращает сущность и статус 200, когда сущность существует")
     void getById_mustReturnAudit_whenAuditIsExists() throws Exception {
-        SuspiciousAccountTransfersEntity suspiciousAccountTransfersEntity = new SuspiciousAccountTransfersEntity();
-        suspiciousAccountTransfersEntity.setAccountTransferId(1L);
-        suspiciousAccountTransfersEntity.setId(1L);
-        suspiciousAccountTransfersEntity.setIsSuspicious(true);
+        // given
+        AccountEntity accountEntity = new AccountEntity();
+        accountEntity.setTransferId(1L);
+        accountEntity.setId(1L);
+        accountEntity.setIsSuspicious(true);
 
-        when(suspiciousAccountTransfersService.findById(1L)).thenReturn(suspiciousAccountTransfersEntity);
+        // when
+        when(suspiciousAccountTransfersService.findById(1L)).thenReturn(accountEntity);
 
+        // then
         mockMvc.perform(MockMvcRequestBuilders.get("/account/transfers/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", Matchers.is(1)))
-                .andExpect(jsonPath("$.accountTransferId", Matchers.is(1)))
+                .andExpect(jsonPath("$.transferId", Matchers.is(1)))
                 .andExpect(jsonPath("$.isSuspicious", Matchers.is(true)));
     }
 
     @Test
+    @DisplayName("GET /account/transfers/{id} возвращает ошибку 404, когда сущность не найдена")
     void getById_mustReturn404_whenAuditNotFound() throws Exception {
+        // given
+
+        // when
         when(suspiciousAccountTransfersService.findById(1L)).thenThrow(new EntityNotFoundException());
 
+        //then
         mockMvc.perform(MockMvcRequestBuilders.get("/account/transfers/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
     @Test
+    @DisplayName("DELETE /account/transfers/{id} возвращает статус 200 (ok) когда сущность существовала")
     void deleteAudit_mustBeOk_whenAuditExistAndSuccessfulDel() throws Exception {
+        //given
+
+        // when
         doAnswer(invocationOnMock -> null).when(suspiciousAccountTransfersService).delete(1L);
 
+        //then
         mockMvc.perform(MockMvcRequestBuilders.delete("/account/transfers/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
+    @DisplayName("DELETE /account/transfers/{id} возвращает 404, если сущности с таким id не существовало")
     void deleteAudit_mustBeError404_whenAuditNotExist() throws Exception {
+        // given
+
+        // when
         doThrow(new EntityNotFoundException()).when(suspiciousAccountTransfersService).delete(1L);
 
+        // then
         mockMvc.perform(MockMvcRequestBuilders.delete("/account/transfers/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
     @Test
+    @DisplayName("POST /account/transfers возвращает новый объект и статус 200")
     void save_mustReturnNewObj_whenCreateIsOk() throws Exception {
-        SuspiciousAccountTransfersEntity suspiciousAccountTransfersEntity = new SuspiciousAccountTransfersEntity();
-        suspiciousAccountTransfersEntity.setId(1L);
-        suspiciousAccountTransfersEntity.setAccountTransferId(1L);
-        suspiciousAccountTransfersEntity.setIsSuspicious(true);
+        // given
+        AccountEntity accountEntity = new AccountEntity();
+        accountEntity.setId(1L);
+        accountEntity.setTransferId(1L);
+        accountEntity.setIsSuspicious(true);
 
-        when(suspiciousAccountTransfersService.save(any())).thenReturn(suspiciousAccountTransfersEntity);
+        // when
+        when(suspiciousAccountTransfersService.save(any())).thenReturn(accountEntity);
 
-        String json = new ObjectMapper().writeValueAsString(suspiciousAccountTransfersEntity);
+        // then
+        String json = new ObjectMapper().writeValueAsString(accountEntity);
         mockMvc.perform(MockMvcRequestBuilders.post("/account/transfers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
@@ -107,28 +136,37 @@ class SuspiciousAccountTransfersControllerTest {
     }
 
     @Test
+    @DisplayName("POST /account/transfers возвращает ошибку, если уникальное поле - не уникальное")
     void save_mustReturnErr_whenUniqueFieldIsAlreadyExist() throws Exception {
+        // given
+
+        // when
         when(suspiciousAccountTransfersService.save(null)).thenThrow(new ConstraintViolationException(null, null, null));
 
+        // then
         mockMvc.perform(MockMvcRequestBuilders.post("/account/transfers")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
+    @DisplayName("PATCH /account/transfers возвращает новый объект, когда успешно изменен старый")
     void update_mustReturnNewObject_whenIdExist() throws Exception {
-        SuspiciousAccountTransfersEntity suspiciousAccountTransfersEntity = new SuspiciousAccountTransfersEntity();
-        suspiciousAccountTransfersEntity.setAccountTransferId(1L);
-        suspiciousAccountTransfersEntity.setIsSuspicious(true);
+        //given
+        AccountEntity accountEntity = new AccountEntity();
+        accountEntity.setTransferId(1L);
+        accountEntity.setIsSuspicious(true);
 
-        when(suspiciousAccountTransfersService.save(any())).thenReturn(suspiciousAccountTransfersEntity);
+        // when
+        when(suspiciousAccountTransfersService.update(any())).thenReturn(accountEntity);
 
-        String json = new ObjectMapper().writeValueAsString(suspiciousAccountTransfersEntity);
-        mockMvc.perform(MockMvcRequestBuilders.post("/account/transfers")
+        //then
+        String json = new ObjectMapper().writeValueAsString(accountEntity);
+        mockMvc.perform(MockMvcRequestBuilders.patch("/account/transfers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.accountTransferId", Matchers.is(1)))
+                .andExpect(jsonPath("$.transferId", Matchers.is(1)))
                 .andExpect(jsonPath("$.isSuspicious", Matchers.is(true)));
     }
 }

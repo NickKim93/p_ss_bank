@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Аннотация, которая указывает на то, что действие данного метода нужно записать в таблицу Audit
+ * Аннотация, которая указывает на то, что действие данного метода нужно записать в таблицу audit
  *
  * @author Makariy Petrov
  */
