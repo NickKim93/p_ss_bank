@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigInteger;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -32,6 +33,20 @@ public class AccountDetailsDTO {
     @NotNull
     @Positive
     private Long profileId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AccountDetailsDTO that = (AccountDetailsDTO) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(passportId, that.passportId) &&
+                Objects.equals(accountNumber, that.accountNumber) &&
+                Objects.equals(bankDetailsId, that.bankDetailsId) &&
+                Objects.equals(money, that.money) &&
+                Objects.equals(negativeBalance, that.negativeBalance) &&
+                Objects.equals(profileId, that.profileId);
+    }
 }
 
 
