@@ -21,10 +21,10 @@ spring:
     properties:
       hibernate:
         default_schema: anti_fraud
-  datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: secretpassword
+        hbm2ddl:
+          auto: validate
+    database: postgresql
+
   liquibase:
     default-schema: anti_fraud
     change-log: db/changelog/db.changelog-master.yaml

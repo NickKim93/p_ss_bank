@@ -1,53 +1,47 @@
 package com.bank.antifraud.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.math.BigInteger;
-import java.sql.Timestamp;
+import javax.persistence.*;
+import java.time.OffsetDateTime;
 
 /**
  * Класс, описывающий сущность Audit
+ *
  * @author Makariy Petrov
  */
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "audit")
 public class AuditEntity {
-    /**
-     * Уникальный id
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    BigInteger id;
+    private Long id;
     @Column(name = "entity_type",
             nullable = false)
-    String entityType;
+    private String entityType;
     @Column(name = "operation_type",
             nullable = false)
-    String operationType;
+    private String operationType;
     @Column(name = "created_by",
             nullable = false)
-    String createdBy;
+    private String createdBy;
     @Column(name = "modified_by")
-    String modifiedBy;
+    private String modifiedBy;
     @Column(name = "created_at",
             nullable = false)
-    Timestamp createdAt;
+    private OffsetDateTime createdAt;
     @Column(name = "modified_at")
-    Timestamp modifiedAt;
+    private OffsetDateTime modifiedAt;
     @Column(name = "new_entity_json")
-    String newEntityJson;
+    private String newEntityJson;
     @Column(name = "entity_json",
             nullable = false)
-    String entityJson;
+    private String entityJson;
 }

@@ -1,53 +1,59 @@
 package com.bank.antifraud.controller;
 
-import com.bank.antifraud.dto.SuspiciousPhoneTransfersDto;
-import com.bank.antifraud.entity.SuspiciousPhoneTransfersEntity;
-import com.bank.antifraud.service.SuspiciousPhoneTransfersService;
+import com.bank.antifraud.dto.SuspiciousTransferDto;
+import com.bank.antifraud.entity.PhoneEntity;
+import com.bank.antifraud.service.SuspiciousTransferService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
+import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * Контроллер, который работает с сущность {@link PhoneEntity}
+ *
+ * @author Makariy Petrov
+ */
 @RestController
 @RequestMapping("phone/transfers")
+@Tag(name = "Подозрительные переводы по номеру телефона")
 public class SuspiciousPhoneTransfersController {
-    private final SuspiciousPhoneTransfersService suspiciousPhoneTransfersService;
+    private final SuspiciousTransferService<PhoneEntity> suspiciousPhoneTransfersService;
 
-    public SuspiciousPhoneTransfersController(SuspiciousPhoneTransfersService suspiciousPhoneTransfersService) {
+    public SuspiciousPhoneTransfersController(SuspiciousTransferService<PhoneEntity> suspiciousPhoneTransfersService) {
         this.suspiciousPhoneTransfersService = suspiciousPhoneTransfersService;
     }
 
     @GetMapping("all")
-    public ResponseEntity<List<SuspiciousPhoneTransfersEntity>> getAll() {
+    @Operation(description = "Получить список всех переводов")
+    public ResponseEntity<List<PhoneEntity>> getAll() {
         return ResponseEntity.ok(suspiciousPhoneTransfersService.findAll());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<SuspiciousPhoneTransfersEntity> getById(@PathVariable BigInteger id) {
+    @Operation(description = "Получить перевод по id")
+    public ResponseEntity<PhoneEntity> getById(@PathVariable Long id) {
         return ResponseEntity.ok(suspiciousPhoneTransfersService.findById(id));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<BigInteger> deleteAudit(@PathVariable BigInteger id) {
+    @Operation(description = "Удалить перевод по id")
+    public ResponseEntity<Long> deleteAudit(@PathVariable Long id) {
         suspiciousPhoneTransfersService.delete(id);
         return ResponseEntity.ok(id);
     }
 
     @PostMapping
-    public ResponseEntity<SuspiciousPhoneTransfersEntity> save(@RequestBody SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
+    @Operation(description = "Сохранить новый перевод")
+    public ResponseEntity<PhoneEntity> save(@Valid @RequestBody SuspiciousTransferDto suspiciousPhoneTransfersDto) {
         return ResponseEntity.ok(suspiciousPhoneTransfersService.save(suspiciousPhoneTransfersDto));
     }
 
     @PatchMapping
-    public ResponseEntity<SuspiciousPhoneTransfersEntity> update(@RequestBody SuspiciousPhoneTransfersDto suspiciousPhoneTransfersDto) {
+    @Operation(description = "Обновить существующий перевод")
+    public ResponseEntity<PhoneEntity> update(@Valid @RequestBody SuspiciousTransferDto suspiciousPhoneTransfersDto) {
         return ResponseEntity.ok(suspiciousPhoneTransfersService.update(suspiciousPhoneTransfersDto));
     }
 }
