@@ -3,3 +3,10 @@ spring:
     name: account-app
   profiles:
     active: local
+  datasource:
+    url: jdbc:postgresql://localhost:5434/postgres
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: secretpassword
+  jpa:
+    show-sql: true
