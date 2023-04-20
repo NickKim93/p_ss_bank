@@ -1,20 +1,16 @@
 package com.bank.transfer.service;
 
-import com.bank.transfer.dto.AuditDto;
 import com.bank.transfer.entity.AuditEntity;
-import com.bank.transfer.mapper.AuditMapper;
 import com.bank.transfer.repository.AuditRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityNotFoundException;
-import java.math.BigInteger;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
-/**
- * Бизнес-логика приложения для Audit Entity
- * @author Savenkov Artem
- */
+
+@Slf4j
 @Service
+@Transactional(readOnly = true)
 public class AuditServiceImpl implements AuditService {
 
     private final AuditRepository auditRepository;
@@ -29,25 +25,15 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
-    public AuditEntity getById(BigInteger id) {
-        Optional<AuditEntity> optional = auditRepository.findById(id);
-        if (optional.isPresent()) {
-            return optional.get();
-        } else {
-            throw new EntityNotFoundException("Audit Entity с id: " + id + " не найден");
-        }
+    public Optional<AuditEntity> getById(Long id) {
+        return auditRepository.findById(id);
     }
 
     @Override
-    public AuditEntity saveOrUpdate(AuditDto auditDto) {
-        AuditEntity auditEntity = AuditMapper.getAuditMapper.dtoToEntityAudit(auditDto);
-        return auditRepository.save(auditEntity);
-    }
-
-    @Override
-    public void delete(BigInteger id) {
-        AuditEntity auditEntity = auditRepository.findById(id).orElseThrow(()
-                -> new EntityNotFoundException(id.toString()));
-        auditRepository.delete(auditEntity);
+    @Transactional
+    public void save(AuditEntity auditEntity) {
+        log.info("try to save auditEntity: {}", auditEntity);
+        auditRepository.save(auditEntity);
+        log.info("save auditEntity success, id={}", auditEntity.getId());
     }
 }

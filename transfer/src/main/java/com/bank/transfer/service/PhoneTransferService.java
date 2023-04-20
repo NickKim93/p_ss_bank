@@ -1,13 +1,13 @@
 package com.bank.transfer.service;
-import com.bank.transfer.dto.PhoneTransferDto;
 import com.bank.transfer.entity.PhoneTransferEntity;
-
-import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 public interface PhoneTransferService {
     List<PhoneTransferEntity> getAll();
-    PhoneTransferEntity getById(BigInteger id);
-    PhoneTransferEntity saveOrUpdate(PhoneTransferDto phoneTransferDto);
-    void delete(BigInteger id);
+    Optional<PhoneTransferEntity> getById(Long id);
+    void save(PhoneTransferEntity phoneTransferEntity);
+    void update(Long id, PhoneTransferEntity phoneTransferEntity);
+    void delete(Long id);
+    Optional<PhoneTransferEntity> getByPhoneNumber(Long phoneNumber);
 }

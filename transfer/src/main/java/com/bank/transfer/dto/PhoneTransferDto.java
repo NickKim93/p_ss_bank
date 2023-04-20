@@ -1,13 +1,9 @@
 package com.bank.transfer.dto;
 
-import java.math.BigInteger;
-/**
- * Класс, описывающий Data Transfer Objects Phone Transfer
- * @author Savenkov Artem
- */
-public record PhoneTransferDto(BigInteger id,
-                               BigInteger phoneNumber,
-                               BigInteger amount,
+import java.math.BigDecimal;
+public record PhoneTransferDto(Long id,
+                               Long phoneNumber,
+                               BigDecimal amount,
                                String purpose,
-                               BigInteger accountDetailsId) {
+                               Long accountDetailsId) {
 }

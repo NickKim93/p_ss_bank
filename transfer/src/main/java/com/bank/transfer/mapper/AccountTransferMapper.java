@@ -3,15 +3,14 @@ package com.bank.transfer.mapper;
 import com.bank.transfer.dto.AccountTransferDto;
 import com.bank.transfer.entity.AccountTransferEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-/**
- * Итнерфэйс Account Transfer Mapper для получения Account Transfer Entity из DTO
- * @author Savenkov Artem
- */
-@Mapper
+@Mapper(componentModel = "spring")
 public interface AccountTransferMapper {
-    AccountTransferMapper getAccountTransferMapper = Mappers.getMapper(AccountTransferMapper.class);
+    AccountTransferMapper ACCOUNT_TRANSFER_MAPPER = Mappers.getMapper(AccountTransferMapper.class);
+    AccountTransferDto entityToDtoAccountTransfer(AccountTransferEntity accountTransferEntity);
+    @Mapping(target = "id", ignore = true)
     AccountTransferEntity dtoToEntityAccountTransfer(AccountTransferDto accountTransferDto);
 
 }

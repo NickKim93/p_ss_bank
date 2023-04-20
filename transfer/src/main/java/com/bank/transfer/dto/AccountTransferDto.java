@@ -1,14 +1,10 @@
 package com.bank.transfer.dto;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
-/**
- * Класс, описывающий Data Transfer Objects Account Transfer
- * @author Savenkov Artem
- */
-public record AccountTransferDto(BigInteger id,
-                                 BigInteger accountNumber,
-                                 BigInteger amount,
+public record AccountTransferDto(Long id,
+                                 Long accountNumber,
+                                 BigDecimal amount,
                                  String purpose,
-                                 BigInteger accountDetailsId) {
+                                 Long accountDetailsId) {
 }

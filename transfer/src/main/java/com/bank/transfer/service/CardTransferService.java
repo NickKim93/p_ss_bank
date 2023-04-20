@@ -1,14 +1,13 @@
 package com.bank.transfer.service;
-
-import com.bank.transfer.dto.CardTransferDto;
 import com.bank.transfer.entity.CardTransferEntity;
-
-import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 public interface CardTransferService {
     List<CardTransferEntity> getAll();
-    CardTransferEntity getById(BigInteger id);
-    CardTransferEntity saveOrUpdate(CardTransferDto cardTransferDto);
-    void delete(BigInteger id);
+    Optional<CardTransferEntity> getById(Long id);
+    Optional<CardTransferEntity> getByCardNumber(Long cardNumber);
+    void save(CardTransferEntity cardTransferEntity);
+    void update(Long id, CardTransferEntity cardTransferEntity);
+    void delete(Long id);
 }

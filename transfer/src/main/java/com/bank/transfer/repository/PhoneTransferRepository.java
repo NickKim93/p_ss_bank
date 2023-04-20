@@ -4,11 +4,10 @@ import com.bank.transfer.entity.PhoneTransferEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigInteger;
-/**
- * dao-слой Phone Transfer Entity, имплементирующий JpaRepository
- * @author Savenkov Artem
- */
+import java.util.Optional;
+
 @Repository
-public interface PhoneTransferRepository extends JpaRepository<PhoneTransferEntity, BigInteger> {
+public interface PhoneTransferRepository extends JpaRepository<PhoneTransferEntity, Long> {
+
+    Optional<PhoneTransferEntity> getByPhoneNumber(Long phoneNumber);
 }
