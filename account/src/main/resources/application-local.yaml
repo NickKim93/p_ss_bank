@@ -2,6 +2,9 @@ server:
   port: 8085
   servlet:
     context-path: /api/account
+  error:
+    include-message: always
+    include-exception: true
 management:
   server:
     port: 8185
