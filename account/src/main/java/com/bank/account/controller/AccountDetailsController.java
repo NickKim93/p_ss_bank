@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,7 +28,9 @@ public class AccountDetailsController {
     private final Logger logger = LoggerFactory.getLogger(AccountDetailsController.class);
 
     @PostMapping
-    ResponseEntity<HttpStatus> saveAccountDetails(@RequestBody @Valid AccountDetailsDTO detailsDTO) {
+    ResponseEntity<HttpStatus> saveAccountDetails(@RequestBody @Valid AccountDetailsDTO detailsDTO,
+                                                  BindingResult bindingResult) {
+        String s = bindingResult.toString();
         logger.info("запущен метод saveAccountDetails");
         accountService.save(detailsDTO);
         return ResponseEntity.ok(HttpStatus.OK);
@@ -38,20 +41,17 @@ public class AccountDetailsController {
         logger.info("запущен метод getAccountDetails");
         return new ResponseEntity<>(accountService.getAccountDetails(id), HttpStatus.OK);
     }
-
     @GetMapping
     ResponseEntity<List<AccountDetailsDTO>> getAllAccountDetails() {
         logger.info("запущен метод getAllAccountDetails");
         return new ResponseEntity<>(accountService.getAllAccountDetails(), HttpStatus.OK);
     }
-
     @DeleteMapping("/{id}")
     ResponseEntity<HttpStatus> deleteAccountDetails(@PathVariable Long id) {
         logger.info("запущен метод deleteAccountDetails");
         accountService.deleteById(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
-
     @PatchMapping
     ResponseEntity<HttpStatus> updateAccountDetails(@RequestBody @Valid AccountDetailsDTO detailsDTO) {
         logger.info("запущен метод updateAccountDetails");
