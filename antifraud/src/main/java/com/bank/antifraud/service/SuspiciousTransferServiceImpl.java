@@ -7,6 +7,7 @@ import com.bank.antifraud.entity.SuspiciousTransfer;
 import com.bank.antifraud.mapper.SuspiciousTransferMapper;
 import com.bank.antifraud.repository.SuspiciousTransferRepository;
 import com.bank.antifraud.util.OperationType;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ public class SuspiciousTransferServiceImpl<T extends SuspiciousTransfer> impleme
     @Override
     @Transactional
     @Auditing(operationType = OperationType.CREATE)
+    @Timed("service.save")
     public T save(SuspiciousTransferDto suspiciousTransferDto) {
         suspiciousTransferDto.setType(TYPE);
         SuspiciousTransfer suspiciousTransfer = SuspiciousTransferMapper.INSTANCE
@@ -39,6 +41,7 @@ public class SuspiciousTransferServiceImpl<T extends SuspiciousTransfer> impleme
     }
 
     @Override
+    @Timed(value = "service.findById", description = "метод поиска по id")
     public T findById(Long id) {
         Optional<T> suspiciousTransferOptional = suspiciousTransferRepository.findById(id);
         if (suspiciousTransferOptional.isPresent()) {
@@ -49,6 +52,7 @@ public class SuspiciousTransferServiceImpl<T extends SuspiciousTransfer> impleme
     }
 
     @Override
+    @Timed(value = "service.findAll", description = "метод поиска всех")
     public List<T> findAll() {
         return suspiciousTransferRepository.findAll();
     }
@@ -56,6 +60,7 @@ public class SuspiciousTransferServiceImpl<T extends SuspiciousTransfer> impleme
     @Override
     @Transactional
     @Auditing(operationType = OperationType.DELETE)
+    @Timed(value = "service.delete", description = "метод удаления")
     public void delete(Long id) {
         SuspiciousTransfer suspiciousTransfer = suspiciousTransferRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("сущность SuspiciousTransfer с id: " + id + " не найдена."));
@@ -66,6 +71,7 @@ public class SuspiciousTransferServiceImpl<T extends SuspiciousTransfer> impleme
     @Override
     @Transactional
     @Auditing(operationType = OperationType.UPDATE)
+    @Timed(value = "service.update", description = "метод обновления")
     public T update(SuspiciousTransferDto suspiciousTransferDto) {
         suspiciousTransferDto.setType(TYPE);
         SuspiciousTransfer updateEntity = suspiciousTransferRepository.findById(suspiciousTransferDto.getId())

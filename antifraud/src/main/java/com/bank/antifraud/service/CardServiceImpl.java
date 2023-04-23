@@ -2,6 +2,7 @@ package com.bank.antifraud.service;
 
 import com.bank.antifraud.entity.CardEntity;
 import com.bank.antifraud.repository.CardRepository;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.stereotype.Service;
 
 @Service
