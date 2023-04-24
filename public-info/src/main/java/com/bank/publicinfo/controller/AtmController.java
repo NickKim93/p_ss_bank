@@ -6,6 +6,8 @@ import com.bank.publicinfo.service.AtmService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,13 +27,13 @@ public class AtmController {
     }
 
     @PostMapping()
-    public ResponseEntity<AtmDto> createAtm (@RequestBody AtmDto atmDto) {
+    public ResponseEntity<AtmDto> createAtm (@Valid @RequestBody AtmDto atmDto) {
         AtmDto createdDto = atmService.createAtm(atmDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AtmDto> update(@PathVariable Long id, @RequestBody AtmDto atmDto) {
+    public ResponseEntity<AtmDto> update(@PathVariable Long id,@Valid @RequestBody AtmDto atmDto) {
         AtmDto updatedDto = atmService.updateAtm(id, atmDto);
         return ResponseEntity.ok(updatedDto);
     }

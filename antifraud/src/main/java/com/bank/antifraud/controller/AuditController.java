@@ -2,6 +2,7 @@ package com.bank.antifraud.controller;
 
 import com.bank.antifraud.entity.AuditEntity;
 import com.bank.antifraud.service.AuditService;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class AuditController {
     }
 
     @GetMapping("all")
+    @Timed("audit.findAll")
     public ResponseEntity<List<AuditEntity>> findAll() {
         return ResponseEntity.ok(auditService.findAll());
     }

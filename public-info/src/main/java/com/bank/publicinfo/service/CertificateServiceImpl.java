@@ -1,5 +1,6 @@
 package com.bank.publicinfo.service;
 
+import com.bank.publicinfo.auditlistener.Auditable;
 import com.bank.publicinfo.dto.CertificateDto;
 import com.bank.publicinfo.entity.Certificate;
 import com.bank.publicinfo.mapper.CertificateMapper;
@@ -37,6 +38,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
+    @Auditable(operationType = "create")
     public CertificateDto createLicense(CertificateDto certificateDto) {
         Certificate certificate = certificateMapper.certificateDtoToEntity(certificateDto);
         certificate = certificateRepository.save(certificate);
@@ -44,6 +46,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
+    @Auditable(operationType = "update")
     public CertificateDto updateCertificate(Long id, CertificateDto certificateDto) {
         Certificate certificate = certificateRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Certificate not found"));
@@ -53,6 +56,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
+    @Auditable(operationType = "delete")
     public void deleteCertificateById(Long id) {
         Certificate certificate = certificateRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Certificate not found"));

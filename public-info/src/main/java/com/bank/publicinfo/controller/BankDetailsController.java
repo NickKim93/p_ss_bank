@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,13 +27,13 @@ public class BankDetailsController {
     }
 
     @PostMapping
-    public ResponseEntity<BankDetailsDto> createLicense(@RequestBody BankDetailsDto bankDetailsDto) {
+    public ResponseEntity<BankDetailsDto> createLicense(@Valid @RequestBody BankDetailsDto bankDetailsDto) {
         BankDetailsDto createdBankDetails = bankDetailsService.createBankDetails(bankDetailsDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBankDetails);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BankDetailsDto> updatedBankDetails(@PathVariable Long id, @RequestBody BankDetailsDto bankDetailsDto) {
+    public ResponseEntity<BankDetailsDto> updatedBankDetails(@PathVariable Long id, @Valid @RequestBody BankDetailsDto bankDetailsDto) {
         BankDetailsDto updatedBankDetails = bankDetailsService.updateBankDetails(id, bankDetailsDto);
         return ResponseEntity.ok(updatedBankDetails);
     }

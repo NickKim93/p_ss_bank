@@ -1,5 +1,6 @@
 package com.bank.publicinfo.service;
 
+import com.bank.publicinfo.auditlistener.Auditable;
 import com.bank.publicinfo.dto.AtmDto;
 import com.bank.publicinfo.entity.Atm;
 import com.bank.publicinfo.entity.Branch;
@@ -42,6 +43,7 @@ public class AtmServiceImpl implements AtmService{
     }
 
     @Override
+    @Auditable(operationType = "create")
     public AtmDto createAtm(AtmDto atmDto) {
         Atm atm = atmMapper.atmToEntity(atmDto);
         atm = atmRepository.save(atm);
@@ -49,6 +51,7 @@ public class AtmServiceImpl implements AtmService{
     }
 
     @Override
+    @Auditable(operationType = "update")
     public AtmDto updateAtm(Long id, AtmDto atmDto) {
         Atm atm = atmRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ATM not found"));
@@ -65,6 +68,7 @@ public class AtmServiceImpl implements AtmService{
     }
 
     @Override
+    @Auditable(operationType = "delete")
     public void deleteAtmById(Long id) {
         Atm atm = atmRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ATM not found"));
