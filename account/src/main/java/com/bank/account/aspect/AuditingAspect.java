@@ -31,6 +31,7 @@ public class AuditingAspect {
     @After(value = "@annotation(auditable)", argNames = "joinPoint,auditable")
     @Transactional
     public void logAuditActivity(JoinPoint joinPoint, Auditable auditable) {
+
         if (AuditingActionType.CREATE == auditable.actionType()) {
             Audit audit = new Audit();
             audit.setEntityType(AccountDetails.class.getSimpleName());
