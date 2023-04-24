@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -26,13 +27,13 @@ public class LicenseController {
     }
 
     @PostMapping
-    public ResponseEntity<LicenseDto> createLicense(@RequestBody LicenseDto licenseDto) {
+    public ResponseEntity<LicenseDto> createLicense(@Valid @RequestBody LicenseDto licenseDto) {
         LicenseDto createdLicense = licenseService.createLicense(licenseDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdLicense);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LicenseDto> updatedLicense(@PathVariable Long id, @RequestBody LicenseDto licenseDto) {
+    public ResponseEntity<LicenseDto> updatedLicense(@PathVariable Long id, @Valid @RequestBody LicenseDto licenseDto) {
         LicenseDto updatedLicense = licenseService.updateLicense(id, licenseDto);
         return ResponseEntity.created(URI.create("/api/licenses" + updatedLicense.id()))
                 .body(updatedLicense);

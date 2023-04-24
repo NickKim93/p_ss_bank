@@ -1,5 +1,6 @@
 package com.bank.publicinfo.service;
 
+import com.bank.publicinfo.auditlistener.Auditable;
 import com.bank.publicinfo.dto.BranchDto;
 import com.bank.publicinfo.entity.Branch;
 import com.bank.publicinfo.mapper.BranchMapper;
@@ -35,6 +36,7 @@ public class BranchServiceImpl implements BranchService{
     }
 
     @Override
+    @Auditable(operationType = "create")
     public BranchDto createBranch(BranchDto branchDto) {
         Branch branch = branchMapper.branchToEntity(branchDto);
         branch = branchRepository.save(branch);
@@ -42,6 +44,7 @@ public class BranchServiceImpl implements BranchService{
     }
 
     @Override
+    @Auditable(operationType = "update")
     public BranchDto updateBranch(Long id, BranchDto branchDto) {
         Branch branch = branchRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("branch not found"));
@@ -51,6 +54,7 @@ public class BranchServiceImpl implements BranchService{
     }
 
     @Override
+    @Auditable(operationType = "delete")
     public void deleteBranchById(Long id) {
         Branch branch = branchRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Branch not found"));

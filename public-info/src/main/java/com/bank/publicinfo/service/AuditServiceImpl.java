@@ -7,9 +7,7 @@ import com.bank.publicinfo.repository.AuditRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -24,38 +22,8 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
-    public AuditDto getAuditById(Long id) {
-        Audit audit = auditRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
-        return auditMapper.AuditEntityToDto(audit);
-    }
-
-    @Override
     public List<AuditDto> getAudits() {
         List<Audit> auditEntities = auditRepository.findAll();
-        return auditEntities.stream()
-                .map(auditMapper::AuditEntityToDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public AuditDto createAudit(AuditDto auditDto) {
-        Audit audit = auditMapper.AuditDtoToEntity(auditDto);
-        audit = auditRepository.save(audit);
-        return auditMapper.AuditEntityToDto(audit);
-    }
-
-    @Override
-    public AuditDto updateAudit(Long id, AuditDto auditDto) {
-        Audit audit = auditRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
-        audit = auditMapper.updateEntityFromDto(auditDto, audit);
-        audit = auditRepository.save(audit);
-        return auditMapper.AuditEntityToDto(audit);
-    }
-
-    @Override
-    public void deleteAuditById(Long id) {
-           auditRepository.deleteById(id);
+        return auditMapper.auditListToDto(auditEntities);
     }
 }

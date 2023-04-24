@@ -1,12 +1,12 @@
 package com.bank.publicinfo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "atm")
@@ -23,10 +23,10 @@ public class Atm {
     @Column(nullable = false)
     private String address;
 
-    @Column(name = "start_of_work")
+    @Column(name = "start_of_work", nullable = false)
     private LocalDateTime startOfWork;
 
-    @Column(name = "end_of_work")
+    @Column(name = "end_of_work", nullable = false)
     private LocalDateTime endOfWork;
 
     @Column(name = "all_hours", nullable = false)

@@ -5,6 +5,8 @@ import com.bank.publicinfo.service.BranchService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -30,13 +32,13 @@ public class BranchController {
     }
 
     @PostMapping()
-    public ResponseEntity<BranchDto> createAtm (@RequestBody BranchDto branchDto) {
+    public ResponseEntity<BranchDto> createAtm (@Valid @RequestBody BranchDto branchDto) {
         BranchDto createdDto = branchService.createBranch(branchDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BranchDto> update(@PathVariable Long id, @RequestBody BranchDto branchDto) {
+    public ResponseEntity<BranchDto> update(@PathVariable Long id, @Valid @RequestBody BranchDto branchDto) {
         BranchDto updatedDto = branchService.updateBranch(id, branchDto);
         return ResponseEntity.ok(updatedDto);
     }
