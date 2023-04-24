@@ -60,7 +60,6 @@ public class AuditControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", Matchers.is(1)));
     }
-
     @Test
     public void shouldReturnExceptionOnFindAuditById() throws Exception {
         when(service.getAudit(2L)).thenThrow(new AuditNotFoundException());
@@ -69,7 +68,6 @@ public class AuditControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
-
     List<Audit> getAudits() {
         Audit firstAudit = new Audit(1L, "entity_type", "operation_type", "by_me", "by_me_too", Timestamp.valueOf(LocalDateTime.now()),
                 Timestamp.valueOf(LocalDateTime.now()), "new_entity", "entity");
