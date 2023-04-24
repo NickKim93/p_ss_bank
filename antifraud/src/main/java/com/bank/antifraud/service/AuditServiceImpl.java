@@ -2,6 +2,7 @@ package com.bank.antifraud.service;
 
 import com.bank.antifraud.entity.AuditEntity;
 import com.bank.antifraud.repository.AuditRepository;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
