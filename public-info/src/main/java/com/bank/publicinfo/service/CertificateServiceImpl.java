@@ -39,7 +39,7 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Override
     @Auditable(operationType = "create")
-    public CertificateDto createLicense(CertificateDto certificateDto) {
+    public CertificateDto createCertificate(CertificateDto certificateDto) {
         Certificate certificate = certificateMapper.certificateDtoToEntity(certificateDto);
         certificate = certificateRepository.save(certificate);
         return certificateMapper.certificateEntityToDto(certificate);

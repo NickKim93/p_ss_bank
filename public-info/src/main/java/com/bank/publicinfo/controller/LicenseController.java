@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -35,8 +34,7 @@ public class LicenseController {
     @PutMapping("/{id}")
     public ResponseEntity<LicenseDto> updatedLicense(@PathVariable Long id, @Valid @RequestBody LicenseDto licenseDto) {
         LicenseDto updatedLicense = licenseService.updateLicense(id, licenseDto);
-        return ResponseEntity.created(URI.create("/api/licenses" + updatedLicense.id()))
-                .body(updatedLicense);
+        return ResponseEntity.ok(updatedLicense);
     }
 
     @DeleteMapping("/{id}")

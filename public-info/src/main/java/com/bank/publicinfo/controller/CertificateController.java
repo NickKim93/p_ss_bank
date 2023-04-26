@@ -27,13 +27,13 @@ public class CertificateController {
     }
 
     @PostMapping
-    public ResponseEntity<CertificateDto> createLicense(@Valid  @RequestBody CertificateDto certificateDto) {
-        CertificateDto createdCertificate = certificateService.createLicense(certificateDto);
+    public ResponseEntity<CertificateDto> createCertificate(@Valid @RequestBody CertificateDto certificateDto) {
+        CertificateDto createdCertificate = certificateService.createCertificate(certificateDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCertificate);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CertificateDto> updatedLicense(@PathVariable Long id, @Valid @RequestBody CertificateDto certificateDto) {
+    public ResponseEntity<CertificateDto> updatedLicense(@PathVariable Long id, @RequestBody CertificateDto certificateDto) {
         CertificateDto updatedCertificate = certificateService.updateCertificate(id, certificateDto);
         return ResponseEntity.ok(updatedCertificate);
     }
