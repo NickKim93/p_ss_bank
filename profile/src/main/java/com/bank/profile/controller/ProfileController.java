@@ -2,6 +2,8 @@ package com.bank.profile.controller;
 
 import com.bank.profile.dto.ProfileDto;
 import com.bank.profile.service.ProfileService;
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +28,7 @@ import java.util.Map;
  * номер метефона указывается в формате 9991234567, без +7
  */
 @RestController
-@RequestMapping("/api/profile")
+@RequestMapping //("/api/profile")
 public class ProfileController {
     private final ProfileService profileService;
 
@@ -38,6 +40,7 @@ public class ProfileController {
      * /api/profile
      * получение списка всех профилей, метод GET
      */
+    @Timed("gettingAllProfiles")
     @GetMapping
     public ResponseEntity<List<ProfileDto>> findAll() {
         final List<ProfileDto> profileDtoList = profileService.findAll();
@@ -55,6 +58,7 @@ public class ProfileController {
      * /api/profile/{id}
      * поиск профиля по id, метод GET
      */
+    @Timed("getProfileById")
     @GetMapping("/{id}")
     public ResponseEntity<ProfileDto> findOne(@PathVariable Long id) {
         final ProfileDto profileDto = profileService.findOne(id);
@@ -68,6 +72,7 @@ public class ProfileController {
      * /api/profile/{id}
      * поиск профиля по ИНН или номеру телефона, метод GET
      */
+    @Timed("getProfileByInnOrPhoneNumber")
     @GetMapping("/n/{n}")
     public ResponseEntity<ProfileDto> findByInnOrPhoneNumber(@PathVariable Long n) {
         final ProfileDto profileDto = profileService.findByInnOrPhoneNumber(n);
@@ -81,6 +86,7 @@ public class ProfileController {
      * /api/profile/{id}
      * удаление профиля по id, метод DELETE
      */
+    @Timed("deleteProfile")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         profileService.delete(id);
@@ -139,6 +145,7 @@ public class ProfileController {
      * "accountDetailsSet": null
      * }
      */
+    @Timed("createProfile")
     @PostMapping
     public ResponseEntity<ProfileDto> create(@Valid @RequestBody ProfileDto profileDto) {
         final ProfileDto profileDtoLocal = profileService.create(profileDto);
@@ -160,6 +167,7 @@ public class ProfileController {
      * }
      * ]
      */
+    @Timed("updateProfile")
     @PatchMapping
     public ResponseEntity<ProfileDto> update(@Valid @RequestBody ProfileDto profileDto) {
         final ProfileDto profileDtoLocal = profileService.update(profileDto);
