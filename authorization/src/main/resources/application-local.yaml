@@ -2,13 +2,6 @@ server:
   port: 8087
   servlet:
     context-path: /api/authorization
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-  instance:
-    preferIpAddress: true
-    lease-renewal-interval-in-seconds: 30
 management:
   server:
     port: 8187
@@ -21,9 +14,9 @@ management:
         include: '*'
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/postgres
-    username: postgres
-    password: secretpassword
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: user
+    password: password
   liquibase:
     default-schema: authorization
     change-log: db/changelog/db.changelog-master.yaml
