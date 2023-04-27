@@ -29,7 +29,6 @@ public class LicenseServiceImpl implements LicenseService {
     public LicenseDto getLicenseById(Long id) {
         License license = licenseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("License not found"));
-        license = licenseRepository.save(license);
         return licenseMapper.licenseEntityToDto(license);
     }
 

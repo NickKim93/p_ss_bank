@@ -9,7 +9,7 @@ public interface CertificateService {
 
     List<CertificateDto> getAllCertificates ();
 
-    CertificateDto createLicense(CertificateDto certificateDto);
+    CertificateDto createCertificate(CertificateDto certificateDto);
 
     CertificateDto updateCertificate(Long id, CertificateDto certificateDto);
 
