@@ -5,6 +5,7 @@ import com.bank.publicinfo.dto.CertificateDto;
 import com.bank.publicinfo.entity.Certificate;
 import com.bank.publicinfo.mapper.CertificateMapper;
 import com.bank.publicinfo.repository.CertificateRepository;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
+    @Timed(value = "certificates_service.findAll")
     public List<CertificateDto> getAllCertificates() {
         List<Certificate> certificateList = certificateRepository.findAll();
         return certificateMapper.certificateListEntityToDto(certificateList);
@@ -39,6 +41,7 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Override
     @Auditable(operationType = "create")
+    @Timed(value = "certificates_service.create")
     public CertificateDto createCertificate(CertificateDto certificateDto) {
         Certificate certificate = certificateMapper.certificateDtoToEntity(certificateDto);
         certificate = certificateRepository.save(certificate);
@@ -47,6 +50,7 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Override
     @Auditable(operationType = "update")
+    @Timed(value = "certificates_service.update")
     public CertificateDto updateCertificate(Long id, CertificateDto certificateDto) {
         Certificate certificate = certificateRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Certificate not found"));
@@ -57,6 +61,7 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Override
     @Auditable(operationType = "delete")
+    @Timed(value = "certificates_service.delete")
     public void deleteCertificateById(Long id) {
         Certificate certificate = certificateRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Certificate not found"));

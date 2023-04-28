@@ -5,6 +5,7 @@ import com.bank.publicinfo.dto.LicenseDto;
 import com.bank.publicinfo.entity.License;
 import com.bank.publicinfo.mapper.LicenseMapper;
 import com.bank.publicinfo.repository.LicenseRepository;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,7 @@ public class LicenseServiceImpl implements LicenseService {
     }
 
     @Override
+    @Timed(value = "licenses_service.findAll")
     public List<LicenseDto> getAllLicenses() {
         List<License> licenses = licenseRepository.findAll();
         return licenseMapper.licenseListEntityToDto(licenses);
@@ -40,6 +42,7 @@ public class LicenseServiceImpl implements LicenseService {
 
     @Override
     @Auditable(operationType = "create")
+    @Timed(value = "licenses_service.create")
     public LicenseDto createLicense(LicenseDto licenseDto) {
         License license = licenseMapper.licenseDtoToEntity(licenseDto);
         license = licenseRepository.save(license);
@@ -48,6 +51,7 @@ public class LicenseServiceImpl implements LicenseService {
 
     @Override
     @Auditable(operationType = "update")
+    @Timed(value = "licenses_service.update")
     public LicenseDto updateLicense(Long id, LicenseDto licenseDto) {
         License existingLicense = licenseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("License not found"));
@@ -58,6 +62,7 @@ public class LicenseServiceImpl implements LicenseService {
 
     @Override
     @Auditable(operationType = "delete")
+    @Timed(value = "licenses_service.delete")
     public void deleteLicenseById(Long id) {
         License license = licenseRepository.findById(id)
                         .orElseThrow(() -> new EntityNotFoundException("License not found"));

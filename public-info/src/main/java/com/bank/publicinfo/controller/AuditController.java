@@ -2,6 +2,7 @@ package com.bank.publicinfo.controller;
 
 import com.bank.publicinfo.dto.AuditDto;
 import com.bank.publicinfo.service.AuditService;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ public class AuditController {
     }
 
     @GetMapping
+    @Timed("audit.findAll")
     public ResponseEntity<List<AuditDto>> getAllAudits() {
         List<AuditDto> auditDtoList = auditService.getAudits();
         return ResponseEntity.ok(auditDtoList);

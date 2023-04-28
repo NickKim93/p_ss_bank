@@ -7,6 +7,7 @@ import com.bank.publicinfo.entity.Branch;
 import com.bank.publicinfo.mapper.AtmMapper;
 import com.bank.publicinfo.repository.AtmRepository;
 import com.bank.publicinfo.repository.BranchRepository;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,7 @@ public class AtmServiceImpl implements AtmService{
     }
 
     @Override
+    @Timed(value = "atm_service.findAll")
     public List<AtmDto> getAtms() {
         List<Atm> atmList = atmRepository.findAll();
         return atmMapper.atmListToDtoList(atmList);
@@ -44,6 +46,7 @@ public class AtmServiceImpl implements AtmService{
 
     @Override
     @Auditable(operationType = "create")
+    @Timed("atm_service.save")
     public AtmDto createAtm(AtmDto atmDto) {
         Atm atm = atmMapper.atmToEntity(atmDto);
         atm = atmRepository.save(atm);
@@ -52,6 +55,7 @@ public class AtmServiceImpl implements AtmService{
 
     @Override
     @Auditable(operationType = "update")
+    @Timed("atm_service.update")
     public AtmDto updateAtm(Long id, AtmDto atmDto) {
         Atm atm = atmRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ATM not found"));
@@ -69,6 +73,7 @@ public class AtmServiceImpl implements AtmService{
 
     @Override
     @Auditable(operationType = "delete")
+    @Timed("atm_service.delete")
     public void deleteAtmById(Long id) {
         Atm atm = atmRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ATM not found"));

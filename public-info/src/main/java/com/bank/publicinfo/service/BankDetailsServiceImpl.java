@@ -5,6 +5,7 @@ import com.bank.publicinfo.dto.BankDetailsDto;
 import com.bank.publicinfo.entity.BankDetails;
 import com.bank.publicinfo.mapper.BankDetailsMapper;
 import com.bank.publicinfo.repository.BankDetailsRepository;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,7 @@ public class BankDetailsServiceImpl implements BankDetailsService{
     }
 
     @Override
+    @Timed(value = "bank_details_service.findAll")
     public List<BankDetailsDto> getAllBankDetails() {
         List<BankDetails> bankDetails = bankDetailsRepository.findAll();
         return bankDetailsMapper.bankDetailsListEntityToDto(bankDetails);
@@ -39,6 +41,7 @@ public class BankDetailsServiceImpl implements BankDetailsService{
 
     @Override
     @Auditable(operationType = "create")
+    @Timed(value = "bank_details_service.create")
     public BankDetailsDto createBankDetails(BankDetailsDto bankDetailsDto) {
         BankDetails bankDetails = bankDetailsMapper.bankDetailsDtoToEntity(bankDetailsDto);
         bankDetails = bankDetailsRepository.save(bankDetails);
@@ -47,6 +50,7 @@ public class BankDetailsServiceImpl implements BankDetailsService{
 
     @Override
     @Auditable(operationType = "update")
+    @Timed(value = "bank_details_service.update")
     public BankDetailsDto updateBankDetails (Long id, BankDetailsDto bankDetailsDto) {
         BankDetails bankDetails = bankDetailsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("BankDetails not found"));
@@ -58,6 +62,7 @@ public class BankDetailsServiceImpl implements BankDetailsService{
 
     @Override
     @Auditable(operationType = "delete")
+    @Timed(value = "bank_details_service.delete")
     public void deleteBankDetailsById(Long id) {
         BankDetails bankDetails = bankDetailsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("BankDetails not found"));

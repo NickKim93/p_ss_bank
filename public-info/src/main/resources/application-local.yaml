@@ -8,6 +8,8 @@ management:
   endpoint:
     shutdown:
       enabled: true
+    prometheus:
+      enabled: true
   endpoints:
     web:
       exposure:
@@ -17,7 +19,7 @@ spring:
     hibernate:
       ddl-auto: none
   datasource:
-    url: jdbc:postgresql://localhost:5434/postgres?currentSchema=public_bank_information
+    url: jdbc:postgresql://test-bank-db:5432/postgres?currentSchema=public_bank_information
     username: postgres
     password: secretpassword
   liquibase:
