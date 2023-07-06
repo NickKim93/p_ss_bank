@@ -2,6 +2,9 @@ server:
   port: 8085
   servlet:
     context-path: /api/account
+  error:
+    include-message: always
+    include-exception: true
 management:
   server:
     port: 8185
@@ -12,11 +15,18 @@ management:
     web:
       exposure:
         include: '*'
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: user
-    password: password
+    url: jdbc:postgresql://localhost:5434/postgres
+    username: postgres
+    password: secretpassword
   liquibase:
     default-schema: account
     change-log: db.changelog/db.changelog-master.yaml
@@ -24,3 +34,10 @@ spring:
     drop-first: ${LIQUIBASE_DROP_FIRST:false}
   application:
     name: account-app
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+    lease-renewal-interval-in-seconds: 30

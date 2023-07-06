@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-suspicious_account_transfers-table
+      author: Петров Макарий
+      changes:
+        - createTable:
+            tableName: suspicious_account_transfers
+            remarks: подозрительные переводы по номеру cчёта
+            columns:
+              - column:
+                  name: id
+                  autoIncrement: true
+                  type: BIGINT
+                  remarks: технический идентификатор
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: suspicious_account_transfers_pkey
+              - column:
+                  name: account_transfer_id
+                  type: BIGINT
+                  remarks: технический идентификатор на перевод по номеру cчёта
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_blocked
+                  type: BOOLEAN
+                  remarks: заблокировано ли
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_suspicious
+                  type: BOOLEAN
+                  remarks: подозрительный ли перевод
+                  constraints:
+                    nullable: false
+              - column:
+                  name: blocked_reason
+                  type: TEXT
+                  remarks: причина блокировки
+              - column:
+                  name: suspicious_reason
+                  type: TEXT
+                  remarks: причина почему перевод попал в антифрод
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: unique_account-id
+      author: Петров Макарий
+      changes:
+        - addUniqueConstraint:
+            columnNames: account_transfer_id
+            constraintName: suspicious_account_transfers_id_key
+            tableName: suspicious_account_transfers

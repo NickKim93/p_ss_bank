@@ -1,3 +1,9 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/release-0.1.0.0/changelog-001.xml
+      file: db/changelog/release-0.1.0.0/changelog-audit-001.yaml
+  - include:
+      file: db/changelog/release-0.1.0.0/changelog-account-001.yaml
+  - include:
+      file: db/changelog/release-0.1.0.0/changelog-card-001.yaml
+  - include:
+      file: db/changelog/release-0.1.0.0/changelog-phone-001.yaml

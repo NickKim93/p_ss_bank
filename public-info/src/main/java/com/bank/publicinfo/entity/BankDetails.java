@@ -1,6 +1,7 @@
 package com.bank.publicinfo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class BankDetails {
 
     @Id
@@ -42,11 +44,11 @@ public class BankDetails {
     @Column(name = "name", nullable = false, length = 80)
     private String name;
 
-    @OneToMany(mappedBy = "bankDetails")
+    @OneToMany(mappedBy = "bankDetails", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Certificate> certificates;
 
-    @OneToMany(mappedBy = "bankDetails")
+    @OneToMany(mappedBy = "bankDetails", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<License> licenses;
 

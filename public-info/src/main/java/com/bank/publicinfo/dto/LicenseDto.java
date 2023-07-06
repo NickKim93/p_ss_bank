@@ -1,4 +1,9 @@
 package com.bank.publicinfo.dto;
 
-public record LicenseDto() {
+import javax.validation.constraints.NotNull;
+
+public record LicenseDto(Long id,
+                         @NotNull
+                         byte[] photo,
+                         Long bankDetailsId) {
 }

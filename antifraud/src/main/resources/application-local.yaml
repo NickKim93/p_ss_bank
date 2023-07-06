@@ -2,21 +2,38 @@ server:
   port: 8086
   servlet:
     context-path: /api/anti-fraud
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka
 management:
   server:
     port: 8186
   endpoint:
     shutdown:
       enabled: true
+    prometheus:
+      enabled: true
   endpoints:
     web:
       exposure:
         include: '*'
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: user
-    password: password
+  jpa:
+    properties:
+      hibernate:
+        default_schema: anti_fraud
+        hbm2ddl:
+          auto: validate
+    database: postgresql
+
   liquibase:
     default-schema: anti_fraud
     change-log: db/changelog/db.changelog-master.yaml

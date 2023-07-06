@@ -1,20 +1,18 @@
 package com.bank.publicinfo.service;
 
-import com.bank.publicinfo.entity.License;
+import com.bank.publicinfo.dto.LicenseDto;
 
-import java.math.BigInteger;
 import java.util.List;
-import java.util.Optional;
 
 public interface LicenseService {
 
-    Optional<License> getLicenseById(Long id);
+    LicenseDto getLicenseById(Long id);
 
-    List<License> getAllLicenses ();
+    List<LicenseDto> getAllLicenses ();
 
-    License createLicense(License license);
+    LicenseDto createLicense(LicenseDto licenseDto);
 
-    Optional<License> updateLicense(Long id, License license);
+    LicenseDto updateLicense(Long id, LicenseDto licenseDto);
 
-    public boolean deleteLicenseById(Long id);
+    void deleteLicenseById(Long id);
 }

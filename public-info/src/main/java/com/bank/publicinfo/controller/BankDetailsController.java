@@ -1,15 +1,13 @@
 package com.bank.publicinfo.controller;
 
-import com.bank.publicinfo.entity.BankDetails;
+import com.bank.publicinfo.dto.BankDetailsDto;
 import com.bank.publicinfo.service.BankDetailsService;
-import com.bank.publicinfo.service.CertificateService;
-import com.bank.publicinfo.service.LicenseService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/bank_details")
@@ -17,43 +15,33 @@ public class BankDetailsController {
 
     private final BankDetailsService bankDetailsService;
 
-    private final CertificateService certificateService;
 
-    private final LicenseService licenseService;
-
-    public BankDetailsController(BankDetailsService bankDetailsService, CertificateService certificateService, LicenseService licenseService) {
+    public BankDetailsController(BankDetailsService bankDetailsService) {
         this.bankDetailsService = bankDetailsService;
-        this.certificateService = certificateService;
-        this.licenseService = licenseService;
     }
 
     @GetMapping
-    public ResponseEntity<List<BankDetails>> getAllBankDetails() {
-        List<BankDetails> bankDetails = bankDetailsService.getAllBankDetails();
-        if (bankDetails.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
+    public ResponseEntity<List<BankDetailsDto>> getAllBankDetails() {
+        List<BankDetailsDto> bankDetails = bankDetailsService.getAllBankDetails();
             return ResponseEntity.ok(bankDetails);
-        }
     }
 
     @PostMapping
-    public ResponseEntity<BankDetails> createLicense(@RequestBody BankDetails bankDetails) {
-        BankDetails createdBankDetails = bankDetailsService.createBankDetails(bankDetails);
-        return ResponseEntity.created(URI.create("/bank_details" + createdBankDetails.getId())).body(createdBankDetails);
+    public ResponseEntity<BankDetailsDto> createLicense(@Valid @RequestBody BankDetailsDto bankDetailsDto) {
+        BankDetailsDto createdBankDetails = bankDetailsService.createBankDetails(bankDetailsDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdBankDetails);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BankDetails> updatedBankDetails(@PathVariable Long id, @RequestBody BankDetails bankDetails) {
-        Optional<BankDetails> updatedBankDetails = bankDetailsService.updateBankDetails(id, bankDetails);
-        return updatedBankDetails.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<BankDetailsDto> updatedBankDetails(@PathVariable Long id, @Valid @RequestBody BankDetailsDto bankDetailsDto) {
+        BankDetailsDto updatedBankDetails = bankDetailsService.updateBankDetails(id, bankDetailsDto);
+        return ResponseEntity.ok(updatedBankDetails);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BankDetails> deleteBankDetails(@PathVariable Long id) {
-        boolean deleted = bankDetailsService.deleteBankDetailsById(id);
-        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    public ResponseEntity<Void> deleteBankDetails(@PathVariable Long id) {
+       bankDetailsService.deleteBankDetailsById(id);
+        return ResponseEntity.noContent().build();
     }
-
 }
 

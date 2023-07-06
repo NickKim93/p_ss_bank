@@ -12,15 +12,40 @@ management:
     web:
       exposure:
         include: '*'
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
-    username: user
-    password: password
+    username: root
+    password: root
+    hikari:
+      schema: profile
+  jpa:
+    hibernate:
+      ddl-auto: validate
   liquibase:
     default-schema: profile
     change-log: db/changelog/db.changelog-master.yaml
-    enabled: true
+    enabled: false
     drop-first: false
   application:
     name: profile-app
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        web: ERROR
+    com:bank:profile: DEBUG
+  file:
+    name: application-profile.log
+    path: d:\temp\log
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%"
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

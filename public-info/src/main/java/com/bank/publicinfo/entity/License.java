@@ -1,5 +1,6 @@
 package com.bank.publicinfo.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Setter
 @Table(name = "license")
 @NoArgsConstructor
+@AllArgsConstructor
 public class License {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +22,8 @@ public class License {
     @Column(name = "photo", nullable = false)
     private byte[] photo;
 
-    @ManyToOne
-    @JoinColumn(name = "bank_details_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bank_Details_id", referencedColumnName = "id", nullable = false)
     private BankDetails bankDetails;
 
 }

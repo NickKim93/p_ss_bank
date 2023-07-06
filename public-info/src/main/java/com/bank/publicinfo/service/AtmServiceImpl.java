@@ -1,11 +1,13 @@
 package com.bank.publicinfo.service;
 
+import com.bank.publicinfo.auditlistener.Auditable;
 import com.bank.publicinfo.dto.AtmDto;
 import com.bank.publicinfo.entity.Atm;
 import com.bank.publicinfo.entity.Branch;
 import com.bank.publicinfo.mapper.AtmMapper;
 import com.bank.publicinfo.repository.AtmRepository;
 import com.bank.publicinfo.repository.BranchRepository;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,36 +38,42 @@ public class AtmServiceImpl implements AtmService{
     }
 
     @Override
+    @Timed(value = "atm_service.findAll")
     public List<AtmDto> getAtms() {
         List<Atm> atmList = atmRepository.findAll();
         return atmMapper.atmListToDtoList(atmList);
     }
 
     @Override
+    @Auditable(operationType = "create")
+    @Timed("atm_service.save")
     public AtmDto createAtm(AtmDto atmDto) {
         Atm atm = atmMapper.atmToEntity(atmDto);
-        Long branchId = atmDto.branchId();
-        Branch branch = branchRepository.findById(branchId)
-                .orElseThrow(() -> new EntityNotFoundException("Branch not found"));
-        atm.setBranch(branch);
         atm = atmRepository.save(atm);
         return atmMapper.atmToDto(atm);
     }
 
     @Override
+    @Auditable(operationType = "update")
+    @Timed("atm_service.update")
     public AtmDto updateAtm(Long id, AtmDto atmDto) {
         Atm atm = atmRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ATM not found"));
         atmMapper.update(atmDto, atm);
-        Long branchId = atmDto.branchId();
-        Branch branch = branchRepository.findById(branchId)
-                .orElseThrow(() -> new EntityNotFoundException("Branch not found"));
-        atm.setBranch(branch);
+        if (atmDto.branchId() != null) {
+            Branch branch = branchRepository.findById(atmDto.branchId())
+                    .orElseThrow(() -> new EntityNotFoundException("Branch not found"));
+            atm.setBranch(branch);
+        } else {
+            atm.setBranch(null);
+        }
         atm = atmRepository.save(atm);
         return atmMapper.atmToDto(atm);
     }
 
     @Override
+    @Auditable(operationType = "delete")
+    @Timed("atm_service.delete")
     public void deleteAtmById(Long id) {
         Atm atm = atmRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ATM not found"));

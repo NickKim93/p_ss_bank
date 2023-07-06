@@ -5,7 +5,6 @@ import com.bank.publicinfo.entity.Atm;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
@@ -18,6 +17,7 @@ public interface AtmMapper {
     List<AtmDto> atmListToDtoList(List<Atm> atmList);
 
     List<Atm> atmListDtoToEntity(List<AtmDto> atmDtoList);
+
 
     Atm atmToEntity(AtmDto atmDto);
 

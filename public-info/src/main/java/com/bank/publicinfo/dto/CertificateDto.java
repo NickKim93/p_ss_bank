@@ -1,4 +1,9 @@
 package com.bank.publicinfo.dto;
 
-public record CertificateDto() {
+import javax.validation.constraints.NotNull;
+
+public record CertificateDto(Long id,
+                             @NotNull
+                             byte[] photo,
+                             Long bankDetailsId) {
 }

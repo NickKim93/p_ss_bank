@@ -1,11 +1,16 @@
 package com.bank.publicinfo.service;
 
+import com.bank.publicinfo.auditlistener.Auditable;
+import com.bank.publicinfo.dto.CertificateDto;
 import com.bank.publicinfo.entity.Certificate;
+import com.bank.publicinfo.mapper.CertificateMapper;
 import com.bank.publicinfo.repository.CertificateRepository;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -13,46 +18,53 @@ public class CertificateServiceImpl implements CertificateService {
 
     private final CertificateRepository certificateRepository;
 
-    public CertificateServiceImpl(CertificateRepository certificateRepository) {
+    private final CertificateMapper certificateMapper;
+
+    public CertificateServiceImpl(CertificateRepository certificateRepository, CertificateMapper certificateMapper) {
         this.certificateRepository = certificateRepository;
+        this.certificateMapper = certificateMapper;
     }
 
     @Override
-    public Optional<Certificate> getCertificateById(Long id) {
-        return certificateRepository.findById(id);
+    public CertificateDto getCertificateById(Long id) {
+        Certificate certificate = certificateRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Certificate not found"));
+        return certificateMapper.certificateEntityToDto(certificate);
     }
 
     @Override
-    public List<Certificate> getAllCertificates() {
-        return certificateRepository.findAll();
+    @Timed(value = "certificates_service.findAll")
+    public List<CertificateDto> getAllCertificates() {
+        List<Certificate> certificateList = certificateRepository.findAll();
+        return certificateMapper.certificateListEntityToDto(certificateList);
     }
 
     @Override
-    public Certificate createLicense(Certificate certificate) {
-        return certificateRepository.save(certificate);
+    @Auditable(operationType = "create")
+    @Timed(value = "certificates_service.create")
+    public CertificateDto createCertificate(CertificateDto certificateDto) {
+        Certificate certificate = certificateMapper.certificateDtoToEntity(certificateDto);
+        certificate = certificateRepository.save(certificate);
+        return certificateMapper.certificateEntityToDto(certificate);
     }
 
     @Override
-    public Optional<Certificate> updateCertificate(Long id, Certificate certificate) {
-        Optional<Certificate> existingCertificate = certificateRepository.findById(id);
-        if (existingCertificate.isPresent()) {
-            Certificate updatedCertificate = existingCertificate.get();
-            updatedCertificate.setPhoto(certificate.getPhoto());
-            updatedCertificate.setBankDetails(certificate.getBankDetails());
-            return Optional.of(certificateRepository.save(updatedCertificate));
-        } else {
-            return Optional.empty();
-        }
+    @Auditable(operationType = "update")
+    @Timed(value = "certificates_service.update")
+    public CertificateDto updateCertificate(Long id, CertificateDto certificateDto) {
+        Certificate certificate = certificateRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Certificate not found"));
+        certificateMapper.update(certificateDto, certificate);
+        certificate = certificateRepository.save(certificate);
+        return certificateMapper.certificateEntityToDto(certificate);
     }
 
     @Override
-    public boolean deleteCertificateById(Long id) {
-        Optional<Certificate> certificate = certificateRepository.findById(id);
-        if (certificate.isPresent()) {
-            certificateRepository.deleteById(id);
-            return true;
-        } else {
-            return false;
-        }
+    @Auditable(operationType = "delete")
+    @Timed(value = "certificates_service.delete")
+    public void deleteCertificateById(Long id) {
+        Certificate certificate = certificateRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Certificate not found"));
+        certificateRepository.delete(certificate);
     }
 }

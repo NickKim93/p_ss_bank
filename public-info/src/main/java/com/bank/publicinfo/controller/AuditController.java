@@ -2,10 +2,10 @@ package com.bank.publicinfo.controller;
 
 import com.bank.publicinfo.dto.AuditDto;
 import com.bank.publicinfo.service.AuditService;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -13,34 +13,15 @@ import java.util.List;
 public class AuditController {
     private final AuditService auditService;
 
-
     public AuditController(AuditService auditService) {
         this.auditService = auditService;
     }
 
     @GetMapping
+    @Timed("audit.findAll")
     public ResponseEntity<List<AuditDto>> getAllAudits() {
         List<AuditDto> auditDtoList = auditService.getAudits();
         return ResponseEntity.ok(auditDtoList);
     }
 
-    @PostMapping()
-    public ResponseEntity<AuditDto> createAudit (@RequestBody AuditDto auditDto) {
-        AuditDto createdAudit = auditService.createAudit(auditDto);
-        return ResponseEntity
-                .created(URI.create("/audits" + createdAudit.id()))
-                .body(createdAudit);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<AuditDto> update(@PathVariable Long id, @RequestBody AuditDto auditDto) {
-        AuditDto updatedAudit = auditService.updateAudit(id, auditDto);
-        return ResponseEntity.ok(updatedAudit);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        auditService.deleteAuditById(id);
-        return ResponseEntity.noContent().build();
-    }
 }
